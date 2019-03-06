@@ -1,9 +1,10 @@
 import React from 'react';
-import { SVGIcon } from 'react-md';
+import PropTypes from 'prop-types';
+import SVGIcon from '@material-ui/core/SvgIcon';
 
 /* eslint react/jsx-indent: 0 */
-const DigitalOceanLogo = props => (
-  <SVGIcon viewBox="65.2 173.5 180 180" size={24} {...props}>
+const DigitalOceanLogo = ({ size, ...rest }) => (
+  <SVGIcon viewBox="65.2 173.5 180 180" style={{ fontSize: `${size}px` }} {...rest}>
     <g id="XMLID_229_">
       <g id="XMLID_690_">
         <g id="XMLID_691_">
@@ -22,5 +23,13 @@ const DigitalOceanLogo = props => (
     </g>
   </SVGIcon>
 );
+
+DigitalOceanLogo.propTypes = {
+  size: PropTypes.number
+};
+
+DigitalOceanLogo.defaultProps = {
+  size: 24,
+};
 
 export default DigitalOceanLogo;

@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
-import { MenuButton, FontIcon } from 'react-md';
+import { MenuButton } from 'react-md';
+import EditIcon from '@material-ui/icons/Edit';
 import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
@@ -71,7 +72,7 @@ class OrganizationDetails extends PureComponent {
         id: 'organization-menu-edit',
         key: 'organization-menu-edit',
         primaryText: 'Edit',
-        leftIcon: <FontIcon>edit</FontIcon>,
+        leftIcon: <EditIcon color="action" fontSize="small" />,
         component: Link,
         to: { pathname: `/${organization.properties.fqon}/editOrganization`, state: { modal: true } },
       },
@@ -80,7 +81,7 @@ class OrganizationDetails extends PureComponent {
         id: 'organization-menu-delete',
         key: 'organization-menu-delete',
         primaryText: 'Delete',
-        leftIcon: <DeleteIcon />,
+        leftIcon: <DeleteIcon size={20} />,
         onClick: this.delete,
         disabled: deleteDisabled,
       }

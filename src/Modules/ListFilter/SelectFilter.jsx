@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SelectField from 'components/Fields/SelectField';
 import TextField from 'components/Fields/TextField';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
 import { media } from 'util/helpers/media';
 import withListFilter from './withListFilter';
 
@@ -31,10 +32,12 @@ const Filter = styled(SelectField)`
   height: 38px;
 `;
 
-const InlineButton = styled(Button)`
-  padding: 0;
-  height: 20px;
-  max-width: 20px;
+const InlineButton = styled(IconButton)`
+  padding: 6px !important;
+
+  svg {
+    font-size: 18px;
+  }
 `;
 
 class SelectFilter extends PureComponent {
@@ -113,12 +116,12 @@ class SelectFilter extends PureComponent {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <FontIcon>search</FontIcon>
+                <SearchIcon fontSize="small" color="primary" />
               </InputAdornment>
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <InlineButton onClick={this.clearSearch} icon>close</InlineButton>
+                <InlineButton onClick={this.clearSearch} icon={<CloseIcon fontSize="small" />} />
               </InputAdornment>
             ),
           }}

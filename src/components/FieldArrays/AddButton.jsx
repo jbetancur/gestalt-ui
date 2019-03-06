@@ -1,35 +1,21 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Button } from 'components/Buttons';
-import { media } from 'util/helpers/media';
+import { FlatButton } from 'components/Buttons';
+import AddIcon from '@material-ui/icons/Add';
 
-const ButtonStyle = styled(({ absoluteTopRight, ...rest }) => <Button {...rest} />)`
+const ButtonStyle = styled(({ absoluteTopRight, ...rest }) => <FlatButton {...rest} />)`
   color: ${props => props.theme.colors['$md-blue-500']};
-  ${props => props.icon && css`
-    ${() => media.xs`
-      position: absolute;
-      top: 4px;
-      right: 50px;
-    `};
-    ${() => media.sm`
-      position: absolute;
-      top: 4px;
-      right: 50px;
-    `};
-  `};
 `;
 
 const AddButton = ({ onClick, label }) => (
   <ButtonStyle
-    icon={!label}
-    flat={!!label}
     onClick={onClick}
-    iconChildren="add"
-    inkDisabled
-  >
-    {label || 'add'}
-  </ButtonStyle>
+    label={label}
+    icon={<AddIcon />}
+    disableRipple
+    color="primary"
+  />
 );
 
 AddButton.propTypes = {

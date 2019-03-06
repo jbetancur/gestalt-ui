@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import { Link } from 'react-router-dom';
 import {
-  Button,
-  FontIcon,
   AccessibleFakeButton,
   AccessibleFakeInkedButton,
   IconSeparator,
 } from 'react-md';
+import { FlatButton, IconButton } from 'components/Buttons';
 import TextField from 'components/Fields/TextField';
 import styled from 'styled-components';
 import Popper from '@material-ui/core/Popper';
@@ -18,6 +17,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
+import DropDownIcon from '@material-ui/icons/ArrowDropDown';
+import AddIcon from '@material-ui/icons/Add';
 import Divider from 'components/Divider';
 import { DotActivity } from 'components/ProgressIndicators';
 import { media } from 'util/helpers/media';
@@ -66,10 +69,7 @@ const SeperatorStyle = styled(IconSeparator)`
 
 const DropDownButton = styled(AccessibleFakeInkedButton)`
   border-radius: 50%;
-
-  i {
-    font-size: 24px !important;
-  }
+  color: ${props => props.theme.colors.defaultIcon};
 
   &:hover {
     background: ${props => props.theme.colors.backgroundVariant};
@@ -80,10 +80,8 @@ const SearchWrapper = styled.div`
   padding: 12px;
 `;
 
-const InlineButton = styled(Button)`
-  padding: 0;
-  height: 20px;
-  max-width: 20px;
+const InlineButton = styled(IconButton)`
+  padding: 8px !important;
 `;
 
 class BreadCrumbLayoverDropDown extends PureComponent {
@@ -212,7 +210,7 @@ class BreadCrumbLayoverDropDown extends PureComponent {
             label={
               <SeperatorStyle label={label}>
                 <DropDownButton>
-                  <FontIcon>arrow_drop_down</FontIcon>
+                  <DropDownIcon />
                 </DropDownButton>
               </SeperatorStyle>
             }
@@ -242,12 +240,12 @@ class BreadCrumbLayoverDropDown extends PureComponent {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <FontIcon>search</FontIcon>
+                        <SearchIcon fontSize="small" color="primary" />
                       </InputAdornment>
                     ),
                     endAdornment: (
                       <InputAdornment position="end">
-                        <InlineButton onClick={this.clearSearch} icon>close</InlineButton>
+                        <InlineButton icon={<CloseIcon fontSize="small" />} />
                       </InputAdornment>
                     ),
                   }}
@@ -255,15 +253,13 @@ class BreadCrumbLayoverDropDown extends PureComponent {
               </SearchWrapper>
 
               {createLabel && createRoute &&
-              <Button
-                flat
-                iconChildren={<FontIcon>add</FontIcon>}
-                component={Link}
-                to={createRoute}
-                onClick={this.handleClose}
-              >
-                {createLabel}
-              </Button>}
+                <FlatButton
+                  label={createLabel}
+                  icon={<AddIcon />}
+                  component={Link}
+                  to={createRoute}
+                  onClick={this.handleClose}
+                />}
 
               <ListContainer>
                 <List>

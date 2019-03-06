@@ -17,14 +17,14 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  -webkit-align-items: stretch;
-  -webkit-box-align: stretch;
-  -ms-flex-align: stretch;
-  align-items: stretch;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-align-content: stretch;
   -ms-flex-line-pack: stretch;
   align-content: stretch;
@@ -62,6 +62,13 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
   -ms-flex: 0 1 var(--width);
   flex: 0 1 var(--width);
   min-width: var(--width);
+}
+
+.c2 {
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .c2 .md-slider-thumb {
@@ -116,11 +123,21 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
         type="range"
         value="1"
       />
-      <i
-        class="md-icon material-icons"
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 MuiSvgIcon-fontSizeSmall-8"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
       >
-        memory
-      </i>
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+        <path
+          d="M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-2V7c0-1.1-.9-2-2-2h-2V3h-2v2h-2V3H9v2H7c-1.1 0-2 .9-2 2v2H3v2h2v2H3v2h2v2c0 1.1.9 2 2 2h2v2h2v-2h2v2h2v-2h2c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2zm-4 6H7V7h10v10z"
+        />
+      </svg>
       <div
         class="md-slider-track md-slider-track--ind-left"
       >
@@ -144,30 +161,30 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     class="c3"
   >
     <div
-      class="MuiFormControl-root-1 MuiFormControl-marginDense-3 MuiFormControl-fullWidth-4"
+      class="MuiFormControl-root-10 MuiFormControl-marginDense-12 MuiFormControl-fullWidth-13"
       step="0.1"
     >
       <label
-        class="MuiFormLabel-root-16 MuiFormLabel-filled-20 MuiFormLabel-required-21 MuiInputLabel-required-9 MuiInputLabel-root-5 MuiInputLabel-formControl-10 MuiInputLabel-animated-13 MuiInputLabel-shrink-12 MuiInputLabel-marginDense-11 MuiInputLabel-outlined-15"
+        class="MuiFormLabel-root-25 MuiFormLabel-filled-29 MuiFormLabel-required-30 MuiInputLabel-required-18 MuiInputLabel-root-14 MuiInputLabel-formControl-19 MuiInputLabel-animated-22 MuiInputLabel-shrink-21 MuiInputLabel-marginDense-20 MuiInputLabel-outlined-24"
         data-shrink="true"
       >
         CPU
         <span
-          class="MuiFormLabel-asterisk-22"
+          class="MuiFormLabel-asterisk-31"
         >
            *
         </span>
       </label>
       <div
-        class="MuiInputBase-root-36 MuiOutlinedInput-root-23 MuiInputBase-fullWidth-45 MuiInputBase-formControl-37 MuiInputBase-marginDense-43"
+        class="MuiInputBase-root-45 MuiOutlinedInput-root-32 MuiInputBase-fullWidth-54 MuiInputBase-formControl-46 MuiInputBase-marginDense-52"
       >
         <fieldset
           aria-hidden="true"
-          class="MuiPrivateNotchedOutline-root-53 MuiOutlinedInput-notchedOutline-30"
+          class="MuiPrivateNotchedOutline-root-62 MuiOutlinedInput-notchedOutline-39"
           style="padding-left: 8px;"
         >
           <legend
-            class="MuiPrivateNotchedOutline-legend-54"
+            class="MuiPrivateNotchedOutline-legend-63"
             style="width: 0px;"
           >
             <span>
@@ -177,7 +194,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
         </fieldset>
         <input
           aria-invalid="false"
-          class="MuiInputBase-input-46 MuiOutlinedInput-input-31 MuiInputBase-inputType-49 MuiInputBase-inputMarginDense-47 MuiOutlinedInput-inputMarginDense-32"
+          class="MuiInputBase-input-55 MuiOutlinedInput-input-40 MuiInputBase-inputType-58 MuiInputBase-inputMarginDense-56 MuiOutlinedInput-inputMarginDense-41"
           name="properties.cpus"
           required=""
           type="number"
@@ -207,11 +224,21 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
         type="range"
         value="256"
       />
-      <i
-        class="md-icon material-icons"
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 MuiSvgIcon-fontSizeSmall-8"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
       >
-        sd_card
-      </i>
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+        <path
+          d="M18 2h-8L4.02 8 4 20c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 6h-2V4h2v4zm3 0h-2V4h2v4zm3 0h-2V4h2v4z"
+        />
+      </svg>
       <div
         class="md-slider-track md-slider-track--ind-left"
       >
@@ -299,30 +326,30 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     class="c3"
   >
     <div
-      class="MuiFormControl-root-1 MuiFormControl-marginDense-3 MuiFormControl-fullWidth-4"
+      class="MuiFormControl-root-10 MuiFormControl-marginDense-12 MuiFormControl-fullWidth-13"
       step="1"
     >
       <label
-        class="MuiFormLabel-root-16 MuiFormLabel-filled-20 MuiFormLabel-required-21 MuiInputLabel-required-9 MuiInputLabel-root-5 MuiInputLabel-formControl-10 MuiInputLabel-animated-13 MuiInputLabel-shrink-12 MuiInputLabel-marginDense-11 MuiInputLabel-outlined-15"
+        class="MuiFormLabel-root-25 MuiFormLabel-filled-29 MuiFormLabel-required-30 MuiInputLabel-required-18 MuiInputLabel-root-14 MuiInputLabel-formControl-19 MuiInputLabel-animated-22 MuiInputLabel-shrink-21 MuiInputLabel-marginDense-20 MuiInputLabel-outlined-24"
         data-shrink="true"
       >
         Memory
         <span
-          class="MuiFormLabel-asterisk-22"
+          class="MuiFormLabel-asterisk-31"
         >
            *
         </span>
       </label>
       <div
-        class="MuiInputBase-root-36 MuiOutlinedInput-root-23 MuiInputBase-fullWidth-45 MuiInputBase-formControl-37 MuiInputBase-marginDense-43"
+        class="MuiInputBase-root-45 MuiOutlinedInput-root-32 MuiInputBase-fullWidth-54 MuiInputBase-formControl-46 MuiInputBase-marginDense-52"
       >
         <fieldset
           aria-hidden="true"
-          class="MuiPrivateNotchedOutline-root-53 MuiOutlinedInput-notchedOutline-30"
+          class="MuiPrivateNotchedOutline-root-62 MuiOutlinedInput-notchedOutline-39"
           style="padding-left: 8px;"
         >
           <legend
-            class="MuiPrivateNotchedOutline-legend-54"
+            class="MuiPrivateNotchedOutline-legend-63"
             style="width: 0px;"
           >
             <span>
@@ -332,7 +359,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
         </fieldset>
         <input
           aria-invalid="false"
-          class="MuiInputBase-input-46 MuiOutlinedInput-input-31 MuiInputBase-inputType-49 MuiInputBase-inputMarginDense-47 MuiOutlinedInput-inputMarginDense-32"
+          class="MuiInputBase-input-55 MuiOutlinedInput-input-40 MuiInputBase-inputType-58 MuiInputBase-inputMarginDense-56 MuiOutlinedInput-inputMarginDense-41"
           name="properties.memory"
           required=""
           type="number"

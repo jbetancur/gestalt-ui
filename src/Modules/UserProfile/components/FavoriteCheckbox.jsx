@@ -1,10 +1,12 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Checkbox, FontIcon } from 'react-md';
+import Checkbox from '@material-ui/core/Checkbox';
+import StarIcon from '@material-ui/icons/Star';
+import StarIconOutline from '@material-ui/icons/StarBorderOutlined';
 
-const Checked = styled(FontIcon)`
-  color: ${props => props.theme.colors.favorite} !important;
+const CheckedIcon = styled(StarIcon)`
+  color: ${props => props.theme.colors.favorite};
 `;
 
 const FavoriteCheckbox = memo(({ id, checked, onChange }) => (
@@ -14,8 +16,8 @@ const FavoriteCheckbox = memo(({ id, checked, onChange }) => (
     label={null}
     checked={checked}
     onChange={onChange}
-    checkedCheckboxIcon={<Checked>star</Checked>}
-    uncheckedCheckboxIcon={<FontIcon>star_border</FontIcon>}
+    icon={<StarIconOutline fontSize="small" />}
+    checkedIcon={<CheckedIcon fontSize="small" />}
   />
 ));
 

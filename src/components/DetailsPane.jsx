@@ -26,7 +26,7 @@ const CopyUUIDButton = styled.div`
 
 const Content = styled.div`
   text-align: left;
-  padding: 0 8px 0 8px;
+  padding: 0 8px 16px 8px;
 `;
 
 const StatusStyle = styled.div`

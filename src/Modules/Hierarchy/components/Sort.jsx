@@ -2,17 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Div from 'components/Div';
-import { FontIcon } from 'react-md';
 import SelectField from 'components/Fields/SelectField';
-import { Button } from 'components/Buttons';
+import ArrowUpIcon from '@material-ui/icons/ArrowUpward';
+import { IconButton } from 'components/Buttons';
 
 const SortWrapper = styled(Div)`
-  display: inline-flex;
+  display: flex;
   align-items: center;
-
-  button {
-    margin-top: 1px;
-  }
 `;
 
 const Filter = styled(SelectField)`
@@ -21,7 +17,7 @@ const Filter = styled(SelectField)`
   height: 38px;
 `;
 
-const SortOrderIcon = styled(FontIcon)`
+const SortOrderIcon = styled(ArrowUpIcon)`
   transform: ${props => (props.order === 'asc' ? 'scaleY(1)' : 'scaleY(-1)')};
 `;
 
@@ -61,12 +57,11 @@ const Sort = ({ isEnvironment, disabled, setKey, sortKey, order, setOrder }) => 
         onChange={e => setKey(e.target.value)}
         margin="dense"
       />
-      <Button
-        icon
+      <IconButton
         onClick={handleSort}
       >
-        <SortOrderIcon order={order}>arrow_upward</SortOrderIcon>
-      </Button>
+        <SortOrderIcon order={order} fontSize="small" />
+      </IconButton>
     </SortWrapper>
   );
 };

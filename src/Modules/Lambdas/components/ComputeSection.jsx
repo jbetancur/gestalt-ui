@@ -4,10 +4,14 @@ import styled from 'styled-components';
 import { Field, FormSpy } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/Form';
-import { Slider, FontIcon } from 'react-md';
+import { Slider } from 'react-md';
+import MemoryIcon from '@material-ui/icons/SdCard';
+import CPUIcon from '@material-ui/icons/Memory';
 import { composeValidators, fixInputNumber, fixInputDecimal, min, max, mod, required } from 'util/forms';
 
 const SliderStyled = styled(Slider)`
+  align-items: center;
+
   .md-slider-thumb {
     z-index: 2;
   }
@@ -95,7 +99,7 @@ class ComputeForm extends Component {
     return (
       <FormSpy subscription={{ values: true }}>
         {({ form, values }) => (
-          <Row gutter={5}>
+          <Row gutter={5} center>
             <Col flex={10} xs={8}>
               <SliderStyled
                 id={`${cpuName}--cpu`}
@@ -103,7 +107,7 @@ class ComputeForm extends Component {
                 min={cpuMin}
                 max={cpuMax}
                 step={cpuStepSlider}
-                leftIcon={<FontIcon>memory</FontIcon>}
+                leftIcon={<CPUIcon fontSize="small" color="action" />}
                 value={values.properties.cpus}
                 onChange={this.onChangeCPU(form)}
                 discrete={cpuDiscrete}
@@ -136,7 +140,7 @@ class ComputeForm extends Component {
                 min={memMin}
                 max={memMax}
                 step={memStepSlider}
-                leftIcon={<FontIcon>sd_card</FontIcon>}
+                leftIcon={<MemoryIcon fontSize="small" color="action" />}
                 value={values.properties.memory}
                 onChange={this.onChangeMemory(form)}
                 discrete={memDiscrete}

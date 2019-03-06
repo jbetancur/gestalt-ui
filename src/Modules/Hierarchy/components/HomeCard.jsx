@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { withTheme } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { Card, CardTitle, CardContent, CardText, CardActions } from 'components/Cards';
 
 const HomeCardBase = styled(Card)`
@@ -30,9 +30,9 @@ const HomeCard = ({ title, icon, iconColor, iconGradient, createURL, manageURL, 
     </CardContent>
 
     <CardActions center>
-      {createURL && <Button flat primary component={Link} to={createURL}>Create</Button>}
-      {manageURL && <Button flat primary component={Link} to={manageURL}>Manage</Button>}
-      {documentationURL && <Button flat href={documentationURL} target="_blank">Learn</Button>}
+      {createURL && <FlatButton color="primary" component={Link} to={createURL} label="Create" />}
+      {manageURL && <FlatButton color="primary" component={Link} to={manageURL} label="Manage" />}
+      {documentationURL && <FlatButton color="primary" ahref={documentationURL} target="_blank" label="Manage" />}
     </CardActions>
   </CardStyle>
 );

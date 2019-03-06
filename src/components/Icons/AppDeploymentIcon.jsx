@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Icon from '@material-ui/icons/Apps';
 
-const AppDeploymentIconStyle = styled(FontIcon)`
+const AppsIconStyle = styled(Icon)`
   font-size: ${props => `${props.size}px !important`};
+  color: ${props => `${props.color}`};
 `;
 
-const AppDeploymentIcon = ({ size }) => <AppDeploymentIconStyle size={size}>apps</AppDeploymentIconStyle>;
+const AppsIcon = ({ size, color, ...rest }) => <AppsIconStyle size={size} color={color} {...rest} />;
 
-AppDeploymentIcon.propTypes = {
-  size: PropTypes.number
+AppsIcon.propTypes = {
+  size: PropTypes.number,
+  color: PropTypes.string,
 };
 
-AppDeploymentIcon.defaultProps = {
+AppsIcon.defaultProps = {
   size: 24,
+  color: 'action',
 };
 
-export default AppDeploymentIcon;
+export default AppsIcon;

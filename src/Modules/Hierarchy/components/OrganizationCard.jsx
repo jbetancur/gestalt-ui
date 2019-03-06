@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { withTheme } from 'styled-components';
-import { FontIcon } from 'react-md';
+import EditIcon from '@material-ui/icons/Edit';
 import { EntitlementIcon, OrganizationIcon, DeleteIcon } from 'components/Icons';
 import { withUserProfile } from 'Modules/UserProfile';
 import { EntitlementModal } from 'Modules/Entitlements';
@@ -115,7 +115,7 @@ class OrganizationCard extends Component {
             id: 'organization-card--edit',
             key: 'organization-card--edit',
             title: t('general.verbs.edit'),
-            icon: <FontIcon>edit</FontIcon>,
+            icon: <EditIcon color="action" fontSize="small" />,
             onClick: this.edit,
           },
           {
@@ -129,7 +129,7 @@ class OrganizationCard extends Component {
             id: 'organization-card--delete',
             key: 'organization-card--delete',
             title: t('general.verbs.delete'),
-            icon: <DeleteIcon />,
+            icon: <DeleteIcon size={20} />,
             onClick: this.delete,
           }
         ]}

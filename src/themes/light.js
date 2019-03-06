@@ -27,6 +27,9 @@ export default {
     fontCaption: '#9e9e9e',
     fontCaptionVariant: '#FAFAFA',
 
+    // Icons
+    defaultIcon: 'rgba(0, 0, 0, 0.54)',
+
     // Progress
     progress: '#9e9e9e',
     progressVariant: '#4fc3f7',

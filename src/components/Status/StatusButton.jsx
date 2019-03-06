@@ -1,70 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
-import { MenuButton } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import statusMap from './statusMap';
 
-const MenuButtonStyle = styled(MenuButton)`
-  ${props => props.color &&
-    css`
-      color: ${props.theme.colors[props.color]};
-      border: 2px solid ${props.theme.colors[props.color]} !important;
+const StatusButton = ({ children, status, asButton, ...rest }) => {
+  const backgroundColor = asButton ? statusMap(status).color : null;
 
-      .md-icon-text {
-        font-weight: 600 !important;
-      }
-
-      &:hover {
-        color: white;
-        background-color: ${props.theme.colors[props.color]} !important;
-        opacity: 0.9;
-      }
-    `};
-`;
-
-const StatusButton = ({ status, inMenu, menuItems }) => {
-  const statMap = statusMap(status);
-  const backgroundColor = inMenu ? null : statMap.color;
-  const icon = inMenu ? 'more_vert' : 'expand_more';
-  const anchorX = inMenu ? 'INNER_LEFT' : 'INNER_RIGHT';
-  const positionX = inMenu ? 'TOP_LEFT' : 'TOP_RIGHT';
+  const icon = asButton
+    ? <ExpandMoreIcon fontSize="small" color="action" />
+    : <MoreVertIcon fontSize="small" color="primary" />;
 
   return (
-    <MenuButtonStyle
+    <MenuButton
+      {...rest}
       id="container-actions-menu"
-      icon={inMenu}
-      flat={!inMenu}
+      icon={icon}
+      iconAfter
+      flat={asButton}
+      flatVariant="outlined"
+      flatColor={backgroundColor}
+      label={status}
       disabled={!status}
-      iconChildren={icon}
-      iconBefore={inMenu}
-      menuItems={menuItems}
-      inkDisabled={inMenu}
-      listHeightRestricted={false}
-      simplifiedMenu={false}
-      repositionOnScroll={false}
-      position={MenuButton.Positions[positionX]}
-      anchor={{
-        x: MenuButton.HorizontalAnchors[anchorX],
-        y: MenuButton.VerticalAnchors.OVERLAP,
-      }}
-      primary={inMenu}
-      color={backgroundColor}
     >
-      {!inMenu && status}
-    </MenuButtonStyle>
+      {children}
+    </MenuButton>
   );
 };
 
 StatusButton.propTypes = {
+  children: PropTypes.any,
   status: PropTypes.string,
-  inMenu: PropTypes.bool,
-  menuItems: PropTypes.array,
+  asButton: PropTypes.bool,
 };
 
 StatusButton.defaultProps = {
+  children: null,
   status: 'PENDING',
-  inMenu: false,
-  menuItems: [],
+  asButton: false,
 };
 
 export default StatusButton;

@@ -2,70 +2,47 @@
 
 exports[`(Components) AddButton renders correctly with basic required props 1`] = `
 .c1 {
-  text-align: center;
-}
-
-.c1[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c1 .md-icon-text {
-  font-weight: normal;
-}
-
-.c1 .md-icon {
-  color: inherit;
+  padding-right: 8px;
 }
 
 .c0 {
   color: #2196f3;
 }
 
-@media (min-width:0) and (max-width:599px) {
-  .c0 {
-    position: absolute;
-    top: 4px;
-    right: 50px;
-  }
-}
-
-@media (min-width:600px) and (max-width:959px) {
-  .c0 {
-    position: absolute;
-    top: 4px;
-    right: 50px;
-  }
-}
-
 <button
-  class="md-btn md-btn--icon md-pointer--hover md-inline-block c0 c1"
+  class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-text-3 MuiButton-textPrimary-4 MuiButton-flat-6 MuiButton-flatPrimary-7 c0"
+  tabindex="0"
   type="button"
 >
-  <i
-    class="md-icon material-icons md-text--inherit"
+  <span
+    class="MuiButton-label-2"
   >
-    add
-  </i>
+    <span
+      class="c1"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root-30"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </svg>
+    </span>
+  </span>
 </button>
 `;
 
 exports[`(Components) AddButton renders correctly with label 1`] = `
 .c1 {
-  text-align: center;
-}
-
-.c1[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c1 .md-icon-text {
-  font-weight: normal;
-}
-
-.c1 .md-icon {
-  color: inherit;
+  padding-right: 8px;
 }
 
 .c0 {
@@ -73,22 +50,33 @@ exports[`(Components) AddButton renders correctly with label 1`] = `
 }
 
 <button
-  class="md-btn md-btn--flat md-btn--text md-pointer--hover md-text md-inline-block c0 c1"
+  class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-text-3 MuiButton-textPrimary-4 MuiButton-flat-6 MuiButton-flatPrimary-7 c0"
+  tabindex="0"
   type="button"
 >
-  <div
-    class="md-icon-separator"
+  <span
+    class="MuiButton-label-2"
   >
-    <i
-      class="md-icon material-icons md-text--inherit"
-    >
-      add
-    </i>
     <span
-      class="md-icon-text"
+      class="c1"
     >
-      Wow
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root-30"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </svg>
     </span>
-  </div>
+    Wow
+  </span>
 </button>
 `;

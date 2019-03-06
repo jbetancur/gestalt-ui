@@ -1,9 +1,10 @@
 import React from 'react';
-import { SVGIcon } from 'react-md';
+import PropTypes from 'prop-types';
+import SVGIcon from '@material-ui/core/SvgIcon';
 
 /* eslint react/jsx-indent: 0 */
-const RubyIcon = props => (
-  <SVGIcon viewBox="0 0 256 255" size={24} {...props}>
+const RubyIcon = ({ size, ...rest }) => (
+  <SVGIcon viewBox="0 0 256 255" style={{ fontSize: `${size}px` }} {...rest}>
     <defs>
       <linearGradient x1="84.75%" y1="111.399%" x2="58.254%" y2="64.584%" id="a">
         <stop stopColor="#FB7655" offset="0%" />
@@ -136,5 +137,13 @@ const RubyIcon = props => (
     <path d="M17.174 171.34l-5.57 66.328c10.51 14.357 24.97 15.605 40.136 14.486-10.973-27.311-32.894-81.92-34.566-80.814z" fill="url(#o)" /><path d="M174.826 22.654l78.1 10.96c-4.169-17.662-16.969-29.06-38.787-32.623l-39.313 21.663z" fill="url(#p)" />
   </SVGIcon>
 );
+
+RubyIcon.propTypes = {
+  size: PropTypes.number
+};
+
+RubyIcon.defaultProps = {
+  size: 24,
+};
 
 export default RubyIcon;

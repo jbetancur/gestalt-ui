@@ -2,11 +2,16 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { ListItem, FontIcon } from 'react-md';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import EditIcon from '@material-ui/icons/Edit';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import CloneIcon from '@material-ui/icons/FilterNone';
+import { EntitlementIcon } from 'components/Icons';
 import Divider from 'components/Divider';
 import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
@@ -26,36 +31,13 @@ import withContainers from '../hocs/withContainers';
 import containerDataModel from '../models/container';
 
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
-const ActionsWrapper = styled.div`
-  display: inline-block;
 
-  .container-action-button {
-    .md-text--disabled {
-      color: ${props => props.theme.colors.disabled} !important;
+const ListItemTextStatus = styled(({ color, disabled, ...rest }) => <ListItemText {...rest} />)`
+  ${props => !props.disabled && css`
+    span {
+      color: ${props.theme.colors[props.color]};
     }
-  }
-
-  .button--start * {
-    color: ${props => props.theme.colors.success};
-  }
-
-  .button--suspend * {
-    color: ${props => props.theme.colors.warning};
-  }
-
-  .button--scale * {
-    color: ${props => props.theme.colors.info};
-  }
-
-  .button--destroy * {
-    color: ${props => props.theme.colors.error};
-  }
-
-  button {
-    &:hover {
-      background-color: transparent;
-    }
-  }
+  `}
 `;
 
 const ListWrapper = styled.div`
@@ -317,7 +299,6 @@ class ContainerActions extends PureComponent {
 
     const menuItems = [
       <ListWrapper key="container-actions-menu--dropdown">
-
         <Row>
           <Col flex={12}>
             <ListMenu>
@@ -331,74 +312,124 @@ class ContainerActions extends PureComponent {
           <Col flex={6} style={dividerStyle}>
             {!disableScale && (
               <React.Fragment>
-                <ListItem className="container-action-button button--start" primaryText="Start" onClick={this.start} disabled={containerModel.properties.num_instances > 0} />
-                <ListItem className="container-action-button button--suspend" primaryText="Suspend" onClick={this.suspend} disabled={containerModel.properties.num_instances === 0} />
-                <ListItem className="container-action-button button--scale" primaryText="Scale" onClick={this.scale} />
+                <ListItem
+                  button
+                  dense
+                  onClick={this.start}
+                  disabled={containerModel.properties.num_instances > 0}
+                >
+                  <ListItemTextStatus primary="Start" color="success" disabled={containerModel.properties.num_instances > 0} />
+                </ListItem>
+
+                <ListItem
+                  button
+                  dense
+                  onClick={this.suspend}
+                  disabled={containerModel.properties.num_instances === 0}
+                >
+                  <ListItemTextStatus primary="Suspend" color="warning" disabled={containerModel.properties.num_instances === 0} />
+                </ListItem>
+
+                <ListItem
+                  button
+                  dense
+                  onClick={this.scale}
+                >
+                  <ListItemTextStatus primary="Scale" color="info" />
+                </ListItem>
               </React.Fragment>
             )}
 
             {!disableMigrate && (
-              <ListItem primaryText="Migrate" onClick={this.migrate} />
+              <ListItem
+                button
+                dense
+                onClick={this.migrate}
+              >
+                <ListItemText primary="Migrate" />
+              </ListItem>
             )}
 
             {!disablePromote && (
-              <ListItem primaryText="Promote" onClick={this.promote} />
+              <ListItem
+                button
+                dense
+                onClick={this.promote}
+              >
+                <ListItemText primary="Promote" />
+              </ListItem>
             )}
 
             {!disableDestroy && (
-              <ListItem className="container-action-button button--destroy" primaryText="Destroy" onClick={this.destroy} />
+              <ListItem
+                button
+                dense
+                onClick={this.destroy}
+              >
+                <ListItemTextStatus primary="Destroy" color="error" />
+              </ListItem>
             )}
-
           </Col>
 
           <Col flex={6}>
-            {!inContainerView ? (
+            {!inContainerView && (
               <ListItem
-                key="container--edit"
-                primaryText="Edit"
-                leftIcon={<FontIcon>edit</FontIcon>}
+                button
+                dense
                 to={this.props.editURL}
                 component={Link}
-              />) : <div />}
+              >
+                <EditIcon fontSize="small" color="action" />
+                <ListItemText primary="Edit" />
+              </ListItem>
+            )}
+
             <ListItem
-              key="container--entitlements"
-              primaryText="Entitlements"
-              leftIcon={<FontIcon>security</FontIcon>}
+              button
+              dense
               onClick={this.handleEntitlements}
               disabled={disableEntitlements}
-            />
-            <CopyToClipboard
-              key="container--copyuuid"
-              text={containerModel.id}
             >
-              <ListItem
-                primaryText="Copy uuid"
-                leftIcon={<FontIcon>content_copy</FontIcon>}
-              />
+              <EntitlementIcon size={22} />
+              <ListItemText primary="Entitlements" />
+            </ListItem>
+
+            <CopyToClipboard text={containerModel.id}>
+              <ListItem button dense>
+                <CopyIcon fontSize="small" color="action" />
+                <ListItemText primary="Copy UUID" />
+              </ListItem>
             </CopyToClipboard>
-            {!inContainerView ? (
+
+            {!inContainerView && (
               <ListItem
-                primaryText="Clone"
-                leftIcon={<FontIcon>filter_none</FontIcon>}
+                button
+                dense
                 onClick={this.handleClone}
                 disabled={disableClone}
-              />
-            ) : <div />}
+              >
+                <CloneIcon fontSize="small" color="action" />
+                <ListItemText primary="Clone" />
+              </ListItem>
+            )}
           </Col>
         </Row>
       </ListWrapper>
     ];
 
-    return (
-      containerModel.id ?
-        <ActionsWrapper inContainerView={inContainerView}>
-          <StatusButton
-            status={containerModel.properties.status}
-            menuItems={menuItems}
-            inMenu={!inContainerView}
-          />
-        </ActionsWrapper> : null
-    );
+
+    if (containerModel.id) {
+      return (
+        <StatusButton
+          status={containerModel.properties.status}
+          asButton={inContainerView}
+        >
+          {menuItems}
+        </StatusButton>
+      );
+    }
+
+    return null;
   }
 }
 

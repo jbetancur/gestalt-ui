@@ -1,7 +1,15 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { MenuButton, ListItem, FontIcon } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import EditIcon from '@material-ui/icons/Edit';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import FilterNone from '@material-ui/icons/FilterNone';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { EntitlementIcon } from 'components/Icons';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { EntitlementModal } from 'Modules/Entitlements';
@@ -32,56 +40,61 @@ const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, onClone, editUR
   return (
     <MenuButton
       id={`${entityKey}--menu-actions`}
-      key={`${entityKey}--menu-actions`}
-      primary
-      icon
-      simplifiedMenu={false}
-      repositionOnScroll={false}
-      position={MenuButton.Positions.TOP_LEFT}
-      anchor={{
-        x: MenuButton.HorizontalAnchors.INNER_LEFT,
-        y: MenuButton.VerticalAnchors.OVERLAP,
-      }}
-      menuItems={
-        <React.Fragment>
-          {editURL ?
-            <ListItem
-              primaryText="Edit"
-              leftIcon={<FontIcon>edit</FontIcon>}
-              to={editURL}
-              component={Link}
-            /> : <div />}
-          {!disableEntitlements ?
-            <ListItem
-              primaryText="Entitlements"
-              leftIcon={<FontIcon>security</FontIcon>}
-              onClick={handleEntitlements}
-            /> : <div />}
-          {!disableCopy &&
-            <CopyToClipboard text={row.id}>
-              <ListItem
-                primaryText="Copy uuid"
-                leftIcon={<FontIcon>content_copy</FontIcon>}
-              />
-            </CopyToClipboard>}
-          {onClone && (
-            <ListItem
-              primaryText="Clone"
-              leftIcon={<FontIcon>filter_none</FontIcon>}
-              onClick={handleClone}
-            />
-          )}
-          {!disableEntitlements && !disableCopy && <Divider />}
-          <ListItem
-            primaryText="Delete"
-            leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>}
-            onClick={handleDelete}
-          />
-        </React.Fragment>
-      }
-      centered
+      icon={<MoreVertIcon fontSize="small" color="primary" />}
     >
-      more_vert
+      {editURL && (
+        <ListItem
+          button
+          dense
+          to={editURL}
+          component={Link}
+        >
+          <EditIcon fontSize="small" color="action" />
+          <ListItemText primary="Edit" />
+        </ListItem>
+      )}
+
+      {!disableEntitlements && (
+        <ListItem
+          button
+          dense
+          onClick={handleEntitlements}
+        >
+          <EntitlementIcon size={22} />
+          <ListItemText primary="Entitlements" />
+        </ListItem>
+      )}
+
+      {!disableCopy && (
+        <CopyToClipboard text={row.id}>
+          <ListItem button dense>
+            <CopyIcon fontSize="small" color="action" />
+            <ListItemText primary="Copy UUID" />
+          </ListItem>
+        </CopyToClipboard>
+      )}
+
+      {onClone && (
+        <ListItem
+          button
+          dense
+          onClick={handleClone}
+        >
+          <FilterNone fontSize="small" color="action" />
+          <ListItemText primary="Clone" />
+        </ListItem>
+      )}
+
+      {!disableEntitlements && !disableCopy && <Divider />}
+
+      <ListItem
+        button
+        dense
+        onClick={handleDelete}
+      >
+        <DeleteIcon fontSize="small" color="error" />
+        <ListItemText primary="Delete" />
+      </ListItem>
     </MenuButton>
   );
 };

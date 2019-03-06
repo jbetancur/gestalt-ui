@@ -1,8 +1,9 @@
 import React from 'react';
-import { SVGIcon } from 'react-md';
+import PropTypes from 'prop-types';
+import SVGIcon from '@material-ui/core/SvgIcon';
 
-const ECSIcon = props => (
-  <SVGIcon viewBox="0 0 100 100" size={24} {...props}>
+const ECSIcon = ({ size, ...rest }) => (
+  <SVGIcon viewBox="0 0 100 100" style={{ fontSize: `${size}px` }} {...rest}>
     <polygon fill="#9d5025" points="19.64 22.51 16 24.32 16 75.68 19.64 77.49 33.98 51.07 19.64 22.51" />
     <polygon fill="#9d5025" points="30.72 31.78 36.08 24.19 60.1 34.87 54.5 35.76 30.72 31.78" />
     <polygon fill="#9d5025" points="26.56 68.77 32.46 76.88 60.1 64.95 54.76 64.12 26.56 68.77" />
@@ -27,5 +28,13 @@ const ECSIcon = props => (
     <polygon fill="#f58536" points="71.62 57.01 63.13 57.86 63.13 73.26 71.62 70.72 71.62 57.01" />
   </SVGIcon>
 );
+
+ECSIcon.propTypes = {
+  size: PropTypes.number
+};
+
+ECSIcon.defaultProps = {
+  size: 24,
+};
 
 export default ECSIcon;

@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import FavoriteIcon from '@material-ui/icons/StarBorderOutlined';
+import ExpanderIcon from '@material-ui/icons/ExpandMore';
 import { media } from 'util/helpers/media';
 import CreateMenu from './CreateMenu';
 import Breadcrumbs from './Breadcrumbs';
@@ -20,7 +21,8 @@ const NavHeader = styled.nav`
   background-color: white;
   border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
   min-height: 56px;
-  padding: 8px 16px 8px 16px;
+  padding: 0 16px 0 6px;
+  flex: 0;
   z-index: 4;
   ${() => media.xs`
     padding-top: 20px;
@@ -68,10 +70,6 @@ const CollapseButton = styled.button`
   &:hover:disabled {
     cursor: unset;
   }
-
-  i {
-    font-size: 16px !important;
-  }
 `;
 
 const ExpansionPanel = styled.div`
@@ -85,9 +83,10 @@ const Items = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  min-height: 55px;
   align-items: center;
-  justify-content: space-between;
-  flex: 1;
 `;
 
 const BreadCrumbSection = styled.div`
@@ -100,7 +99,7 @@ const ActionsSection = styled.div`
   align-items: center;
   justify-content: flex-end;
   flex: 1;
-  overflow: visible;
+  min-width: 275px;
   ${() => media.xs`
     justify-content: center;
   `};
@@ -114,21 +113,11 @@ const ActionsSection = styled.div`
   button,
   a {
     margin-left: 3px;
-    padding: 4px 8px;
-    font-size: 11px;
-
-    span:last-child,
-    div:last-child {
-      padding-left: 6px;
-    }
-
-    i {
-      font-size: 18px;
-    }
   }
 `;
 
-const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
+const CollapseIcon = styled(({ isExpanded, ...rest }) => <ExpanderIcon {...rest} />)`
+  font-size: 15px !important;
   transition: transform 225ms ease;
   transform: ${props => (props.isExpanded ? 'rotate(-180deg)' : 'rotate(0)')};
 `;
@@ -179,12 +168,6 @@ class ContextNavigation extends PureComponent {
     return null;
   }
 
-  renderCollpaseButtonIcon() {
-    const { expanded } = this.props;
-
-    return <CollapseIcon isExpanded={expanded}>expand_more</CollapseIcon>;
-  }
-
   render() {
     const {
       expanded,
@@ -205,9 +188,9 @@ class ContextNavigation extends PureComponent {
 
                 <ActionsSection>
                   <CreateMenu enableExperimental={enableExperimental} {...this.props} />
-                  <Button icon onClick={onToggleFavorites}>star</Button>
-                  <UserMenu onLogout={onLogout} />
+                  <IconButton onClick={onToggleFavorites}><FavoriteIcon fontSize="small" /></IconButton>
                   <AppToolbarInfoMenu />
+                  <UserMenu onLogout={onLogout} />
                 </ActionsSection>
               </Items>
 
@@ -217,7 +200,7 @@ class ContextNavigation extends PureComponent {
 
               <CollapseWrapper>
                 <CollapseButton onClick={onToggleMainNavigation} disabled={contextPending}>
-                  {this.renderCollpaseButtonIcon()}
+                  <CollapseIcon isExpanded={expanded} />
                 </CollapseButton>
               </CollapseWrapper>
             </React.Fragment>

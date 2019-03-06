@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Close from '@material-ui/icons/AddCircle';
 
 const ItemStyled = styled.div`
   position: relative;
@@ -26,7 +26,6 @@ const Remove = styled.button`
   border-radius: 50%;
   padding: 3px;
 
-  i,
   svg {
     transform: rotate(45deg);
   }
@@ -49,7 +48,7 @@ class Chip extends PureComponent {
       <ItemStyled>
         <Tag>{this.props.item}</Tag>
         <Remove onClick={this.remove}>
-          <FontIcon>add_circle</FontIcon>
+          <Close fontSize="small" color="action" />
         </Remove>
       </ItemStyled>
     );

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SVGIcon } from 'react-md';
+import SVGIcon from '@material-ui/core/SvgIcon';
 
 /* eslint react/jsx-indent: 0 */
 const LlvmIcon = ({ size, ...rest }) => (
-  <SVGIcon viewBox="0 0 18 24" size={24} {...rest}>
+  <SVGIcon viewBox="0 0 18 24" style={{ fontSize: `${size}px` }} {...rest}>
     <defs>
       <radialGradient id="radial-gradient" cx="-50.03" cy="66.6" r="0.12" gradientTransform="matrix(13.91, 0, 0, -14.09, 707.27, 957.41)" gradientUnits="userSpaceOnUse">
         <stop offset="0" stopColor="#4c5160" />

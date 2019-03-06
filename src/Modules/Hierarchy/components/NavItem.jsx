@@ -38,12 +38,8 @@ const Icon = styled.div`
   line-height: 0;
   margin: 13px 21px;
 
-  i {
-    color: white;
-  }
-
   svg {
-    fill: white;
+    color: white;
   }
 `;
 

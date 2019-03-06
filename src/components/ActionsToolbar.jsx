@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { Title, Caption } from 'components/Typography';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 const stickyCss = css`
   position: sticky;
@@ -62,13 +63,12 @@ const ActionsHeader = ({ title, subtitle, titleIcon, actions, showActions, showB
   <ActionHeaderStyle sticky={sticky}>
     {showBackNav && navTo &&
       <BackAction>
-        <Button
-          icon
+        <IconButton
           component={Link}
           to={navTo}
         >
-          arrow_back
-        </Button>
+          <ArrowBack fontSize="small" />
+        </IconButton>
       </BackAction>}
 
     <Left>

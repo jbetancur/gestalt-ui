@@ -1,129 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Components::StatusButton::StatusButton mounts with default props 1`] = `
-.c0 {
-  color: #ff9800;
-  border: 2px solid #ff9800 !important;
-}
-
-.c0 .md-icon-text {
-  font-weight: 600 !important;
-}
-
-.c0:hover {
-  color: white;
-  background-color: #ff9800 !important;
-  opacity: 0.9;
-}
-
-<div
-  aria-expanded="false"
+<button
   aria-haspopup="true"
-  class="md-layover md-inline-block md-menu-container"
-  id="container-actions-menu"
+  aria-label="More"
+  class="MuiButtonBase-root-8 MuiIconButton-root-2 IconButtonStyled-button-1"
+  tabindex="0"
+  type="button"
 >
   <span
-    aria-hidden="true"
-  />
-  <button
-    class="md-btn md-btn--flat md-btn--text md-pointer--hover md-text md-inline-block c0"
-    color="$md-orange-500"
-    id="container-actions-menu-toggle"
-    type="button"
+    class="MuiIconButton-label-7"
   >
-    <div
-      class="md-ink-container"
-    />
-    <div
-      class="md-icon-separator"
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-11 MuiSvgIcon-colorPrimary-12 MuiSvgIcon-fontSizeSmall-18"
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
     >
-      <span
-        class="md-icon-text"
-      >
-        PENDING
-      </span>
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        expand_more
-      </i>
-    </div>
-  </button>
-</div>
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+      <path
+        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+      />
+    </svg>
+  </span>
+  <span
+    class="MuiTouchRipple-root-24"
+  />
+</button>
 `;
 
 exports[`Components::StatusButton::StatusButton renders correctly when a status is passed 1`] = `
-.c0 {
-  color: #00c853;
-  border: 2px solid #00c853 !important;
-}
-
-.c0 .md-icon-text {
-  font-weight: 600 !important;
-}
-
-.c0:hover {
-  color: white;
-  background-color: #00c853 !important;
-  opacity: 0.9;
-}
-
-<div
-  aria-expanded="false"
+<button
   aria-haspopup="true"
-  class="md-layover md-inline-block md-menu-container"
-  id="container-actions-menu"
+  aria-label="More"
+  class="MuiButtonBase-root-8 MuiIconButton-root-2 IconButtonStyled-button-1"
+  tabindex="0"
+  type="button"
 >
   <span
-    aria-hidden="true"
-  />
-  <button
-    class="md-btn md-btn--flat md-btn--text md-pointer--hover md-text md-inline-block c0"
-    color="$md-green-a700"
-    id="container-actions-menu-toggle"
-    type="button"
+    class="MuiIconButton-label-7"
   >
-    <div
-      class="md-ink-container"
-    />
-    <div
-      class="md-icon-separator"
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-11 MuiSvgIcon-colorPrimary-12 MuiSvgIcon-fontSizeSmall-18"
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
     >
-      <span
-        class="md-icon-text"
-      >
-        running
-      </span>
-      <i
-        class="md-icon material-icons md-text--inherit"
-      >
-        expand_more
-      </i>
-    </div>
-  </button>
-</div>
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+      <path
+        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+      />
+    </svg>
+  </span>
+  <span
+    class="MuiTouchRipple-root-24"
+  />
+</button>
 `;
 
 exports[`Components::StatusButton::StatusButton renders correctly when the button has inMenu passed 1`] = `
-<div
-  aria-expanded="false"
+<button
   aria-haspopup="true"
-  class="md-layover md-inline-block md-menu-container"
-  id="container-actions-menu"
+  aria-label="More"
+  class="MuiButtonBase-root-8 MuiIconButton-root-2 IconButtonStyled-button-1"
+  tabindex="0"
+  type="button"
 >
   <span
-    aria-hidden="true"
-  />
-  <button
-    class="md-btn md-btn--icon md-pointer--hover md-text--theme-primary md-ink--primary md-inline-block "
-    id="container-actions-menu-toggle"
-    type="button"
+    class="MuiIconButton-label-7"
   >
-    <i
-      class="md-icon material-icons md-text--inherit"
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-11 MuiSvgIcon-colorPrimary-12 MuiSvgIcon-fontSizeSmall-18"
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
     >
-      more_vert
-    </i>
-  </button>
-</div>
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+      <path
+        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+      />
+    </svg>
+  </span>
+  <span
+    class="MuiTouchRipple-root-24"
+  />
+</button>
 `;

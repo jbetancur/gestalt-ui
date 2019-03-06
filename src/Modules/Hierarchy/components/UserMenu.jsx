@@ -1,70 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import i18next from 'i18next';
-import { USEnglishLangIcon, UserIcon } from 'components/Icons';
-import {
-  Avatar,
-  FontIcon,
-  MenuButton,
-  ListItem,
-  Divider,
-} from 'react-md';
+import styled from 'styled-components';
+import MenuButton from 'components/Menus/MenuButton';
+import Avatar from '@material-ui/core/Avatar';
+import { UserIcon } from 'components/Icons';
+import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 import withSelf from '../../../App/hocs/withSelf';
 
-const AvatarStyled = styled(Avatar)`
-  .md-avatar-content {
-    margin-left: -5px;
-  }
+const AvatarStyle = styled(Avatar)`
+  height: 32px !important;
+  width: 32px !important;
 `;
 
 const UserMenu = ({ self, onLogout }) => {
-  const menuItems = [
-    <ListItem
-      id="main--user--menu--profile"
-      key="main--user--menu--profile"
-      primaryText={self.name || ''}
-      leftAvatar={<AvatarStyled iconSized>{self.name && self.name.substring(0, 1).toUpperCase()}</AvatarStyled>}
-      component={Link}
-      to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}
-    />,
-    <ListItem
-      id="main--user--menu--locale"
-      key="main--user--menu--locale"
-      primaryText="English"
-      leftIcon={<FontIcon>language</FontIcon>}
-      nestedItems={[
-        <ListItem
-          primaryText="English"
-          leftIcon={<USEnglishLangIcon />}
-          key={0}
-          onClick={() => i18next.changeLanguage('en')}
-        />,
-      ]}
-    />,
-    <Divider key="main--user--menu--divider" />,
-    <ListItem
-      id="main--user--menu--logout"
-      key="main--user--menu--logout"
-      primaryText="Logout"
-      leftIcon={<FontIcon>power_settings_new</FontIcon>}
-      onClick={onLogout}
-    />,
-  ];
+  const name = self.properties.firstName === self.properties.lastName
+    ? self.properties.firstName
+    : `${self.properties.firstName} ${self.properties.lastName}`;
 
   return (
     <MenuButton
-      id="main--info--menu"
-      icon
-      menuItems={menuItems}
-      anchor={{
-        x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-        y: MenuButton.VerticalAnchors.BOTTOM,
-      }}
-      simplifiedMenu={false}
+      id="main--user--menu"
+      icon={<AvatarStyle>{self.name && self.name.substring(0, 1).toUpperCase()}</AvatarStyle>}
     >
-      <UserIcon />
+      <ListItem dense button component={Link} to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}>
+        <UserIcon fontSize="small" color="action" />
+        <ListItemText primary={name} secondary={self.name} />
+      </ListItem>
+
+      <Divider />
+
+      <ListItem dense button onClick={onLogout}>
+        <LogoutIcon fontSize="small" color="action" />
+        <ListItemText primary="Logout" />
+      </ListItem>
     </MenuButton>
   );
 };

@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import InfoOutlineIcon from '@material-ui/icons/InfoOutlined';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Tooltip from '@material-ui/core/Tooltip';
 
-const ToolTipIcon = styled(FontIcon)`
+const ToolTipIcon = styled(InfoOutlineIcon)`
+  margin-top: 1px;
   font-size: 16px !important;
 `;
 
@@ -29,7 +30,7 @@ const TextFieldWrapper = ({ input: { name, value, ...restInput }, meta, disableE
         startAdornment: (
           <InputAdornment position="start">
             <Tooltip title={toolTip}>
-              <ToolTipIcon>info_outline</ToolTipIcon>
+              <ToolTipIcon fontSize="small" color="action" />
             </Tooltip>
           </InputAdornment>
         ),

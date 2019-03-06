@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import { DeleteIcon } from 'components/Icons';
 
-const DeleteButton = styled(Button)`
+const DeleteButton = styled(IconButton)`
   color: ${props => props.theme.colors['$md-red-500']};
 `;
 
@@ -20,11 +21,9 @@ class APIEndpointDeleteButton extends PureComponent {
   render() {
     return (
       <DeleteButton
-        icon
+        icon={DeleteIcon}
         onClick={this.handleClick}
-      >
-        delete
-      </DeleteButton>
+      />
     );
   }
 }

@@ -1,8 +1,9 @@
 import React from 'react';
-import { SVGIcon } from 'react-md';
+import PropTypes from 'prop-types';
+import SVGIcon from '@material-ui/core/SvgIcon';
 
-const Icon = props => (
-  <SVGIcon viewBox="0 0 512 512" size={24} {...props}>
+const Icon = ({ size, ...rest }) => (
+  <SVGIcon viewBox="0 0 512 512" style={{ fontSize: `${size}px` }} {...rest}>
     <g>
       <g>
         <path d="M439,406c-5.52,0-10,4.48-10,10c0,5.52,4.48,10,10,10c5.52,0,10-4.48,10-10C449,410.48,444.52,406,439,406z" />
@@ -65,5 +66,13 @@ const Icon = props => (
     </g>
   </SVGIcon>
 );
+
+Icon.propTypes = {
+  size: PropTypes.number
+};
+
+Icon.defaultProps = {
+  size: 24,
+};
 
 export default Icon;

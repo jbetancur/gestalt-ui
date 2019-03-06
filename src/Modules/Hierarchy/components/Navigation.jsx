@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import base64 from 'base-64';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import BlurIcon from '@material-ui/icons/BlurOn';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from 'components/Divider';
 import { PersistentDrawer } from 'components/NavigationDrawers';
 import { GalacticFogIcon } from 'components/Icons';
@@ -50,13 +51,13 @@ const ExpanderButton = styled.button`
   padding-right: 22px;
   transition: background-color 195ms ease-in-out;
   background-color: ${props => props.theme.colors.primary};
+  color: white;
 
   &:hover {
     background-color: ${props => props.theme.colors.primaryVariant};
   }
 
-  i {
-    color: white;
+  svg {
     transform: rotate(${props => (props.open ? '-180deg' : '0deg')});
     transition-property: transform;
     transition-duration: ${props => (props.open ? '225ms' : '195ms')};
@@ -178,7 +179,7 @@ class Navigation extends PureComponent {
                     miniWidth={miniWidth}
                     title={item.display_name || item.action}
                     key={`${item.action}-${index}`}
-                    icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
+                    icon={item.icon ? generateSVG(item.icon) : <BlurIcon color="inherit" />}
                     to={this.generateLink(item)}
                     target={this.generateTarget(item)}
                   />
@@ -192,9 +193,7 @@ class Navigation extends PureComponent {
             onClick={this.handleOpen}
             open={open}
           >
-            <FontIcon>
-              chevron_right
-            </FontIcon>
+            <ChevronRightIcon />
           </ExpanderButton>
         </NavFooter>
       </PersistentDrawer>

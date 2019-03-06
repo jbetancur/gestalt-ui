@@ -126,12 +126,12 @@ exports[`(Component) GestaltIcon renders component without exploding 1`] = `
 }
 
 <svg
-  class="md-icon c0"
+  aria-hidden="true"
+  class="MuiSvgIcon-root-1 c0"
   focusable="false"
-  role="img"
-  style="height: 12px; width: 12px;"
+  role="presentation"
+  style="font-size: 24px;"
   viewBox="0 0 100.39 115.92"
-  xmlns="http://www.w3.org/2000/svg"
 >
   <g
     data-name="Layer 2"

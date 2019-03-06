@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import { MenuButton, FontIcon } from 'react-md';
+import { MenuButton } from 'react-md';
+import EditIcon from '@material-ui/icons/Edit';
 import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
@@ -66,7 +67,7 @@ class EnvironmentDetails extends PureComponent {
         id: 'environment-menu-edit',
         key: 'environment-menu-edit',
         primaryText: 'Edit',
-        leftIcon: <FontIcon>edit</FontIcon>,
+        leftIcon: <EditIcon color="action" fontSize="small" />,
         component: Link,
         to: { pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/edit`, state: { modal: true } },
       },
@@ -75,7 +76,7 @@ class EnvironmentDetails extends PureComponent {
         id: 'environment-menu-delete',
         key: 'environment-menu-delete',
         primaryText: 'Delete',
-        leftIcon: <DeleteIcon />,
+        leftIcon: <DeleteIcon size={20} />,
         onClick: this.delete,
       }
     ];

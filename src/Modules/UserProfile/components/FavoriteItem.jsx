@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -50,7 +50,7 @@ class FavoriteItem extends PureComponent {
         </Avatar>
         <CustomListItemText primary={favorite.nickname || favorite.resource_name} secondary={favorite.resource_description} />
         <ListItemSecondaryAction>
-          <Button icon onClick={this.handleDelete}><DeleteIcon /></Button>
+          <IconButton icon={<DeleteIcon />} onClick={this.handleDelete} />
         </ListItemSecondaryAction>
       </ListItem>
     );

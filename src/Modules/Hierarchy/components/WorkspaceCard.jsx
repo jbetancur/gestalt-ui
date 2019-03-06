@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { withTheme } from 'styled-components';
 import { EntitlementIcon, WorkspaceIcon, DeleteIcon } from 'components/Icons';
-import { FontIcon } from 'react-md';
+import EditIcon from '@material-ui/icons/Edit';
 import { withUserProfile } from 'Modules/UserProfile';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
@@ -110,7 +110,7 @@ class WorkspaceCard extends Component {
             id: 'workspace-card--edit',
             key: 'workspace-card--edit',
             title: t('general.verbs.edit'),
-            icon: <FontIcon>edit</FontIcon>,
+            icon: <EditIcon color="action" fontSize="small" />,
             onClick: this.edit,
           },
           {
@@ -124,7 +124,7 @@ class WorkspaceCard extends Component {
             id: 'workspace-card--delete',
             key: 'workspace-card--delete',
             title: t('general.verbs.delete'),
-            icon: <DeleteIcon />,
+            icon: <DeleteIcon size={20} />,
             onClick: this.delete,
           }
         ]}

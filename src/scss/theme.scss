@@ -2,7 +2,7 @@
 $md-primary-color: $md-light-blue-500;
 $md-secondary-color: $md-blue-500;
 
-  @include react-md-typography;
+  // @include react-md-typography;
   @include react-md-accessibility;
   // @include react-md-grid;
   @include react-md-transitions;
@@ -35,15 +35,19 @@ $md-secondary-color: $md-blue-500;
   // @include react-md-select-fields;
   @include react-md-selection-controls;
   @include react-md-sliders;
-  @include react-md-subheaders;
+  // @include react-md-subheaders;
   @include react-md-snackbars;
   // @include react-md-tabs;
-  // @include react-md-text-fields;
+  @include react-md-text-fields;
   // @include react-md-toolbars;
   // @include react-md-tooltips;
 
   @include react-md-helpers-everything;
   @include react-md-colors;
+
+.md-icon {
+  color: inherit;
+}
 
 .md-tile-content--left-icon {
   padding-left: 16px;

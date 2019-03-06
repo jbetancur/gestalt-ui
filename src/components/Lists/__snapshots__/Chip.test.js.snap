@@ -31,7 +31,6 @@ exports[`(Chips) Chip mounts with basic props 1`] = `
   padding: 3px;
 }
 
-.c2 i,
 .c2 svg {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
@@ -53,11 +52,21 @@ exports[`(Chips) Chip mounts with basic props 1`] = `
   <button
     class="c2"
   >
-    <i
-      class="md-icon material-icons"
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 MuiSvgIcon-fontSizeSmall-8"
+      focusable="false"
+      role="presentation"
+      viewBox="0 0 24 24"
     >
-      add_circle
-    </i>
+      <path
+        d="M0 0h24v24H0z"
+        fill="none"
+      />
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+      />
+    </svg>
   </button>
 </div>
 `;

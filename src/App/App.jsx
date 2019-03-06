@@ -155,6 +155,7 @@ class App extends Component {
           <Notifications />
           <FloatingDrawer
             direction="right"
+            width="275px"
             open={favoritesOpen}
           >
             <FavoriteItems />

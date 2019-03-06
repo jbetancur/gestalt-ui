@@ -14,7 +14,7 @@ exports[`(Cards) CardTitle mounts with basic props 1`] = `
 }
 
 .c0 {
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -58,7 +58,7 @@ exports[`(Cards) CardTitle mounts with children 1`] = `
 }
 
 .c0 {
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -102,7 +102,7 @@ exports[`(Cards) CardTitle mounts with title and subTitle 1`] = `
 }
 
 .c0 {
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Icon from '@material-ui/icons/DeviceHub';
 
-const APIIconStyle = styled(FontIcon)`
+const APIIconStyle = styled(Icon)`
   font-size: ${props => `${props.size}px !important`};
+  color: ${props => `${props.color}`};
 `;
 
-const APIIcon = ({ size }) => <APIIconStyle size={size}>device_hub</APIIconStyle>;
+const APIIcon = ({ size, color, ...rest }) => <APIIconStyle size={size} color={color} {...rest} />;
 
 APIIcon.propTypes = {
-  size: PropTypes.number
+  size: PropTypes.number,
+  color: PropTypes.string,
 };
 
 APIIcon.defaultProps = {
   size: 24,
+  color: 'action',
 };
 
 export default APIIcon;

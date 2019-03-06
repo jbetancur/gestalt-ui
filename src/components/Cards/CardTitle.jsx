@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Title, Subtitle } from 'components/Typography';
 
 const TitleSection = styled.div`
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
   display: flex;
   align-items: center;
 `;
