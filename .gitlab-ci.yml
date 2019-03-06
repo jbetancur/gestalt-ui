@@ -153,7 +153,7 @@ test:
     - |
       echo "Update Image and Description"
       echo '[{"op": "replace", "path": "/properties/image", "value": "'${NEW_IMAGE}'"},{"op": "replace", "path": "/description", "value": "'${NEW_DESCRIPTION[@]}'"}]' > patch.json
-      fog meta PATCH -f patch.json /root/container/${container_id}
+      fog meta PATCH -f patch.json /root/containers/${container_id}
     - |
       echo "Announce in slack:"
       echo "_${NEW_IMAGE}_ deployed to test by *${GITLAB_USER_NAME}*" | http POST "${SLACK_BASE_URL}${SLACK_CICD_PATH}"
