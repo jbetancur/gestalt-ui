@@ -156,7 +156,8 @@ test:
       fog meta PATCH -f patch.json /root/containers/${container_id}
     - |
       echo "Announce in slack:"
-      echo "_${NEW_IMAGE}_ deployed to test by *${GITLAB_USER_NAME}*" | http POST "${SLACK_BASE_URL}${SLACK_CICD_PATH}"
+      SLACK_MESSAGE="${NEW_IMAGE}_ deployed to test by *${GITLAB_USER_NAME}*"
+      echo "{\"text\":\"${SLACK_MESSAGE}\"}" | http POST "${SLACK_BASE_URL}${SLACK_CICD_PATH}"
     # Mark Stable
     - |
       echo "Lookup proper docker tag same way as docker image build does"
