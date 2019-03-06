@@ -180,6 +180,7 @@ auto-deploy-develop-to-test:
   <<: *deploy_to_test
   only:
     - develop
+    - new-test-deploy
   dependencies:
     - test
 
@@ -294,6 +295,7 @@ review:
   when: manual
   except:
     - develop
+    - new-test-deploy
 
 stop_review:
   stage: review
@@ -307,3 +309,4 @@ stop_review:
   when: manual
   except:
     - develop
+    - new-test-deploy
