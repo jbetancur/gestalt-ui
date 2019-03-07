@@ -12,15 +12,15 @@ import { withUserProfile } from 'Modules/UserProfile';
 import withSelf from '../../../App/hocs/withSelf';
 
 const AvatarStyle = styled(Avatar)`
-  height: 36px !important;
-  width: 36px !important;
+  height: 34px !important;
+  width: 34px !important;
 `;
 
 const Img = styled.img`
-  height: 36px;
-  width: 36px;
+  height: 34px;
+  width: 34px;
   border-radius: 50%;
-  border: 2px solid ${props => props.theme.colors.active};
+  border: 1px solid ${props => props.theme.colors.active};
 `;
 
 const UserMenu = ({ self, userProfile, onLogout }) => {
