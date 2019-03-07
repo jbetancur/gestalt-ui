@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import MenuButton from 'components/Menus/MenuButton';
 import Avatar from '@material-ui/core/Avatar';
-import { UserIcon } from 'components/Icons';
 import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,14 +12,15 @@ import { withUserProfile } from 'Modules/UserProfile';
 import withSelf from '../../../App/hocs/withSelf';
 
 const AvatarStyle = styled(Avatar)`
-  height: 32px !important;
-  width: 32px !important;
+  height: 36px !important;
+  width: 36px !important;
 `;
 
 const Img = styled.img`
-  height: 32px;
-  width: 32px;
+  height: 36px;
+  width: 36px;
   border-radius: 50%;
+  border: 2px solid ${props => props.theme.colors.active};
 `;
 
 const UserMenu = ({ self, userProfile, onLogout }) => {
@@ -34,17 +34,13 @@ const UserMenu = ({ self, userProfile, onLogout }) => {
     ? <Img src={avatarImgSrg} alt={name} align="right" />
     : avatarInit;
 
-  const menuIcon = avatarImgSrg
-    ? avatarIcon
-    : <UserIcon fontSize="small" color="action" />;
-
   return (
     <MenuButton
       id="main--user--menu"
       icon={<AvatarStyle>{avatarIcon}</AvatarStyle>}
     >
       <ListItem dense button component={Link} to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}>
-        {menuIcon}
+        <AvatarStyle>{avatarIcon}</AvatarStyle>
         <ListItemText primary={name} secondary={self.name} />
       </ListItem>
 

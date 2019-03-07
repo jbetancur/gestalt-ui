@@ -58,16 +58,15 @@ const Img = styled.img`
 `;
 
 const UserAvatarUpload = ({ user, userProfile, userProfilePending, userProfileActions }) => {
-  const isOwnProfile = userProfile.properties.parent.id === user.id
-    ? userProfile.properties.avatar
-    : null;
-
-  const [avatar, setAvatar] = useState(isOwnProfile);
+  const [avatar, setAvatar] = useState(userProfile.properties.avatar);
   const [updated, setUpdated] = useState(false);
   const saveLabel = updated ? 'Saved' : 'Save';
 
+  useEffect(() => {
+    setAvatar(userProfile.properties.avatar);
+    setUpdated(!!userProfile.properties.avatar);
+  }, [userProfilePending, userProfile.properties.avatar]);
 
-  useEffect(() => { }, [avatar]);
 
   const onDrop = useCallback((acceptedFiles) => {
     const reader = new FileReader();
@@ -98,6 +97,7 @@ const UserAvatarUpload = ({ user, userProfile, userProfilePending, userProfileAc
   const saveAvatar = () => {
     const payload = [{ op: 'add', path: '/properties/avatar', value: avatar }];
     setUpdated(true);
+
     userProfileActions.updateUserProfile({
       fqon: userProfile.org.properties.fqon,
       id: userProfile.id,
@@ -124,8 +124,8 @@ const UserAvatarUpload = ({ user, userProfile, userProfilePending, userProfileAc
     }
   };
 
-
-  if (!isOwnProfile) {
+  // only display if the users own profile
+  if (userProfile.properties.parent.id !== user.id) {
     return null;
   }
 

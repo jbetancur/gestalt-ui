@@ -13,7 +13,7 @@ import jsonPatch from 'fast-json-patch';
 import UserForm from './UserForm';
 import UserAvatarUpload from './UserAvatarUpload';
 import validate from '../validations';
-import { getEditUserModel } from '../selectors';
+import { getEditUserModel } from '../reducers/selectors';
 import withContext from '../../Hierarchy/hocs/withContext';
 import withUser from '../hocs/withUser';
 
