@@ -28,19 +28,23 @@ const UserMenu = ({ self, userProfile, onLogout }) => {
     ? self.properties.firstName
     : `${self.properties.firstName} ${self.properties.lastName}`;
 
-  const avatarInit = self.name && self.name.substring(0, 1).toUpperCase();
-  const avatarImgSrg = userProfile.properties.avatar;
-  const avatarIcon = userProfile.properties.avatar
-    ? <Img src={avatarImgSrg} alt={name} align="right" />
-    : avatarInit;
+  const avatarInits =
+    self.properties && self.properties.firstName && self.properties.lastName
+      ? `${self.properties.firstName.substring(0, 1)
+        .toUpperCase()}${self.properties.lastName.substring(0, 1).toUpperCase()}`
+      : self.name.substring(0, 1).toUpperCase();
+
+  const avatarComponent = userProfile.properties.avatar
+    ? <Img src={userProfile.properties.avatar} alt={name} />
+    : avatarInits;
 
   return (
     <MenuButton
       id="main--user--menu"
-      icon={<AvatarStyle>{avatarIcon}</AvatarStyle>}
+      icon={<AvatarStyle>{avatarComponent}</AvatarStyle>}
     >
       <ListItem dense button component={Link} to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}>
-        <AvatarStyle>{avatarIcon}</AvatarStyle>
+        <AvatarStyle>{avatarComponent}</AvatarStyle>
         <ListItemText primary={name} secondary={self.name} />
       </ListItem>
 
