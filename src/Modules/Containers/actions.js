@@ -3,7 +3,6 @@ import { getLastFromSplit } from 'util/helpers/strings';
 import {
   SELECTED_PROVIDER,
 } from './actionTypes';
-import providerModel from '../Providers/models/provider';
 
 /**
  * setSelectedProvider
@@ -11,7 +10,7 @@ import providerModel from '../Providers/models/provider';
  */
 export function setSelectedProvider(provider = {}) {
   const providerType = getLastFromSplit(provider.resource_type);
-  const model = providerModel.get(provider);
+  const model = provider;
   const supportsSecrets = () => {
     switch (providerType) {
       case 'Kubernetes':

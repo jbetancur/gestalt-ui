@@ -38,7 +38,7 @@ const Bubble = styled.div`
   display: inline-block;
   min-width: 32px;
   height: 32px;
-  padding: 6px;
+  padding: 8px;
   border-radius: 5px;
   text-align: center;
   background-color: ${props => props.theme.colors.secondary};

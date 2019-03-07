@@ -64,9 +64,7 @@ const schema = object().shape({
       gpu_support: object().shape({
         enabled: boolean().default(false),
         default_type: string().default(''),
-        types: array()
-          .of(string())
-          .default(['nvidia-tesla-p100', 'nvidia-tesla-p4', 'nvidia-tesla-v100', 'nvidia-tesla-t4']),
+        types: array().default(['nvidia-tesla-p100', 'nvidia-tesla-p4', 'nvidia-tesla-v100', 'nvidia-tesla-t4']),
       }),
     }),
     linked_providers: array().default([]),
@@ -117,6 +115,7 @@ const patch = (model = {}, updatedModel = {}) => {
   // force patch on arrays
   const omitList = [
     'properties.linked_providers',
+    'properties.config.gpu_support.types',
   ];
 
   return jsonPatch.compare(

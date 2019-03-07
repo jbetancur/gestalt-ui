@@ -14,6 +14,7 @@ import { SecretsPanelForm } from 'Modules/Secrets';
 import { VolumePanel } from 'Modules/Volumes';
 import PortMappingsForm from './PortMappingsForm';
 import HealthChecksForm from './HealthChecksForm';
+import GPUSection from './GPUSection';
 import actions from '../actions';
 import { selectProvider } from '../reducers/selectors';
 
@@ -215,6 +216,12 @@ class ContainerForm extends PureComponent {
                     placeholder="e.g. /usr/bin/myscript.sh arg1 arg2..."
                   />
                 </Col>
+
+                {get(selectedProvider.provider, 'properties.config.gpu_support.enabled') && (
+                  <Col flex={12}>
+                    <GPUSection selectedProvider={selectedProvider.provider} />
+                  </Col>
+                )}
               </Row>
             </Panel>
           </Col>
