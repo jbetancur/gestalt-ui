@@ -28,14 +28,6 @@ const NavHeader = styled.nav`
     padding-top: 20px;
     padding-bottom: 20px;
   `};
-  ${() => media.sm`
-    padding-top: 20px;
-    padding-bottom: 20px;
-  `};
-  ${() => media.md`
-    padding-top: 20px;
-    padding-bottom: 20px;
-  `};
 `;
 
 const CollapseWrapper = styled.div`
@@ -101,12 +93,6 @@ const ActionsSection = styled.div`
   flex: 1;
   min-width: 275px;
   ${() => media.xs`
-    justify-content: center;
-  `};
-  ${() => media.sm`
-    justify-content: center;
-  `};
-  ${() => media.md`
     justify-content: center;
   `};
 
