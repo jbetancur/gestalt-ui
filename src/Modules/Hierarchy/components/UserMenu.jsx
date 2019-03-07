@@ -29,12 +29,12 @@ const UserMenu = ({ self, userProfile, onLogout }) => {
     : `${self.properties.firstName} ${self.properties.lastName}`;
 
   const avatarInit = self.name && self.name.substring(0, 1).toUpperCase();
-
-  const avatarIcon = userProfile.avatar
-    ? <Img src={userProfile.avatar} alt={name} align="right" />
+  const avatarImgSrg = userProfile.properties.avatar;
+  const avatarIcon = userProfile.properties.avatar
+    ? <Img src={avatarImgSrg} alt={name} align="right" />
     : avatarInit;
 
-  const menuIcon = userProfile.avatar
+  const menuIcon = avatarImgSrg
     ? avatarIcon
     : <UserIcon fontSize="small" color="action" />;
 

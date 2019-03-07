@@ -4,7 +4,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
-// import { withContext } from 'Modules/Hierarchy';
 import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -12,6 +11,7 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import jsonPatch from 'fast-json-patch';
 import UserForm from './UserForm';
+import UserAvatarUpload from './UserAvatarUpload';
 import validate from '../validations';
 import { getEditUserModel } from '../selectors';
 import withContext from '../../Hierarchy/hocs/withContext';
@@ -79,32 +79,38 @@ class GroupEdit extends Component {
 
           {userPending && <ActivityContainer id="user-loading" />}
 
-          <Row gutter={5}>
+          <Row gutter={5} center>
+            <Col flex={2}>
+              <UserAvatarUpload user={user} />
+            </Col>
+
             <Col flex={12}>
               <Panel title="Resource Details" defaultExpanded={false}>
                 <DetailsPane model={user} />
               </Panel>
             </Col>
-          </Row>
 
-          <FinalForm
-            editMode
-            onSubmit={this.update}
-            initialValues={initialFormValues}
-            validate={validate(true)}
-            loading={userPending}
-            organizations={allOrganizationsDropDown}
-            render={({ handleSubmit, submitting, pristine, ...rest }) => (
-              <Form
-                onSubmit={handleSubmit}
-                submitTitle="Update"
-                disabled={userPending}
-                disabledSubmit={userPending || submitting}
-              >
-                <UserForm {...rest} />
-              </Form>
-            )}
-          />
+            <Col flex={12}>
+              <FinalForm
+                editMode
+                onSubmit={this.update}
+                initialValues={initialFormValues}
+                validate={validate(true)}
+                loading={userPending}
+                organizations={allOrganizationsDropDown}
+                render={({ handleSubmit, submitting, pristine, ...rest }) => (
+                  <Form
+                    onSubmit={handleSubmit}
+                    submitTitle="Update"
+                    disabled={userPending}
+                    disabledSubmit={userPending || submitting}
+                  >
+                    <UserForm {...rest} />
+                  </Form>
+                )}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
     );
