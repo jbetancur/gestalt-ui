@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { MenuButton } from 'react-md';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import InsertChart from '@material-ui/icons/InsertChart';
 import DataTable from 'react-data-table-component';
@@ -77,11 +76,6 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions })
           resource={row}
           actionList={providerActions}
           fqon={fqon}
-          position={MenuButton.Positions.TOP_LEFT}
-          anchor={{
-            x: MenuButton.HorizontalAnchors.INNER_LEFT,
-            y: MenuButton.VerticalAnchors.OVERLAP,
-          }}
           disabled={!(row.status === 'active' || row.status === 'starting')}
         />
       )

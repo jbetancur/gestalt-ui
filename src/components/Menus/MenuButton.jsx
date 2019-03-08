@@ -8,7 +8,7 @@ import Fade from '@material-ui/core/Fade';
 
 const buttonColor = css`
   color: ${props => props.theme.colors[props.flatColor]} !important;
-  border: 1px solid ${props => props.theme.colors[props.flatColor]} !important;
+  ${props => props.variant === 'outlined' && `border: 1px solid ${props.theme.colors[props.flatColor]} !important`};
 
   svg {
     color: ${props => props.theme.colors[props.flatColor]} !important;

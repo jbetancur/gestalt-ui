@@ -2,8 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
-import { MenuButton } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
@@ -56,55 +59,33 @@ class OrganizationDetails extends PureComponent {
     });
   }
 
-  renderMenuItems() {
+  renderActions() {
     const { match, hierarchyContext, self } = this.props;
     const { context: { organization } } = hierarchyContext;
     const deleteDisabled = match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root';
 
-    return [
-      {
-        id: 'organization-menu-entitlements',
-        key: 'organization-menu-entitlements',
-        primaryText: 'Entitlements',
-        leftIcon: <EntitlementIcon size={20} />,
-        onClick: this.showEntitlements,
-      },
-      {
-        id: 'organization-menu-edit',
-        key: 'organization-menu-edit',
-        primaryText: 'Edit',
-        leftIcon: <EditIcon color="action" fontSize="small" />,
-        component: Link,
-        to: { pathname: `/${organization.properties.fqon}/editOrganization`, state: { modal: true } },
-      },
-      <Divider key="organization-menu-divider-1" />,
-      {
-        id: 'organization-menu-delete',
-        key: 'organization-menu-delete',
-        primaryText: 'Delete',
-        leftIcon: <DeleteIcon size={20} />,
-        onClick: this.delete,
-        disabled: deleteDisabled,
-      }
-    ];
-  }
-
-  renderActions() {
     return (
       <MenuButton
-        id="org--details--actions"
+        id="environment--details--actions"
         flat
-        primary
-        iconBefore={false}
-        iconChildren="arrow_drop_down"
-        anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-          y: MenuButton.VerticalAnchors.BOTTOM,
-        }}
-        simplifiedMenu={false}
-        menuItems={this.renderMenuItems()}
+        flatColor="info"
+        label="Actions"
+        iconAfter
+        icon={<ArrowDropDownIcon fontSize="small" />}
       >
-        Actions
+        <ListItem dense button onClick={this.showEntitlements}>
+          <EntitlementIcon size={20} />
+          <ListItemText primary="Entitlements" />
+        </ListItem>
+        <ListItem dense button component={Link} to={{ pathname: `/${organization.properties.fqon}/editOrganization`, state: { modal: true } }}>
+          <EditIcon color="action" fontSize="small" />
+          <ListItemText primary="Edit" />
+        </ListItem>
+        <Divider />
+        <ListItem dense button onClick={this.delete} disabled={deleteDisabled}>
+          <DeleteIcon size={20} />
+          <ListItemText primary="Delete" />
+        </ListItem>
       </MenuButton>
     );
   }

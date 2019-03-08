@@ -4,7 +4,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import axios from 'axios';
-import { ListItem, MenuButton } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Div from 'components/Div';
 import { buildParams } from 'config/lib/urlmapper';
 // import { arrayToMap } from 'util/helpers/transformations';
@@ -70,10 +73,12 @@ class ActionsMenu extends PureComponent {
         return (
           <ListItem
             key={`${actionName}-${index}`}
-            primaryText={actionName}
+            button
             style={style}
             onClick={() => this.fetchContent(action)}
-          />
+          >
+            <ListItemText primary={actionName} />
+          </ListItem>
         );
       })
     );
@@ -82,26 +87,27 @@ class ActionsMenu extends PureComponent {
   render() {
     const { actionList, listItem, icon, onActionComplete, toggleActionsModal, resource, ...rest } = this.props;
 
-    return (
-      actionList && actionList.length > 0 ?
+    if (actionList && actionList.length > 0) {
+      return (
         <Div display="inline">
           {!listItem ?
             <MenuButton
               id="provider-actions-menu"
-              iconChildren={icon ? 'more_vert' : 'arrow_drop_down'}
               flat={!icon}
-              icon={icon}
-              iconBefore={false}
-              simplifiedMenu={false}
-              repositionOnScroll={false}
-              menuItems={this.renderActions()}
+              flatColor="info"
+              label="Actions"
+              iconAfter
+              icon={<ArrowDropDownIcon fontSize="small" />}
               {...rest}
             >
-              {!icon && 'Actions'}
+              {this.renderActions()}
             </MenuButton> :
             this.renderActions()}
-        </Div> : null
-    );
+        </Div>
+      );
+    }
+
+    return null;
   }
 }
 

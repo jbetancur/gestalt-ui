@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import { MenuButton } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import EditIcon from '@material-ui/icons/Edit';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
@@ -53,53 +56,32 @@ class WorkspaceDetails extends PureComponent {
     });
   }
 
-  renderMenuItems() {
+  renderActions() {
     const { hierarchyContext } = this.props;
     const { context: { workspace } } = hierarchyContext;
 
-    return [
-      {
-        id: 'workspace-menu-entitlements',
-        key: 'workspace-menu-entitlements',
-        primaryText: 'Entitlements',
-        leftIcon: <EntitlementIcon size={20} />,
-        onClick: this.showEntitlements,
-      },
-      {
-        id: 'workspace-menu-edit',
-        key: 'workspace-menu-edit',
-        primaryText: 'Edit',
-        leftIcon: <EditIcon color="action" fontSize="small" />,
-        component: Link,
-        to: { pathname: `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/edit`, state: { modal: true } },
-      },
-      <Divider key="workspace-menu-divider-1" />,
-      {
-        id: 'workspace-menu-delete',
-        key: 'workspace-menu-delete',
-        primaryText: 'Delete',
-        leftIcon: <DeleteIcon size={20} />,
-        onClick: this.delete,
-      }
-    ];
-  }
-
-  renderActions() {
     return (
       <MenuButton
-        id="workspace--details--actions"
+        id="environment--details--actions"
         flat
-        primary
-        iconBefore={false}
-        iconChildren="arrow_drop_down"
-        anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-          y: MenuButton.VerticalAnchors.BOTTOM,
-        }}
-        simplifiedMenu={false}
-        menuItems={this.renderMenuItems()}
+        flatColor="info"
+        label="Actions"
+        iconAfter
+        icon={<ArrowDropDownIcon fontSize="small" />}
       >
-        Actions
+        <ListItem dense button onClick={this.showEntitlements}>
+          <EntitlementIcon size={20} />
+          <ListItemText primary="Entitlements" />
+        </ListItem>
+        <ListItem dense button component={Link} to={{ pathname: `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/edit`, state: { modal: true } }}>
+          <EditIcon color="action" fontSize="small" />
+          <ListItemText primary="Edit" />
+        </ListItem>
+        <Divider />
+        <ListItem dense button onClick={this.delete}>
+          <DeleteIcon size={20} />
+          <ListItemText primary="Delete" />
+        </ListItem>
       </MenuButton>
     );
   }
