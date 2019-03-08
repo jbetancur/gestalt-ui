@@ -77,6 +77,15 @@ export default {
         name: 'container.import'
       },
       {
+        name: 'container.create.pre',
+      },
+      {
+        name: 'container.migrate.pre'
+      },
+      {
+        name: 'container.promote.pre'
+      },
+      {
         name: 'container.create.post'
       },
       {
@@ -88,12 +97,6 @@ export default {
       {
         name: 'container.scale.post'
       },
-      {
-        name: 'container.migrate.pre'
-      },
-      {
-        name: 'container.promote.pre'
-      }
     ],
     events: [
       {
