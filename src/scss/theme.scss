@@ -21,10 +21,10 @@ $md-secondary-color: $md-blue-500;
   // @include react-md-drawers;
   // @include react-md-expansion-panels;
   @include react-md-file-inputs;
-  @include react-md-inks;
+  // @include react-md-inks;
   @include react-md-icons;
   @include react-md-layovers;
-  @include react-md-lists;
+  // @include react-md-lists;
   // @include react-md-media;
   @include react-md-menus;
   // @include react-md-navigation-drawers;
@@ -44,7 +44,3 @@ $md-secondary-color: $md-blue-500;
 
   @include react-md-helpers-everything;
   @include react-md-colors;
-
-.md-tile-content--left-icon {
-  padding-left: 16px;
-}

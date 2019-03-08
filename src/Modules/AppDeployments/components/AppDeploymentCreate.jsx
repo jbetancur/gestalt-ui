@@ -6,7 +6,7 @@ import { Col, Row } from 'react-flexybox';
 import Form, { SelectField, TextField, AceEditor } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { Caption } from 'components/Typography';
-import { FileInput } from 'react-md';
+import { FileButton } from 'components/Buttons';
 import { composeValidators, required } from 'util/forms';
 import withAppDeployments from '../hocs/withAppDeployments';
 
@@ -127,7 +127,7 @@ class AppDeploymentCreate extends Component {
                           </Col>
                         </Row>
 
-                        <FileInput
+                        <FileButton
                           id="app-deployment-yaml-config"
                           label="Upload YAML"
                           onChange={onFile}
