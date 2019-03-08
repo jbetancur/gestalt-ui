@@ -95,6 +95,13 @@ Runs the app in watch mode, which allows you to watch the code and tests for cha
 yarn test:tdd
 ```
 
+If you encounter the error `Error: EMFILE: too many open files, watch...` you will need update update watchman. If you are in TDD mode it is probably a good idea (and faster) to use the jest options to filter the specific file(s) you want to test.
+
+```
+bew update
+brew install watchman
+```
+
 ### Code Coverage
 Simply opens a browser window with coverage results.
 

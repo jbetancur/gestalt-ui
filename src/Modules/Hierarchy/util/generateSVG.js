@@ -19,9 +19,6 @@ export default function generateSVG(encodedSVG) {
   const svgClean = base64.encode(sanitizeHtml(base64.decode(encodedSVG), options));
 
   return (
-    <SVG
-      className="md-icon"
-      src={`data:image/svg+xml;base64,${svgClean}`}
-    />
+    <SVG src={`data:image/svg+xml;base64,${svgClean}`} />
   );
 }
