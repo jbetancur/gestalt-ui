@@ -7,7 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { getLastFromSplit } from 'util/helpers/strings';
 import ContainerImportForm from '../components/ContainerImportForm';
@@ -84,22 +84,18 @@ class ContainerImportFormModal extends Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button
-            flat
+          <FlatButton
+            label="Cancel"
             onClick={modal.hideModal}
             disabled={containerImportPending}
-          >
-            Cancel
-          </Button>
-          <Button
+          />
+          <FlatButton
             key="container--import"
-            primary
-            flat
+            color="primary"
+            label="Import"
             onClick={() => document.getElementById('import-container-modal').dispatchEvent(new Event('submit', { cancelable: true }))}
             disabled={containerImportPending}
-          >
-            Import
-          </Button>
+          />
         </DialogActions>
       </Dialog>
     );

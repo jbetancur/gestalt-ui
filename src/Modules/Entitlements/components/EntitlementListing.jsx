@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
 import { Search } from 'Modules/Search';
 import Fieldset from 'components/Fieldset';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { DotActivity } from 'components/ProgressIndicators';
 import { H2 } from 'components/Typography';
 import { UserIcon, GroupIcon } from 'components/Icons';
@@ -109,7 +109,10 @@ class EntitlementListing extends PureComponent {
           </Row>
 
           <Actions>
-            <Button flat onClick={onClose}>Close</Button>
+            <FlatButton
+              label="Close"
+              onClick={onClose}
+            />
           </Actions>
         </React.Fragment>
       );
@@ -175,16 +178,18 @@ class EntitlementListing extends PureComponent {
 
         <Actions>
           {hasEntitlements && (
-            <Button
-              primary
-              raised
+            <FlatButton
+              label="Apply Entitlements"
+              color="primary"
+              variant="contained"
               onClick={this.update}
               disabled={entitlementsPending}
-            >
-              Apply Entitlements
-            </Button>
+            />
           )}
-          <Button flat onClick={onClose}>Close</Button>
+          <FlatButton
+            label="Close"
+            onClick={onClose}
+          />
         </Actions>
       </React.Fragment>
     );

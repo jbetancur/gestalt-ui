@@ -5,7 +5,8 @@ import DataTable from 'react-data-table-component';
 import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import LogIcon from '@material-ui/icons/Subject';
 import { getLastFromSplit } from 'util/helpers/strings';
 // import ExpandableLogs from './ExpandableLogs';
 
@@ -16,19 +17,17 @@ const ContainerInstances = ({ containerModel, fqon }) => {
       width: '225px',
       ignoreRowClick: true,
       cell: row => (
-        <Button
-          flat
-          primary
-          iconChildren="subject"
+        <FlatButton
+          label="Expand Log"
+          icon={<LogIcon fontSize="small" />}
+          color="primary"
           to={{
             pathname: '/logs',
             search: `?name=${containerModel.name} - ${row.host}&fqon=${fqon}&providerId=${containerModel.properties.provider.id}&providerType=${providerType}&logType=container&logId=${row.id}`
           }}
           target="_blank"
           component={Link}
-        >
-          Expand Log
-        </Button>
+        />
       ),
     },
     {

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Button from './Button';
+import FileIcon from '@material-ui/icons/SaveAlt';
+import IconButton from './IconButton';
 
 function download(data, filename, mime) {
   const blob = new Blob([data], { type: mime });
@@ -37,9 +38,8 @@ class FileDownloadButton extends PureComponent {
   render() {
     const { fileName, data, mimeType, ...rest } = this.props;
     return (
-      <Button
-        icon
-        iconChildren="file_download"
+      <IconButton
+        icon={<FileIcon fontSize="small" />}
         onClick={() => download(this.props.data, this.props.fileName, this.props.mimeType)}
         {...rest}
       />

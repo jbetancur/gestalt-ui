@@ -11,7 +11,9 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { ContainerActions, ContainerInstances, ContainerServiceAddresses } from 'Modules/Containers';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
+import LaunchIcon from '@material-ui/icons/Launch';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card, CardTitle } from 'components/Cards';
@@ -148,25 +150,21 @@ class ProviderEdit extends PureComponent {
                 disablePromote
               />,
               hasContainer &&
-              <Button
+              <FlatButton
                 key="provider-container-redeploy"
-                flat
-                iconChildren="launch"
+                icon={<LaunchIcon fontIcon="small" />}
+                label="edeploy Container"
                 type="submit"
                 onClick={this.handleRedeploy}
                 disabled={providerPending}
-                primary
-              >
-                Redeploy Container
-              </Button>,
-              <Button
-                key="provider--entitlements"
-                flat
-                iconChildren="security"
+                color="primary"
+              />,
+              <FlatButton
+                key="container--entitlements"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>,
+              />,
             ]}
           />
 

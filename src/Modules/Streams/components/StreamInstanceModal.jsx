@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import StreamInstance from './StreamInstance';
 
 class StreamInstanceModal extends Component {
@@ -34,7 +34,7 @@ class StreamInstanceModal extends Component {
           <StreamInstance fqon={fqon} streamId={streamId} persistenceId={persistenceId} />
         </DialogContent>
         <DialogActions>
-          <Button flat primary onClick={modal.hideModal}>Close</Button>
+          <FlatButton label="Close" color="primary" onClick={modal.hideModal} />
         </DialogActions>
       </Dialog>
     );

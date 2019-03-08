@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from 'components/Fields/Checkbox';
 import { FormattedDate } from 'react-intl';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import Form, { TextField } from 'components/Form';
 import Label from 'components/Label';
 import { H4 } from 'components/Typography';
@@ -112,21 +112,18 @@ const LicenseForm = ({
         </Col>}
       </Row>
       <Footer>
-        <Button
-          flat
+        <FlatButton
+          label="Cancel"
           disabled={submitting}
           onClick={close}
-        >
-          Cancel
-        </Button>
-        <Button
-          raised
+        />
+        <FlatButton
+          label="Update"
+          variant="contained"
           type="submit"
           disabled={pristine || invalid || submitting}
-          primary
-        >
-          Update
-        </Button>
+          color="primary"
+        />
       </Footer>
     </Form>
   );

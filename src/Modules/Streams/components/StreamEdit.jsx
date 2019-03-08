@@ -8,7 +8,8 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import createDecorator from 'final-form-focus';
 import { Card } from 'components/Cards';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { ActionsMenu } from 'Modules/Actions';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -108,14 +109,12 @@ class StreamSpecEdit extends Component {
                 fqon={match.params.fqon}
                 resource={streamSpec}
               />,
-              <Button
+              <FlatButton
                 key="streamspec--entitlements"
-                flat
-                iconChildren="security"
-                onClick={this.onShowEntitlements}
-              >
-                Entitlements
-              </Button>,
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
+                onClick={this.showEntitlements}
+              />,
             ]}
           />
 

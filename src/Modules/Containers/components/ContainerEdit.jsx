@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import isEqual from 'react-fast-compare';
 import { parse } from 'query-string';
 import styled from 'styled-components';
-import { IconSeparator } from 'react-md';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import { withRouter } from 'react-router-dom';
@@ -14,7 +13,8 @@ import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { Tabs, Tab } from 'components/Tabs';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
@@ -45,11 +45,14 @@ import containerModel from '../models/container';
 
 const focusOnErrors = createDecorator();
 
-const StatusDetails = styled(IconSeparator)`
+const StatusDetails = styled.div`
+  display: flex;
+  align-items: center;
   margin-right: 5px;
-  padding: 3px;
 
-  i {
+  i,
+  svg {
+    padding: 3px;
     color: ${props => props.theme.colors['$md-blue-500']};
   }
 `;
@@ -170,8 +173,9 @@ class ContainerEdit extends Component {
             sticky
             actions={[
               statusDetail &&
-              <StatusDetails key="container--statusDetail" label={statusDetail} iconBefore>
+              <StatusDetails key="container--statusDetail">
                 <InfoIcon fontSize="small" color="primary" />
+                {statusDetail}
               </StatusDetails>,
               !inlineMode &&
               <ContainerActions
@@ -184,16 +188,13 @@ class ContainerEdit extends Component {
                 disableScale={this.isJob}
                 disableEntitlements={this.isJob}
               />,
-              <Button
+              <FlatButton
                 key="container--entitlements"
-                flat
-                outline
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
                 disabled={this.isJob}
-              >
-                Entitlements
-              </Button>,
+              />,
             ]}
           />
 

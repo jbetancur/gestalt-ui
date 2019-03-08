@@ -9,7 +9,8 @@ import { withPickerData } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
@@ -84,14 +85,12 @@ class PolicyEventRuleEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
             actions={[
-              <Button
-                key="eventRule--entitlements"
-                flat
-                iconChildren="security"
+              <FlatButton
+                key="eventrule--entitlements"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>
+              />
             ]}
           />
 

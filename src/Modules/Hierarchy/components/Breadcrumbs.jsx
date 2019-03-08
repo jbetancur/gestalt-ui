@@ -44,6 +44,7 @@ const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
 `;
 
 const NavArrow = styled(IconButton)`
+  padding: 8px !important;
   ${() => media.xs`
     display: none !important;
   `};

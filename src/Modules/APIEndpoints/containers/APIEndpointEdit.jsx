@@ -10,7 +10,8 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { A } from 'components/Links';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
@@ -96,14 +97,12 @@ class APIEndpointEdit extends PureComponent {
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis/${match.params.apiId}`}
             showActions={!!apiEndpoint.id}
             actions={[
-              <Button
-                key="apiEndpoint--entitlements"
-                flat
-                iconChildren="security"
+              <FlatButton
+                key="endpoint--entitlements"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>]
+              />]
             }
           />
 

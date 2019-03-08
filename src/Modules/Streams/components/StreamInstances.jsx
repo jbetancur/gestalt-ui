@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { MenuButton } from 'react-md';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import InsertChart from '@material-ui/icons/InsertChart';
 import DataTable from 'react-data-table-component';
 import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import { ActionsMenu } from 'Modules/Actions';
 import { StatusBubble } from 'components/Status';
 import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import StreamInstanceModal from './StreamInstanceModal';
 
 const translateRetries = (value) => {
@@ -48,19 +49,17 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions })
       button: true,
       ignoreRowClick: true,
       cell: row => (
-        <Button
-          flat
-          primary
-          iconChildren="insert_chart"
+        <FlatButton
+          color="primary"
+          label="View Metrics"
+          icon={<InsertChart fontSize="small" />}
           onClick={() => showModal(StreamInstanceModal, {
             fqon,
             streamId: streamSpec.id,
             persistenceId: row.persistenceId,
           })}
           disabled={!(row.status === 'active' || row.status === 'starting')}
-        >
-          View Metrics
-        </Button>
+        />
       ),
     },
   ];

@@ -9,7 +9,7 @@ import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import Div from 'components/Div';
 import { Title } from 'components/Typography';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
 import { ALink } from 'components/Links';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
@@ -141,15 +141,13 @@ class VolumePanel extends PureComponent {
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
-          <Button
+          <IconButton
             id={row.id}
-            icon
+            icon={<DeleteIcon size={20} />}
             tooltipLabel="Detach this volume"
             tooltipPosition="left"
             onClick={this.handleDetach(row)}
-          >
-            <DeleteIcon />
-          </Button>
+          />
         ),
       },
     ];
@@ -159,7 +157,7 @@ class VolumePanel extends PureComponent {
     const { volumeListing, ...rest } = this.props;
 
     return (
-      <div>
+      <React.Fragment>
         <Div padding="8px" paddingLeft="16px">
           <VolumeCreateMenu onSelect={this.handleMenuSelect} {...rest} />
         </Div>
@@ -177,7 +175,7 @@ class VolumePanel extends PureComponent {
             />
           </Col>
         </Row>
-      </div>
+      </React.Fragment>
     );
   }
 }

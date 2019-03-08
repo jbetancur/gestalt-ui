@@ -1,25 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import Button from './Button';
-
-const StyledIcon = styled.span`
-  color: ${props => props.theme.colors.error};
-`;
+// import { DeleteIcon } from 'components/Icons';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from './IconButton';
 
 const DeleteIconButton = ({ icon, ...rest }) => (
-  <Button
-    icon
-    iconChildren={<StyledIcon>{icon}</StyledIcon>}
+  <IconButton
+    icon={icon}
     {...rest}
   />);
 
 DeleteIconButton.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.any,
 };
 
 DeleteIconButton.defaultProps = {
-  icon: 'delete',
+  icon: <DeleteIcon fontSize="small" color="error" />,
 };
 
 export default DeleteIconButton;

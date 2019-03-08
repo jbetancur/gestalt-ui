@@ -11,7 +11,7 @@ import { Col, Row } from 'react-flexybox';
 import SelectField from 'components/Fields/SelectField';
 import Checkbox from 'components/Fields/Checkbox';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { Caption } from 'components/Typography';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -232,22 +232,18 @@ class ProviderCreate extends PureComponent {
                           <Row gutter={5}>
                             <Col flex={12}>
                               <Col flex={12}>
-                                <Button
-                                  flat
+                                <FlatButton
+                                  label="Cancel"
                                   component={Link}
                                   to={this.generateBackLink()}
-                                >
-                                  Cancel
-                                </Button>
-
-                                <Button
-                                  raised
-                                  primary
+                                />
+                                <FlatButton
+                                  label="Next"
+                                  variant="contained"
+                                  color="primary"
                                   onClick={this.handleNextPage}
                                   disabled={!providerSelected || providerPending || envSchemaPending}
-                                >
-                                  Next
-                                </Button>
+                                />
                               </Col>
                             </Col>
                           </Row>

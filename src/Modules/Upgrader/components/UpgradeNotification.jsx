@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import styled, { css, withTheme } from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import WhatsHotIcon from '@material-ui/icons/Whatshot';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { ALink } from 'components/Links';
 import { media } from 'util/helpers/media';
 import withUpgrader from '../hocs/withUpgrader';
@@ -66,7 +66,7 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
-const UpgradeButton = styled(Button)`
+const UpgradeButton = styled(FlatButton)`
   flex-shrink: 0;
 `;
 
@@ -138,7 +138,7 @@ class UpgradeNotification extends PureComponent {
               <span>Newer Version Available</span>
               {upgradeNotes && <ALink to={upgradeNotes} target="_blank" rel="noopener noreferrer">Release Notes</ALink>}
             </Message>
-            <UpgradeButton onClick={this.handleUpgrade} flat>Upgrade</UpgradeButton>
+            <UpgradeButton label="Upgrade" onClick={this.handleUpgrade} />
           </Left>
 
           <Right>

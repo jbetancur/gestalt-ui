@@ -51,6 +51,7 @@ class OrganizationDetails extends PureComponent {
       title: `Are you sure you want to delete the "${name}" Organization`,
       values: { name, type: 'Environment' },
       requireConfirm: true,
+      important: true,
       onProceed: ({ force }) => hierarchyContextActions.deleteOrg({ fqon: organization.properties.fqon, resource: organization, onSuccess, params: { force } }),
     });
   }

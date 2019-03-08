@@ -1,9 +1,3 @@
-// Fix for react-md next/sanitize
-a[type=button] {
-  appearance: none;
-  -webkit-appearance: none;
-}
-
 // Deal with disabled links properly
 a[disabled] {
   pointer-events: none;

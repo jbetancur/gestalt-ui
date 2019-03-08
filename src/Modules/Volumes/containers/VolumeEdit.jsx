@@ -9,7 +9,8 @@ import { Col, Row } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import { ALink } from 'components/Links';
 import { Tabs, Tab } from 'components/Tabs';
@@ -106,14 +107,12 @@ class VolumeEdit extends Component {
             )
             }
             actions={[
-              <Button
+              <FlatButton
                 key="volume--entitlements"
-                flat
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>]
+              />]
             }
           />
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 
 const AppError = props => (
   <Row center fill style={{ textAlign: 'center' }}>
@@ -9,7 +9,12 @@ const AppError = props => (
       <h1>
         There was an issue connecting to the Gestalt API. If a page refresh does not solve the issue please contact your Gestalt admin.
       </h1>
-      <Button primary raised onClick={props.onLogout}>Logout</Button>
+      <FlatButton
+        label="Logout"
+        color="primary"
+        variant="contained"
+        onClick={props.onLogout}
+      />
     </Col>
   </Row>
 );

@@ -6,7 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 
 class ConfirmModal extends PureComponent {
   static propTypes = {
@@ -64,8 +64,17 @@ class ConfirmModal extends PureComponent {
           </Row>
         </DialogContent>
         <DialogActions>
-          <Button raised primary onClick={this.doIt} disabled={isDisabled}>Scale</Button>
-          <Button flat primary onClick={modal.hideModal}>Cancel</Button>
+          <FlatButton
+            label="Scale"
+            variant="contained"
+            color="primary"
+            onClick={this.doIt}
+            disabled={isDisabled}
+          />
+          <FlatButton
+            label="Cancel"
+            onClick={modal.hideModal}
+          />
         </DialogActions>
       </Dialog>
     );

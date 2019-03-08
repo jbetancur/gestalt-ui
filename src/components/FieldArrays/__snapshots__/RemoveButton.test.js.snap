@@ -2,7 +2,7 @@
 
 exports[`(Components) RemoveButton mounts with basic renderWithTheme 1`] = `
 .c1 {
-  font-size: 22px !important;
+  font-size: 20px !important;
   color: action;
 }
 
@@ -36,7 +36,7 @@ exports[`(Components) RemoveButton mounts with basic renderWithTheme 1`] = `
       class="MuiSvgIcon-root-11 MuiSvgIcon-colorAction-14 c1"
       focusable="false"
       role="presentation"
-      size="22"
+      size="20"
       viewBox="0 0 24 24"
     >
       <path

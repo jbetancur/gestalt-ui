@@ -12,7 +12,9 @@ import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
+import LogIcon from '@material-ui/icons/Subject';
 import { Row, Col } from 'react-flexybox';
 import { APIEndpointInlineList, APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { Tabs, Tab } from 'components/Tabs';
@@ -151,27 +153,23 @@ class LambdaEdit extends PureComponent {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
             actions={[
-              <Button
+              <FlatButton
                 key="lambda--log"
-                flat
-                iconChildren="subject"
+                icon={<LogIcon fontSize="small" />}
+                label="Expand Log"
                 to={{
                   pathname: '/logs',
                   search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
                 }}
                 target="_blank"
                 component={Link}
-              >
-                Expand Log
-              </Button>,
-              <Button
+              />,
+              <FlatButton
                 key="lambda--entitlements"
-                flat
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>
+              />
             ]}
           />
 

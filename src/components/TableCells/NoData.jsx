@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { Title } from 'components/Typography';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 
 const NoDataContainer = styled.div`
   display: flex;
@@ -46,23 +46,21 @@ const NoData = ({ match, message, icon, showCreate, createPath, createLabel, sho
     </Message>
     {showCreate &&
     <NoDataWrapper>
-      <Button
-        raised
-        primary
+      <FlatButton
+        variant="contained"
+        color="primary"
         component={Link}
         to={createPath || `${match.url}/create`}
-      >
-        {createLabel}
-      </Button>
+        label={createLabel}
+      />
       {showSecondaryCreate &&
-        <Button
-          raised
-          primary
+        <FlatButton
+          variant="contained"
+          color="primary"
           component={Link}
           to={secondaryCreatePath || `${match.url}/create`}
-        >
-          {secondaryCreateLabel}
-        </Button>}
+          label={secondaryCreateLabel}
+        />}
     </NoDataWrapper>}
   </NoDataContainer>
 

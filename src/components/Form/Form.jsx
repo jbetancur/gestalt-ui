@@ -2,8 +2,9 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { FullPageFooter } from 'components/FullPage';
+import SaveIcon from '@material-ui/icons/Save';
 
 const FormStyle = styled.form`
   height: 100%;
@@ -25,25 +26,22 @@ const Form = memo(({ match, children, disabled, disabledCancel, disabledSubmit, 
       <FullPageFooter
         leftActions={(
           showCancel &&
-          <Button
-            flat
+          <FlatButton
             disabled={disabledCancel}
             component={Link}
             to={cancelTo}
-          >
-            Cancel
-          </Button>
+            label="Cancel"
+          />
         )}
         rightActions={(
-          <Button
-            raised
-            iconChildren="save"
+          <FlatButton
+            variant="contained"
             type="submit"
             disabled={disabledSubmit}
-            primary
-          >
-            {submitTitle}
-          </Button>
+            color="primary"
+            label={submitTitle}
+            icon={<SaveIcon fontSize="small" action="inherit" />}
+          />
         )}
       />}
   </FormStyle>

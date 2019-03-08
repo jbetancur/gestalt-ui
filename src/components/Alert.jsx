@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
 import ErrorIcon from '@material-ui/icons/Error';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@material-ui/icons/Close';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const icons = {
@@ -119,7 +120,11 @@ class NotificationContent extends PureComponent {
 
         {onRemove &&
           <Action>
-            <Button id={`close-${message.id}`} icon onClick={this.onRemove}>close</Button>
+            <IconButton
+              id={`close-${message.id}`}
+              icon={<CloseIcon fontSize="small" />}
+              onClick={this.onRemove}
+            />
           </Action>}
       </AlertBody>
     );

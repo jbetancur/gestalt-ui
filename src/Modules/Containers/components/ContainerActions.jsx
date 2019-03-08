@@ -390,7 +390,7 @@ class ContainerActions extends PureComponent {
               onClick={this.handleEntitlements}
               disabled={disableEntitlements}
             >
-              <EntitlementIcon size={22} />
+              <EntitlementIcon size={20} />
               <ListItemText primary="Entitlements" />
             </ListItem>
 

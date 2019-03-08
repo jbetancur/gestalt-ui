@@ -50,6 +50,7 @@ class EnvironmentCard extends Component {
       title: `Are you sure you want to delete the "${name}" Environment`,
       values: { name, type: 'Environment' },
       requireConfirm: true,
+      important: true,
       onProceed: ({ force }) => hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: model, onSuccess, params: { force } }),
     });
   }

@@ -10,7 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import Alert from 'components/Alert';
 
 const DialogContentScroller = styled(DialogContent)`
@@ -31,6 +31,7 @@ class ConfirmModal extends PureComponent {
     cancelLabel: PropTypes.string,
     onClose: PropTypes.func,
     forceOption: PropTypes.bool,
+    important: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -43,6 +44,7 @@ class ConfirmModal extends PureComponent {
     cancelLabel: 'Cancel',
     onClose: null,
     forceOption: true,
+    important: false,
   };
 
   state = { confirmName: '', disable: true, force: false, };
@@ -95,7 +97,7 @@ class ConfirmModal extends PureComponent {
 
   render() {
     const { force, disable, confirmName } = this.state;
-    const { modal, title, body, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel } = this.props;
+    const { modal, title, body, forceOption, requireConfirm, values, multipleItems, proceedLabel, cancelLabel, important } = this.props;
     const modalTitle = multipleItems.length > 1
       ? `${title} (${multipleItems.length})`
       : title;
@@ -154,8 +156,19 @@ class ConfirmModal extends PureComponent {
               checked={force}
               fullWidth
             />}
-          <Button raised primary onClick={this.doIt} disabled={isConfirmDisabled}>{proceedLabel}</Button>
-          <Button flat primary onClick={this.close}>{cancelLabel}</Button>
+          <FlatButton
+            label={proceedLabel}
+            variant="contained"
+            color="primary"
+            important={important}
+            disabled={isConfirmDisabled}
+            onClick={this.doIt}
+          />
+          <FlatButton
+            label={cancelLabel}
+            color="primary"
+            onClick={this.close}
+          />
         </DialogActions>
       </Dialog>
     );

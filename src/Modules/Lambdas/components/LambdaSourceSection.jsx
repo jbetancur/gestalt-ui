@@ -5,7 +5,10 @@ import styled, { css } from 'styled-components';
 import { Field, FormSpy } from 'react-final-form';
 import { AceEditor } from 'components/Form';
 import SelectField from 'components/Fields/SelectField';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import SaveIcon from '@material-ui/icons/Save';
+import CloseIcon from '@material-ui/icons/Close';
+import FullScreenIcon from '@material-ui/icons/Fullscreen';
 import FullScreen from 'components/FullScreen';
 import withLambdaState from '../hocs/withLambdaState';
 
@@ -122,26 +125,21 @@ class LambdaSourceSection extends PureComponent {
             {({ values }) => (
               <Buttons isFullScreen={this.state.fullscreen}>
                 {onSave && this.state.fullscreen &&
-                  <Button
-                    icon
-                    primary
+                  <IconButton
+                    icon={<SaveIcon fontSize="small" />}
+                    color="primary"
                     onClick={() => this.props.onSave(values)}
                     tooltipLabel="Save"
                     tooltipPosition="left"
-                  >
-                    save
-                  </Button>}
+                  />}
 
-                <Button
-                  icon
-                  primary
+                <IconButton
+                  icon={this.state.fullscreen ? <CloseIcon fontSize="small" /> : <FullScreenIcon fontSize="small" />}
+                  color="primary"
                   onClick={this.handleFullScreen}
                   tooltipLabel={this.state.fullscreen ? 'Exit Full Screen' : 'Full Screen'}
                   tooltipPosition="left"
-                  // iconChildren={this.state.fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-                >
-                  {this.state.fullscreen ? 'close' : 'fullscreen'}
-                </Button>
+                />
               </Buttons>
             )}
           </FormSpy>

@@ -48,6 +48,7 @@ class WorkspaceDetails extends PureComponent {
       title: `Are you sure you want to delete the "${name}" Workspace`,
       values: { name, type: 'Workspace' },
       requireConfirm: true,
+      important: true,
       onProceed: ({ force }) => hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: workspace, onSuccess, params: { force } }),
     });
   }

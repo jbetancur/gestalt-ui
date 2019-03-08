@@ -52,6 +52,7 @@ class OrganizationCard extends Component {
       title: `Are you sure you want to delete the "${name}" Organization`,
       values: { name, type: 'Environment' },
       requireConfirm: true,
+      important: true,
       onProceed: ({ force }) => hierarchyContextActions.deleteOrg({ fqon: model.properties.fqon, resource: model, params: { force } }),
     });
   }

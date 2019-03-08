@@ -8,7 +8,8 @@ import { PolicyRules } from 'Modules/PolicyRules';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
@@ -76,14 +77,12 @@ class PolicyEdit extends Component {
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
             actions={[
               <PolicyTypesMenu key="policy--types-menu" />,
-              <Button
+              <FlatButton
                 key="policy--entitlements"
-                flat
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>]}
+              />]}
           />
 
           {policyPending && <ActivityContainer id="policy-form" />}

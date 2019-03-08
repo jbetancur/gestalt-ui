@@ -10,7 +10,8 @@ import { withPickerData } from 'Modules/MetaResource';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
@@ -83,14 +84,12 @@ class SecretEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
             actions={[
-              <Button
+              <FlatButton
                 key="secret--entitlements"
-                flat
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>]
+              />]
             }
           />
 

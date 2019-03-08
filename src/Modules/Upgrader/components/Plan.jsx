@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Card, CardContent } from 'components/Cards';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { H1 } from 'components/Typography';
 import { FullPageFooter } from 'components/FullPage';
 import Label from 'components/Label';
@@ -75,22 +75,13 @@ class Plan extends Component {
 
         <FullPageFooter
           fullWidth
-          leftActions={
-            <Button primary flat onClick={this.props.deleteUpgrade}>
-              Remove Upgrader
-            </Button>
-          }
-          rightActions={
+          leftActions={<FlatButton label="Remove Upgrader" onClick={this.props.deleteUpgrade} />}
+          rightActions={(
             <React.Fragment>
-              <Button primary flat onClick={() => this.handleRecompute()} disabled={this.props.loading}>
-                Recompute Plan
-              </Button>
-
-              <Button raised primary onClick={this.handleStart} disabled={this.props.loading}>
-                Start Upgrade
-              </Button>
+              <FlatButton label="Recompute Plan" onClick={() => this.handleRecompute()} disabled={this.props.loading} />
+              <FlatButton label="Start Upgrade" variant="contained" color="primary" onClick={this.handleStart} disabled={this.props.loading} />
             </React.Fragment>
-          }
+          )}
         />
       </div>
     );

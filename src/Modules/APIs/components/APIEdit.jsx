@@ -10,7 +10,9 @@ import { withProviderKongsByGatewayPicker } from 'Modules/MetaResource';
 import { APIEndpoints } from 'Modules/APIEndpoints';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
+import AddIcon from '@material-ui/icons/Add';
 import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
@@ -77,24 +79,20 @@ class APIEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/apis`}
             actions={[
-              <Button
+              <FlatButton
                 key="add-endpoint"
-                flat
-                primary
+                color="primary"
                 component={Link}
                 to={`${match.url}/apiendpoints/create`}
-                iconChildren="add"
-              >
-                  Add Endpoint
-              </Button>,
-              <Button
+                icon={<AddIcon fontSize="small" />}
+                label="Add Endpoint"
+              />,
+              <FlatButton
                 key="api--entitlements"
-                flat
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                  Entitlements
-              </Button>]}
+              />]}
           />
 
           {apiPending && <ActivityContainer id="api-loading" />}

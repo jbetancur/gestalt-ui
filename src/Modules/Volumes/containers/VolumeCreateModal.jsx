@@ -6,7 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import VolumePanelAttach from '../components/VolumePanelAttach';
 import VolumePanelCreate from '../components/VolumePanelCreate';
 import actions from '../actions';
@@ -54,21 +54,16 @@ class VolumeCreateModal extends PureComponent {
           {this.renderForm()}
         </DialogContent>
         <DialogActions>
-          <Button
-            key="add-container-volume--cancel"
-            flat
+          <FlatButton
+            label="Cancel"
             onClick={modal.hideModal}
-          >
-            Cancel
-          </Button>,
-          <Button
-            key="add-container-volume--submit"
-            raised
-            primary
+          />
+          <FlatButton
+            label="Add Volume"
+            color="primary"
+            variant="contained"
             onClick={() => document.getElementById('add-container-volume').dispatchEvent(new Event('submit', { cancelable: true }))}
-          >
-            Add Volume
-          </Button>
+          />
         </DialogActions>
       </Dialog>
     );

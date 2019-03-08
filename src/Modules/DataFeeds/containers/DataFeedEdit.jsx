@@ -10,7 +10,8 @@ import Form from 'components/Form';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
@@ -84,14 +85,12 @@ class DataFeedEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/datafeeds`}
             actions={[
-              <Button
+              <FlatButton
                 key="datafeed--entitlements"
-                flat
-                iconChildren="security"
-                onClick={this.onShowEntitlements}
-              >
-                Entitlements
-              </Button>,
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
+                onClick={this.showEntitlements}
+              />,
             ]}
           />
 

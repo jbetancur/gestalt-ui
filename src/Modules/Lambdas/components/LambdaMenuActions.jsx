@@ -70,7 +70,7 @@ const LambdaMenuActions = ({ row, fqon, onDelete, onClone, editURL }) => {
         dense
         onClick={handleEntitlements}
       >
-        <EntitlementIcon size={22} />
+        <EntitlementIcon size={20} />
         <ListItemText primary="Entitlements" />
       </ListItem>
 

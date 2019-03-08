@@ -17,8 +17,9 @@ const menuItems = [{ name: 'JSON', value: 'json' }, { name: 'YAML', value: 'yaml
 
 const SelectMode = styled(SelectField)`
   height: 38px;
+  margin-right: 8px;
+  margin-left: 8px;
 `;
-
 
 const Controls = styled.div`
   display: flex;
@@ -143,9 +144,7 @@ class CodeBlock extends PureComponent {
               tooltipLabel={buttonTiltletoolTip}
               data={this.formatCode()}
               fileName={fileNameExt}
-            >
-              Export
-            </FileDownloadButton>
+            />
           </ControlItem>}
       </React.Fragment>
     );

@@ -11,7 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { SelectField, TextField } from 'components/Form';
 import { UnixVariablesForm } from 'Modules/Variables';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { Panel } from 'components/Panels';
 
 class HierarchyForm extends Component {
@@ -41,20 +41,20 @@ class HierarchyForm extends Component {
       .toLowerCase();
   }
 
-  handleName = (e) => {
+  handleName = ({ target }) => {
     const { form, editMode } = this.props;
 
-    form.change('description', e.target.value);
+    form.change('description', target.value);
 
     if (!editMode) {
-      form.change('name', this.transformName(e.target.value));
+      form.change('name', this.transformName(target.value));
     }
   }
 
-  handleShortName = (shortName) => {
+  handleShortName = ({ target }) => {
     const { form } = this.props;
 
-    form.change('name', shortName);
+    form.change('name', target.value);
   }
 
   render() {
@@ -124,23 +124,20 @@ class HierarchyForm extends Component {
         </form>
 
         <DialogActions>
-          <Button
+          <FlatButton
             key="hierarchy-context-form--cancel"
-            flat
+            label="Cancel"
             disabled={submitting}
             onClick={history.goBack}
-          >
-            Cancel
-          </Button>,
-          <Button
+          />,
+          <FlatButton
             key="hierarchy-context-form--create"
-            raised
+            label={editMode ? 'Update' : 'Create'}
+            variant="contained"
             disabled={submitDisabled}
             primary
             onClick={() => document.getElementById('hierarchy-context-form').dispatchEvent(new Event('submit', { cancelable: true }))}
-          >
-            {editMode ? 'Update' : 'Create'}
-          </Button>
+          />
         </DialogActions>
       </Dialog>
     );

@@ -4,42 +4,49 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 
+const ButtonStyled = styled(Button)`
+  &:not(:disabled) {
+    ${props => props.variant === 'contained' && 'color: white !important'};
+    ${props => props.important && `background-color: ${props.theme.colors.error} !important`};
+  }
+`;
+
 const IconSeperator = styled.span`
   padding-right: 8px;
 `;
 
-const ButtonStyled = ({ label, icon, tooltipLabel, tooltipPosition, ...rest }) => {
+const ButtonWrapper = ({ label, icon, tooltipLabel, tooltipPosition, ...rest }) => {
   if (tooltipLabel) {
     return (
       <Tooltip title={tooltipLabel} aria-label={tooltipLabel} placement={tooltipPosition}>
-        <Button {...rest}>
+        <ButtonStyled {...rest}>
           {icon && <IconSeperator>{icon}</IconSeperator>}
           {label}
-        </Button>
+        </ButtonStyled>
       </Tooltip>
     );
   }
 
   return (
-    <Button {...rest}>
+    <ButtonStyled {...rest}>
       {icon && <IconSeperator>{icon}</IconSeperator>}
       {label}
-    </Button>
+    </ButtonStyled>
   );
 };
 
-ButtonStyled.propTypes = {
+ButtonWrapper.propTypes = {
   label: PropTypes.string,
   icon: PropTypes.any,
   tooltipLabel: PropTypes.string,
   tooltipPosition: PropTypes.string,
 };
 
-ButtonStyled.defaultProps = {
+ButtonWrapper.defaultProps = {
   label: null,
   icon: null,
   tooltipLabel: null,
   tooltipPosition: 'bottom',
 };
 
-export default ButtonStyled;
+export default ButtonWrapper;

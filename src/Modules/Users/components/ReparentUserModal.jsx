@@ -13,7 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { Title } from 'components/Typography';
 import { Search } from 'Modules/Search';
 
@@ -174,8 +174,18 @@ class ReparentModal extends PureComponent {
               onChange={this.handleForceChecked}
               fullWidth
             />}
-          <Button raised important disabled={reparent && !reparentTargetValue} onClick={this.doIt}>{reparent ? 'Transfer & Delete' : 'Delete'}</Button>
-          <Button flat primary onClick={this.close}>Cancel</Button>
+
+          <FlatButton
+            label={reparent ? 'Transfer & Delete' : 'Delete'}
+            important
+            variant="contained"
+            onClick={this.doIt}
+            disabled={reparent && !reparentTargetValue}
+          />
+          <FlatButton
+            label="Close"
+            onClick={this.close}
+          />
         </DialogActions>
       </Dialog>
     );

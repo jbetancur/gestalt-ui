@@ -60,7 +60,7 @@ const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, onClone, editUR
           dense
           onClick={handleEntitlements}
         >
-          <EntitlementIcon size={22} />
+          <EntitlementIcon size={20} />
           <ListItemText primary="Entitlements" />
         </ListItem>
       )}

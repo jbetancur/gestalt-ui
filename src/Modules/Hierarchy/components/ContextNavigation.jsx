@@ -21,7 +21,7 @@ const NavHeader = styled.nav`
   background-color: white;
   border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
   min-height: 56px;
-  padding: 0 16px 0 6px;
+  padding: 0 16px 0 10px;
   flex: 0;
   z-index: 4;
   ${() => media.xs`

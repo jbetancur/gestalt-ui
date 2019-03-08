@@ -5,7 +5,8 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import { Card, CardContent } from 'components/Cards';
 import { Row, Col } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { FullPageFooter } from 'components/FullPage';
 import Form, { TextField, SelectField } from 'components/Form';
 import { H1 } from 'components/Typography';
@@ -131,14 +132,21 @@ class Launch extends Component {
                 <FullPageFooter
                   fullWidth
                   leftActions={
-                    <Button flat iconChildren="arrow_back" onClick={() => this.props.history.goBack()} disabled={this.props.loading}>
-                      Back to Gestalt
-                    </Button>
+                    <FlatButton
+                      label="Back to Gestalt"
+                      icon={<ArrowBackIcon fontSize="small" />}
+                      onClick={() => this.props.history.goBack()}
+                      disabled={this.props.loading}
+                    />
                   }
                   rightActions={
-                    <Button raised primary type="submit" disabled={pristine || this.props.loading}>
-                      Launch Upgrader
-                    </Button>
+                    <FlatButton
+                      label="Launch Upgrader"
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={pristine || this.props.loading}
+                    />
                   }
                 />
               </Form>

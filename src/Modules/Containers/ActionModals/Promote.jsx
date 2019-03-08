@@ -8,7 +8,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import withContext from '../../Hierarchy/hocs/withContext';
 
 class PromoteModal extends PureComponent {
@@ -74,8 +74,17 @@ class PromoteModal extends PureComponent {
             </Row> : <span>There are no available environments to promote to</span>}
         </DialogContent>
         <DialogActions>
-          <Button raised primary onClick={this.doIt} disabled={!selectedEnvironment}>Promote</Button>
-          <Button flat primary onClick={modal.hideModal}>Cancel</Button>
+          <FlatButton
+            label="Promote"
+            variant="contained"
+            color="primary"
+            onClick={this.doIt}
+            disabled={!selectedEnvironment}
+          />
+          <FlatButton
+            label="Cancel"
+            onClick={modal.hideModal}
+          />
         </DialogActions>
       </Dialog>
     );

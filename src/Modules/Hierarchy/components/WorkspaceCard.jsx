@@ -47,6 +47,7 @@ class WorkspaceCard extends Component {
       title: `Are you sure you want to delete the "${name}" Workspace`,
       values: { name, type: 'Environment' },
       requireConfirm: true,
+      important: true,
       onProceed: ({ force }) => hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: model, params: { force } }),
     });
   }

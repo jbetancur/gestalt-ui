@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form } from 'react-final-form';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import FormTag from '../Form';
 
 const StepperContainer = styled.div`
@@ -185,19 +185,33 @@ export default class Stepper extends Component {
               <FormTag onSubmit={handleSubmit} disabled={pending} disableFooter>
                 {activePage}
                 <StepActions>
-                  <Button flat onClick={onCancel}>Cancel</Button>
+                  <FlatButton
+                    label="Cancel"
+                    onClick={onCancel}
+                  />
                   {this.state.page > 0 && (
-                    <Button flat onClick={this.previous}>
-                      Previous
-                    </Button>
+                    <FlatButton
+                      label="Previous"
+                      onClick={this.previous}
+                    />
                   )}
                   {!isLastPage && (
-                    <Button raised primary type="submit" disabled={invalid}>Next</Button>
+                    <FlatButton
+                      label="Next"
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={invalid}
+                    />
                   )}
                   {isLastPage && (
-                    <Button raised primary type="submit" disabled={submitting || invalid}>
-                      Finish
-                    </Button>
+                    <FlatButton
+                      label="Finish"
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={submitting || invalid}
+                    />
                   )}
                 </StepActions>
 

@@ -18,7 +18,7 @@ import { Card } from 'components/Cards';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import { StatusBubble } from 'components/Status';
 import { ContainerIcon as CIcon } from 'components/Icons';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { getLastFromSplit, truncate } from 'util/helpers/strings';
 import ImportModal from '../ActionModals/Import';
 import actions from '../actions';
@@ -266,7 +266,11 @@ class ContainerListing extends PureComponent {
                       label="Show Jobs"
                     />
                   </ContainerOption>
-                  <Button flat primary onClick={this.showImportModal}>Import</Button>
+                  <FlatButton
+                    label="Import"
+                    color="primary"
+                    onClick={this.showImportModal}
+                  />
                 </React.Fragment>
               }
               pagination

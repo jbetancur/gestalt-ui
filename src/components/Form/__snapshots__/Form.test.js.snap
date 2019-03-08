@@ -1,26 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Components::Form::Form mounts with default props 1`] = `
-.c4 {
-  text-align: center;
-  box-shadow: rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.2) 0 0 1px -4px;
+.c4:not(:disabled) {
+  color: white !important;
 }
 
-.c4[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c4 .md-icon-text {
-  font-weight: normal;
-}
-
-.c4 .md-icon {
-  color: inherit;
-}
-
-.c4:disabled {
-  box-shadow: none;
+.c5 {
+  padding-right: 8px;
 }
 
 .c1 {
@@ -99,26 +85,38 @@ exports[`Components::Form::Form mounts with default props 1`] = `
       class="c3"
     >
       <button
-        class="md-btn md-btn--raised md-btn--text md-pointer--hover md-background--primary md-background--primary-hover md-inline-block c4"
+        class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-contained-12 MuiButton-containedPrimary-13 MuiButton-raised-15 MuiButton-raisedPrimary-16 c4"
+        tabindex="0"
         type="submit"
       >
-        <div
-          class="md-ink-container"
-        />
-        <div
-          class="md-icon-separator"
+        <span
+          class="MuiButton-label-2"
         >
-          <i
-            class="md-icon material-icons md-text--inherit"
-          >
-            save
-          </i>
           <span
-            class="md-icon-text"
+            class="c5"
           >
-            Submit
+            <svg
+              action="inherit"
+              aria-hidden="true"
+              class="MuiSvgIcon-root-30 MuiSvgIcon-fontSizeSmall-37"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+              <path
+                d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"
+              />
+            </svg>
           </span>
-        </div>
+          Submit
+        </span>
+        <span
+          class="MuiTouchRipple-root-39"
+        />
       </button>
     </div>
   </footer>
@@ -126,26 +124,12 @@ exports[`Components::Form::Form mounts with default props 1`] = `
 `;
 
 exports[`Components::Form::Form renders correctly when disabled 1`] = `
-.c4 {
-  text-align: center;
-  box-shadow: rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.1) 0 1px 1px 0,rgba(0,0,0,0.2) 0 0 1px -4px;
+.c4:not(:disabled) {
+  color: white !important;
 }
 
-.c4[type=button] {
-  line-height: normal;
-  font-weight: normal;
-}
-
-.c4 .md-icon-text {
-  font-weight: normal;
-}
-
-.c4 .md-icon {
-  color: inherit;
-}
-
-.c4:disabled {
-  box-shadow: none;
+.c5 {
+  padding-right: 8px;
 }
 
 .c1 {
@@ -227,26 +211,38 @@ exports[`Components::Form::Form renders correctly when disabled 1`] = `
       class="c3"
     >
       <button
-        class="md-btn md-btn--raised md-btn--text md-pointer--hover md-background--primary md-background--primary-hover md-inline-block c4"
+        class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-contained-12 MuiButton-containedPrimary-13 MuiButton-raised-15 MuiButton-raisedPrimary-16 c4"
+        tabindex="0"
         type="submit"
       >
-        <div
-          class="md-ink-container"
-        />
-        <div
-          class="md-icon-separator"
+        <span
+          class="MuiButton-label-2"
         >
-          <i
-            class="md-icon material-icons md-text--inherit"
-          >
-            save
-          </i>
           <span
-            class="md-icon-text"
+            class="c5"
           >
-            Submit
+            <svg
+              action="inherit"
+              aria-hidden="true"
+              class="MuiSvgIcon-root-30 MuiSvgIcon-fontSizeSmall-37"
+              focusable="false"
+              role="presentation"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+              <path
+                d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"
+              />
+            </svg>
           </span>
-        </div>
+          Submit
+        </span>
+        <span
+          class="MuiTouchRipple-root-39"
+        />
       </button>
     </div>
   </footer>

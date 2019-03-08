@@ -6,7 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 
 class NameModal extends PureComponent {
   static propTypes = {
@@ -116,8 +116,18 @@ class NameModal extends PureComponent {
           )}
         </DialogContent>
         <DialogActions>
-          <Button raised primary disabled={disableSubmit} onClick={this.doIt}>{proceedLabel}</Button>
-          <Button flat primary onClick={this.close}>Cancel</Button>
+          <FlatButton
+            label={proceedLabel}
+            variant="contained"
+            color="primary"
+            disabled={disableSubmit}
+            onClick={this.doIt}
+          />
+          <FlatButton
+            label="Cancel"
+            color="primary"
+            onClick={this.close}
+          />
         </DialogActions>
       </Dialog>
     );
