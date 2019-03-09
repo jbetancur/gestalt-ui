@@ -16,7 +16,7 @@ import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
-import PayloadViewer from '../components/PayloadViewer';
+import PayloadViewer from './PayloadViewer';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './validations';
 import { generatePatches } from '../payloadTransformer';

@@ -1,6 +1,5 @@
 import shortid from 'shortid';
 import jsonPatch from 'fast-json-patch';
-import { stringDemiltedToArray } from 'util/helpers/transformations';
 import apiEndpointModel from './models/apiEndpoint';
 
 /**
@@ -17,14 +16,6 @@ export function generatePayload(sourcePayload, updateMode = false) {
     }
   } else {
     payload.name = shortid.generate();
-  }
-
-  if (sourcePayload.properties.methods && typeof sourcePayload.properties.methods === 'string') {
-    payload.properties.methods = stringDemiltedToArray(sourcePayload.properties.methods);
-  }
-
-  if (!sourcePayload.properties.methods) {
-    payload.properties.methods = [];
   }
 
   return payload;

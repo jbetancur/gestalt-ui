@@ -1,10 +1,10 @@
-export { default as APIEndpoints } from './containers/APIEndpointListing';
-export { default as APIEndpointCreate } from './containers/APIEndpointCreate';
-export { default as APIEndpointEdit } from './containers/APIEndpointEdit';
+export { default as APIEndpoints } from './components/APIEndpointListing';
+export { default as APIEndpointCreate } from './components/APIEndpointCreate';
+export { default as APIEndpointEdit } from './components/APIEndpointEdit';
 export { default as HTTPMethods } from './components/HTTPMethods';
 export { default as RateLimit } from './components/RateLimit';
 export { default as payloadTransformer } from './payloadTransformer';
-export { default as validations } from './containers/validations';
+export { default as validations } from './components/validations';
 export { default as APIEndpointWizardModal } from './APIEndpointWizard/APIEndpointWizardModal';
 export { default as APIEndpointInlineList } from './components/APIEndpointInlineList';
 export { default as apiEndpointSagas } from './sagas';

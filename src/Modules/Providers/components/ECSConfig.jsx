@@ -61,7 +61,6 @@ const ECSConfig = ({ editMode, subTypes }) => (
               label="Secret Key"
               type="password"
               autoComplete="new-password"
-              passwordIcon={null}
               helpText={editMode ? 'Enter a new value to update the secret key' : 'The secret key will not be displayed after creation'}
             />
           </Col>
@@ -72,7 +71,6 @@ const ECSConfig = ({ editMode, subTypes }) => (
               label="Access Key"
               type="password"
               autoComplete="new-password"
-              passwordIcon={null}
               helpText={editMode ? 'Enter a new value to update the access key' : 'The access key will not be displayed after creation'}
             />
           </Col>

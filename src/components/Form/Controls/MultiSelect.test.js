@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from 'react-testing-library';
-import ChipsAuto from './ChipsAuto';
+import MultiSelect from './MultiSelect';
 
-describe('ChipsAuto', () => {
+describe('MultiSelect', () => {
   it('mounts with basic props', () => {
-    const { container } = render(<ChipsAuto meta={{ error: null, touched: false }} />);
+    const { container } = render(<MultiSelect meta={{ error: null, touched: false }} />);
 
     expect(container.firstChild).toMatchSnapshot();
   });

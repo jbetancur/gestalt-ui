@@ -17,29 +17,32 @@ const APIEndpointForm = ({ implementationType, portMappings, pending }) => (
         {pending && <ActivityContainer primary centered id="apiendpoint-wizard--loading" />}
 
         <Row>
-          {implementationType === 'container' &&
-            <Panel title="Mapping" noShadow noPadding expandable={false}>
-              <Row gutter={5}>
-                <Col flex={6}>
-                  <Field
-                    id="container--properties.container_port_name"
-                    component={SelectField}
-                    name="properties.container_port_name"
-                    menuItems={portMappings}
-                    itemLabel="name"
-                    itemValue="name"
-                    label="Service Label"
-                    required
-                    helpText="the service mapping name"
-                  />
-                </Col>
-              </Row>
-            </Panel>}
-        </Row>
-
-        <Row>
           {/* Left Column */}
           <Col flex={6} xs={12}>
+            {implementationType === 'container' && (
+              <Row gutter={5}>
+                <Col flex={12}>
+                  <Panel title="Service Port Mapping" noShadow noPadding expandable={false}>
+                    <Row gutter={5}>
+                      <Col flex={12}>
+                        <Field
+                          id="container--properties.container_port_name"
+                          component={SelectField}
+                          name="properties.container_port_name"
+                          menuItems={portMappings}
+                          itemLabel="name"
+                          itemValue="name"
+                          label="Service Label"
+                          required
+                          helpText="the service mapping name"
+                        />
+                      </Col>
+                    </Row>
+                  </Panel>
+                </Col>
+              </Row>
+            )}
+
             <Row gutter={5}>
               <Col flex={12}>
                 <Panel title="Route Filtering" noShadow noPadding expandable={false}>
@@ -52,6 +55,11 @@ const APIEndpointForm = ({ implementationType, portMappings, pending }) => (
                         type="text"
                         helpText="a relative path is only required if there are no hosts: e.g. /path or /path1/path2"
                       />
+                    </Col>
+
+                    <Col flex={12}>
+                      <Caption light>* at least one http method is required</Caption>
+                      <HTTPMethods />
                     </Col>
 
                     <Col flex={12}>
@@ -114,13 +122,6 @@ const APIEndpointForm = ({ implementationType, portMappings, pending }) => (
                     <Col flex={12}>
                       <RateLimit isToggled={values.properties.plugins.rateLimit && values.properties.plugins.rateLimit.enabled} />
                     </Col>
-
-                    <Col flex={12}>
-                      {/* <Subtitle>Allowed Methods</Subtitle> */}
-                      <Caption light>* at least one http method is required</Caption>
-                      <HTTPMethods />
-                    </Col>
-
                   </Row>
                 </Panel>
               </Col>

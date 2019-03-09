@@ -69,16 +69,16 @@ class EntitlementListing extends PureComponent {
     entitlementActions.updateEntitlement({ fqon, identityId, actions: compiledActions, entitlementActions, onSuccess });
   }
 
-  handleSelectedIdentity = (selectedIdentityId, selectedIdentity) => {
+  handleSelectedIdentity = (result) => {
     const { fqon, entitlementActions, entityId, entityKey } = this.props;
 
     this.setState({
-      selectedIdentityId,
-      selectedIdentityName: selectedIdentity.name,
-      selectedIdentityType: selectedIdentity.typeId,
+      selectedIdentityId: result.id,
+      selectedIdentityName: result.name,
+      selectedIdentityType: result.typeId,
     });
 
-    entitlementActions.fetchEntitlements({ fqon, entityId, entityKey, identityId: selectedIdentityId });
+    entitlementActions.fetchEntitlements({ fqon, entityId, entityKey, identityId: result.id });
   }
 
   handleFieldNameChange = (selectedSearchFieldValue) => {

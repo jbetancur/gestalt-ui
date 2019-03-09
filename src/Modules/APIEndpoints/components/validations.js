@@ -33,8 +33,8 @@ export default (values) => {
       merge(errors, nestedObjectFromString('properties.container_port_name', 'select a service label, otherwise, ensure that you created an exposed service port mapping'));
     }
 
-    if (!values.properties.methods) {
-      merge(errors, nestedObjectFromString('properties.methods', ' '));
+    if (values.properties.methods && !values.properties.methods.length) {
+      merge(errors, nestedObjectFromString('properties.methods', 'at least one method is required'));
     }
 
     if (values.properties.plugins.rateLimit && !values.properties.plugins.rateLimit.perMinute) {

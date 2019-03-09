@@ -8,12 +8,12 @@ import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
 import { Col, Row } from 'react-flexybox';
-import SelectField from 'components/Fields/SelectField';
 import Checkbox from 'components/Fields/Checkbox';
 import { Panel } from 'components/Panels';
 import { FlatButton } from 'components/Buttons';
 import { Caption } from 'components/Typography';
 import { ActivityContainer } from 'components/ProgressIndicators';
+import AutoComplete from 'components/Fields/AutoComplete';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ProviderForm from './ProviderForm';
 import validate from '../validations';
@@ -131,15 +131,15 @@ class ProviderCreate extends PureComponent {
     }
   };
 
-  handleProviderChange = ({ target }) => {
+  handleProviderChange = (value) => {
     const { resourceTypes, setSelectedProviderType } = this.props;
-    const providerType = resourceTypes.find(type => type.name === target.value);
+    const providerType = resourceTypes.find(type => type.name === value.value);
 
     if (providerType.id) {
       setSelectedProviderType({ fqon: 'root', providerType });
       this.setState({
         providerSelected: true,
-        providerResourceTypeValue: target.value,
+        providerResourceTypeValue: value.value,
         showContainerOption: providerType.showContainerOption,
         containerOptionSelected: !providerType.showContainerOption,
         containerChecked: providerType.showContainerOption,
@@ -169,7 +169,6 @@ class ProviderCreate extends PureComponent {
     const {
       pageOneDone,
       providerSelected,
-      providerResourceTypeValue,
       showContainerOption,
       containerChecked,
     } = this.state;
@@ -202,17 +201,14 @@ class ProviderCreate extends PureComponent {
                       <Panel title="Select a Provider Type" expandable={false}>
                         <Row>
                           <Col flex={12}>
-                            <SelectField
+                            <AutoComplete
                               id="select-provider-type"
-                              component={SelectField}
-                              menuItems={resourceTypes}
-                              itemLabel="displayName"
-                              itemValue="name"
-                              label="Provider Type"
-                              onChange={this.handleProviderChange}
-                              value={providerResourceTypeValue}
-                              required
-                              fullWidth
+                              data={resourceTypes}
+                              label="Search for a Resource Type"
+                              dataLabel="displayName"
+                              dataValue="name"
+                              onSelected={this.handleProviderChange}
+                              noOptionsMessage={() => 'no resource types were found'}
                             />
                           </Col>
 

@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Row, Col } from 'react-flexybox';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
-import { Row, Col } from 'react-flexybox';
-import { Autocomplete, List, ListItem } from 'react-md';
+import AutoComplete from 'components/Fields/AutoComplete';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+// import IconButton from 'components/Buttons';
 import RemoveIcon from '@material-ui/icons/RemoveCircle';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
@@ -22,6 +27,7 @@ class GroupEdit extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     users: PropTypes.array.isRequired,
+    usersPending: PropTypes.bool.isRequired,
     usersActions: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
     groupPending: PropTypes.bool.isRequired,
@@ -47,15 +53,15 @@ class GroupEdit extends Component {
     usersActions.fetchUsers({ fqon: match.params.fqon });
   }
 
-  addUser = (id) => {
+  addUser = (value) => {
     const { match, group, groupActions } = this.props;
-    const isDupe = id && this.props.group.properties.users.find(item => item.id === id);
+    const isDupe = value.value && this.props.group.properties.users.find(item => item.id === value.value);
 
     if (!isDupe) {
       groupActions.addGroupMember({
         fqon: match.params.fqon,
         groupId: group.id,
-        userId: id,
+        userId: value.value,
         onSuccess: () => this.populateGroup(true),
       });
     }
@@ -63,7 +69,6 @@ class GroupEdit extends Component {
 
   removeUser = (id) => {
     const { match, group, groupActions } = this.props;
-
     groupActions.removeGroupMember({
       fqon: match.params.fqon,
       groupId: group.id,
@@ -97,18 +102,24 @@ class GroupEdit extends Component {
       group.properties.users && group.properties.users.map(user => (
         <ListItem
           key={user.id}
-          primaryText={user.name}
-          rightIcon={<RemoveIcon fontSize="small" color="action" />}
-          inkDisabled
           disabled={groupPending || groupMembersPending}
-          onClick={() => this.removeUser(user.id)}
-        />)
+        >
+          <ListItemText primary={user.name} />
+          <ListItemSecondaryAction>
+            <RemoveIcon
+              fontSize="small"
+              color="ACTION"
+              onClick={() => this.removeUser(user.id)}
+              style={{ marginRight: '8px', cursor: 'pointer' }}
+            />
+          </ListItemSecondaryAction>
+        </ListItem>)
       )
     );
   }
 
   render() {
-    const { match, initialFormValues, group, groupPending, groupMembersPending, users } = this.props;
+    const { match, initialFormValues, group, groupPending, groupMembersPending, users, usersPending } = this.props;
 
     return (
       groupPending && !group.id ?
@@ -157,16 +168,16 @@ class GroupEdit extends Component {
                 <Panel title="Group Members" expandable={false} noPadding>
                   <Row paddingLeft="16px" paddingRight="16px">
                     <Col flex={12}>
-                      <Autocomplete
+                      <AutoComplete
                         id="group-members-dropdown"
                         data={users}
+                        label="Add Member"
                         dataLabel="name"
                         dataValue="id"
-                        label="Add Member"
-                        clearOnAutocomplete
-                        // focusInputOnAutocomplete
-                        onClick={() => this.populateUsers()}
-                        onAutocomplete={this.addUser}
+                        onMenuOpen={() => this.populateUsers()}
+                        onSelected={this.addUser}
+                        isLoading={usersPending}
+                        noOptionsMessage={() => 'no users found'}
                         helpText="search for a user"
                       />
                     </Col>

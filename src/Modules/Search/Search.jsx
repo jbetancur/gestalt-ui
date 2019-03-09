@@ -1,17 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
-import { Autocomplete } from 'react-md';
+import AutoComplete from 'components/Fields/AutoComplete';
 import withSearch from './hocs/withSearch';
 
 class Search extends PureComponent {
   static propTypes = {
     userSearchResults: PropTypes.array.isRequired,
     assetSearchResults: PropTypes.array.isRequired,
+    userSearchPending: PropTypes.bool.isRequired,
+    assetSearchPending: PropTypes.bool.isRequired,
     searchActions: PropTypes.object.isRequired,
     onResult: PropTypes.func.isRequired,
     searchLabel: PropTypes.string,
-    clearOnAutocomplete: PropTypes.bool,
     helpText: PropTypes.string,
     /**
      * entity
@@ -31,7 +32,6 @@ class Search extends PureComponent {
   };
 
   static defaultProps = {
-    clearOnAutocomplete: true,
     searchLabel: 'Search',
     helpText: '',
     searchField: 'username',
@@ -55,32 +55,33 @@ class Search extends PureComponent {
     }
   }
 
-  handleOnResult = (value, index, matches) => {
-    const item = matches[index];
+  handleOnResult = (value) => {
+    const { userSearch, userSearchResults, assetSearchResults } = this.props;
+    const results = userSearch ? userSearchResults : assetSearchResults;
 
-    this.props.onResult(value, item);
+    this.props.onResult(results.find(r => r.id === value.value));
   }
 
   render() {
-    const { userSearch, userSearchResults, assetSearchResults, clearOnAutocomplete, searchLabel, helpText } = this.props;
+    const { userSearch, userSearchResults, assetSearchResults, userSearchPending, assetSearchPending, searchLabel, helpText } = this.props;
 
     return (
-      <Autocomplete
+      <AutoComplete
         id="search-dropdown"
+        label={searchLabel}
         data={userSearch ? userSearchResults : assetSearchResults}
         dataLabel="name"
         dataValue="id"
         placeholder={searchLabel}
-        clearOnAutocomplete={clearOnAutocomplete}
-        onChange={this.handleSearch}
-        onAutocomplete={this.handleOnResult}
-        filter={null}
+        onSelected={this.handleOnResult}
+        onInputChange={this.handleSearch}
         helpText={helpText}
-        simplifiedMenu={false}
+        openMenuOnClick={false}
+        noOptionsMessage={() => 'no results found'}
+        isLoading={userSearch ? userSearchPending : assetSearchPending}
       />
     );
   }
 }
-
 
 export default withSearch()(Search);

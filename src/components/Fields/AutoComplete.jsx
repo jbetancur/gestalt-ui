@@ -1,65 +1,30 @@
-/* eslint-disable react/prop-types, react/jsx-handler-names */
-
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Select from 'react-select';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
-import CancelIcon from '@material-ui/icons/Cancel';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: 250,
-  },
   input: {
     display: 'flex',
-    padding: 0,
-  },
-  valueContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flex: 1,
-    alignItems: 'center',
-    overflow: 'hidden',
+    padding: '5px',
   },
   noOptionsMessage: {
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   },
-  singleValue: {
-    fontSize: 16,
-  },
-  placeholder: {
-    position: 'absolute',
-    left: 2,
-    fontSize: 16,
-  },
   paper: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 2,
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
   },
 });
 
-function NoOptionsMessage(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.noOptionsMessage}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
+/* eslint-disable react/prop-types */
 function inputComponent({ inputRef, ...props }) {
   return <div ref={inputRef} {...props} />;
 }
@@ -68,6 +33,7 @@ function Control(props) {
   return (
     <TextField
       fullWidth
+      variant="outlined"
       InputProps={{
         inputComponent,
         inputProps: {
@@ -98,44 +64,6 @@ function Option(props) {
   );
 }
 
-function Placeholder(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.placeholder}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  );
-}
-
-function SingleValue(props) {
-  return (
-    <Typography className={props.selectProps.classes.singleValue} {...props.innerProps}>
-      {props.children}
-    </Typography>
-  );
-}
-
-function ValueContainer(props) {
-  return <div className={props.selectProps.classes.valueContainer}>{props.children}</div>;
-}
-
-function MultiValue(props) {
-  return (
-    <Chip
-      tabIndex={-1}
-      label={props.children}
-      className={classNames(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused,
-      })}
-      onDelete={props.removeProps.onClick}
-      deleteIcon={<CancelIcon {...props.removeProps} />}
-    />
-  );
-}
-
 function Menu(props) {
   return (
     <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
@@ -143,40 +71,43 @@ function Menu(props) {
     </Paper>
   );
 }
+/* eslint-enable react/prop-types */
 
 const components = {
   Control,
   Menu,
-  MultiValue,
-  NoOptionsMessage,
   Option,
-  Placeholder,
-  SingleValue,
-  ValueContainer,
 };
 
-class IntegrationReactSelect extends React.Component {
+class IntegrationReactSelect extends Component {
   state = {
-    single: null,
-    multi: null,
+    value: this.props.defaultValue,
   };
 
-  handleChange = name => (value) => {
+  handleChange = (value, action) => {
     const { onSelected } = this.props;
 
     if (value) {
-      onSelected(value.value);
+      onSelected(value, action);
     }
 
     this.setState({
-      [name]: value,
+      value,
     });
   };
 
-  render() {
-    const { classes, theme, suggestions, dataLabel, dataValue, onClick } = this.props;
+  handleInputChange = (value, action) => {
+    const { onInputChange } = this.props;
 
-    const selectStyles = {
+    onInputChange(value, action);
+  }
+
+  render() {
+    const { theme, classes, label, data, dataLabel, dataValue, onMenuOpen, isLoading, helpText, ...rest } = this.props;
+
+    const customStyles = {
+      container: base => ({ ...base, marginTop: '9px' }),
+      menuPortal: base => ({ ...base, zIndex: 9999 }),
       input: base => ({
         ...base,
         color: theme.palette.text.primary,
@@ -186,33 +117,61 @@ class IntegrationReactSelect extends React.Component {
       }),
     };
 
-    const mappedSuggestions = suggestions.map(suggestion => ({
-      value: suggestion[dataValue],
-      label: suggestion[dataLabel],
+    const mappedData = data.map(datum => ({
+      value: datum[dataValue] || datum,
+      label: datum[dataLabel] || datum,
     }));
 
     return (
-      <div className={classes.root}>
+      <React.Fragment>
         <Select
+          {...rest}
+          styles={customStyles}
           classes={classes}
-          styles={selectStyles}
-          options={mappedSuggestions}
+          options={mappedData}
           components={components}
-          value={this.state.single}
-          onChange={this.handleChange('single')}
-          onMenuOpen={onClick}
-          placeholder="Search a Lambda"
+          value={this.state.value}
+          onChange={this.handleChange}
+          onMenuOpen={onMenuOpen}
+          onInputChange={this.handleInputChange}
+          placeholder={label}
+          isLoading={isLoading}
+          // noOptionsMessage="No Results found"
           isClearable
         />
-      </div>
+        {helpText && (
+          <FormHelperText style={{ marginLeft: '8px' }}>{helpText}</FormHelperText>
+        )}
+      </React.Fragment>
     );
   }
 }
 
 IntegrationReactSelect.propTypes = {
-  classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  suggestions: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired,
+  label: PropTypes.string,
+  data: PropTypes.array.isRequired,
+  dataLabel: PropTypes.string,
+  dataValue: PropTypes.string,
+  defaultValue: PropTypes.array,
+  onMenuOpen: PropTypes.func,
+  onSelected: PropTypes.func,
+  onInputChange: PropTypes.func,
+  isLoading: PropTypes.bool,
+  helpText: PropTypes.string,
+};
+
+IntegrationReactSelect.defaultProps = {
+  label: 'Select...',
+  dataLabel: null,
+  dataValue: null,
+  defaultValue: [],
+  onMenuOpen: () => {},
+  onSelected: () => { },
+  onInputChange: () => {},
+  isLoading: false,
+  helpText: null,
 };
 
 export default withStyles(styles, { withTheme: true })(IntegrationReactSelect);
