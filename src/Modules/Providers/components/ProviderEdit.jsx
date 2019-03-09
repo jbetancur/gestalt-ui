@@ -153,7 +153,7 @@ class ProviderEdit extends PureComponent {
               <FlatButton
                 key="provider-container-redeploy"
                 icon={<LaunchIcon fontIcon="small" />}
-                label="edeploy Container"
+                label="Redeploy Container"
                 type="submit"
                 onClick={this.handleRedeploy}
                 disabled={providerPending}
