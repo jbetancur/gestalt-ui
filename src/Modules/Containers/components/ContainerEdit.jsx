@@ -53,7 +53,7 @@ const StatusDetails = styled.div`
   i,
   svg {
     padding: 3px;
-    color: ${props => props.theme.colors['$md-blue-500']};
+    color: ${props => props.theme.colors.secondary[500]};
   }
 `;
 

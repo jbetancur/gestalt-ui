@@ -6,7 +6,7 @@ import Close from '@material-ui/icons/AddCircle';
 const ItemStyled = styled.div`
   position: relative;
   height: 32px;
-  background-color: ${props => props.theme.colors['$md-grey-300']};
+  background-color: ${props => props.theme.colors.grey[300]};
   border-radius: 25px;
   margin: 5px;
   display: flex;

@@ -9,8 +9,8 @@ const Footer = styled.footer`
   min-height: 53px;
   width: 100%;
   width: ${props => (props.fullWidth ? '100%' : 'calc(100% - 56px)')};
-  background-color: ${props => props.theme.colors['$md-grey-50']};
-  border-top: 1px solid ${props => props.theme.colors['$md-grey-200']};
+  background-color: ${props => props.theme.colors.background.default};
+  border-top: 1px solid ${props => props.theme.colors.background.defaultBorder};
   padding: 8px 24px 8px 24px;
   display: flex;
   flex-wrap: wrap;

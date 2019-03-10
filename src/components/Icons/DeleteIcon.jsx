@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Icon from '@material-ui/icons/DeleteOutline';
 
 const DeleteOutlineIconStyle = styled(Icon)`
-  font-size: ${props => `${props.size}px !important`};
+  font-size: ${props => `${props.size}px`};
   color: ${props => `${props.color}`};
 `;
 
@@ -16,7 +16,7 @@ DeleteOutlineIcon.propTypes = {
 };
 
 DeleteOutlineIcon.defaultProps = {
-  size: 24,
+  size: 22,
   color: 'action',
 };
 

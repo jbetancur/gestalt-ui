@@ -30,7 +30,7 @@ DockerIcon.propTypes = {
 };
 
 DockerIcon.defaultProps = {
-  size: 24,
+  size: 22,
 };
 
 export default DockerIcon;

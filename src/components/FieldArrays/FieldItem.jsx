@@ -21,11 +21,11 @@ const FieldItem = styled.div`
   } */
 
   /* &:nth-child(even) {
-    background-color: ${props => props.theme.colors['$md-grey-100']};
+    background-color: ${props => props.theme.colors.grey[100]};
   }
 
   &:nth-child(odd) {
-    background-color: ${props => props.theme.colors['$md-white']};
+    background-color: ${props => props.theme.colors.common.white};
   } */
 `;
 

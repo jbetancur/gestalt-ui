@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   padding-top: 8px;
-  padding-left: 24px;
+  padding-left: 27px;
   padding-right: 8px;
   word-break: break-word;
   font-size: 15px;
@@ -17,7 +17,7 @@ const Title = styled.div`
 `;
 
 const Subtitle = styled.div`
-  padding-left: 24px;
+  padding-left: 27px;
   padding-right: 8px;
   font-size: 11px;
   overflow: hidden;

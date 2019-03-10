@@ -6,7 +6,7 @@ import { media } from 'util/helpers/media';
 const Name = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   display: block;
   max-width: ${props => props.maxWidth};
-  color: ${props => props.theme.colors['$md-grey-800']};
+  color: ${props => props.theme.colors.fontTitle};
   font-weight: bold;
   font-size: 13px;
   margin-bottom: 4px;
@@ -23,7 +23,7 @@ const Description = styled(({ maxWidth, ...rest }) => <div {...rest} />)`
   overflow: hidden;
   display: block;
   font-size: 12px;
-  color: ${props => props.theme.colors['$md-grey-800']};
+  color: ${props => props.theme.colors.fontTitle};
   ${() => media.xs`
     display: none;
   `};

@@ -14,7 +14,7 @@ GoLangIcon.propTypes = {
 };
 
 GoLangIcon.defaultProps = {
-  size: 24,
+  size: 22,
 };
 
 export default GoLangIcon;

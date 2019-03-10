@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Field, FormSpy } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField } from 'components/Form';
@@ -8,18 +7,6 @@ import { Slider } from 'react-md';
 import MemoryIcon from '@material-ui/icons/SdCard';
 import CPUIcon from '@material-ui/icons/Memory';
 import { composeValidators, fixInputNumber, fixInputDecimal, min, max, mod, required } from 'util/forms';
-
-const SliderStyled = styled(Slider)`
-  align-items: center;
-
-  .md-slider-thumb {
-    z-index: 2;
-  }
-
-  .md-slider-discrete-tick {
-    z-index: 1;
-  }
-`;
 
 class ComputeForm extends Component {
   static propTypes = {
@@ -101,7 +88,7 @@ class ComputeForm extends Component {
         {({ form, values }) => (
           <Row gutter={5} center>
             <Col flex={10} xs={8}>
-              <SliderStyled
+              <Slider
                 id={`${cpuName}--cpu`}
                 label="CPU"
                 min={cpuMin}
@@ -134,7 +121,7 @@ class ComputeForm extends Component {
               />
             </Col>
             <Col flex={10} xs={8}>
-              <SliderStyled
+              <Slider
                 id={`${memName}--memory`}
                 label="Memory (MB)"
                 min={memMin}

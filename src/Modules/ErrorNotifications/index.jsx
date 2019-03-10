@@ -12,7 +12,7 @@ const EnhancedSnackBar = styled(Snackbar)`
   width: 100%;
   overflow: auto;
   padding: 6px;
-  background-color: ${props => props.theme.colors['$md-red-700']};
+  background-color: ${props => props.theme.colors.error};
   border-radius: 0;
 
   button {

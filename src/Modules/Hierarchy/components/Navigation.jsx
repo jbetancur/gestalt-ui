@@ -15,8 +15,8 @@ import iconMap from '../config/iconMap';
 import generateSVG from '../util/generateSVG';
 
 const Logo = styled.div`
-  background-color: ${props => props.theme.colors.primary};
-  border-bottom: 1px solid ${props => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.leftNavBackground};
+  border-bottom: 1px solid ${props => props.theme.colors.background.default};
   display: flex;
   flex: 0 0 56px;
   align-items: center;
@@ -25,6 +25,7 @@ const Logo = styled.div`
 
 const NavItems = styled.ul`
   position: relative;
+  background-color: ${({ theme }) => theme.colors.leftNavBackground};
   margin: 0;
   padding: 3px 0 0 0;
   width: 100%;
@@ -37,7 +38,7 @@ const NavFooter = styled.footer`
   bottom: 0;
   left: 0;
   width: 100%;
-  border-top: 1px solid ${props => props.theme.colors.background};
+  border-top: 1px solid ${props => props.theme.colors.background.default};
 `;
 
 const ExpanderButton = styled.button`
@@ -50,11 +51,11 @@ const ExpanderButton = styled.button`
   text-align: right;
   padding-right: 22px;
   transition: background-color 195ms ease-in-out;
-  background-color: ${props => props.theme.colors.primary};
+  background-color: ${props => props.theme.colors.leftNavBackground};
   color: white;
 
   &:hover {
-    background-color: ${props => props.theme.colors.primaryVariant};
+    background-color: ${props => props.theme.colors.leftNavBackgroundVariant};
   }
 
   svg {
@@ -66,7 +67,7 @@ const ExpanderButton = styled.button`
 `;
 
 const ActionDivider = styled(Divider)`
-  background: ${props => props.theme.colors.primaryVariant};
+  background: ${props => props.theme.colors.leftNavBackgroundVariant};
 `;
 
 class Navigation extends PureComponent {

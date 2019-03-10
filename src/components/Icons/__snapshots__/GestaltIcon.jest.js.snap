@@ -130,7 +130,7 @@ exports[`(Component) GestaltIcon renders component without exploding 1`] = `
   class="MuiSvgIcon-root-1 c0"
   focusable="false"
   role="presentation"
-  style="font-size: 24px;"
+  style="font-size: 22px;"
   viewBox="0 0 100.39 115.92"
 >
   <g

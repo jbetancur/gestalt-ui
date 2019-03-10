@@ -29,7 +29,7 @@ DigitalOceanLogo.propTypes = {
 };
 
 DigitalOceanLogo.defaultProps = {
-  size: 24,
+  size: 22,
 };
 
 export default DigitalOceanLogo;

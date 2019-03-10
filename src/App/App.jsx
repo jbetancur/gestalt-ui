@@ -26,7 +26,7 @@ const AppWrapper = styled.div`
   display: flex;
   flex: 1;
   overflow: hidden;
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.background.default};
 `;
 
 const Main = styled.main`
@@ -34,7 +34,7 @@ const Main = styled.main`
   height: 100%;
   width: 100%;
   overflow-y: auto;
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.background.default};
 `;
 
 class App extends Component {

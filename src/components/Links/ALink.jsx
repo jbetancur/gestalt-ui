@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const StyledNavLink = styled(({ staticContext, primary, block, ...rest }) => <Link {...rest} />)`
   font-size: 13px;
   ${props => props.block && 'display: block'};
-  ${props => props.primary && `color: ${props.theme.colors['$md-blue-600']}`};
+  ${props => props.primary && `color: ${props.theme.colors.primary.default}`};
 `;
 
 export default class ALink extends Component {

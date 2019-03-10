@@ -6,8 +6,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const ButtonStyled = styled(Button)`
   &:not(:disabled) {
-    ${props => props.variant === 'contained' && 'color: white !important'};
-    ${props => props.important && `background-color: ${props.theme.colors.error} !important`};
+    ${props => props.variant === 'contained' && 'color: white'};
+    ${props => props.important && `background-color: ${props.theme.colors.error}`};
   }
 `;
 

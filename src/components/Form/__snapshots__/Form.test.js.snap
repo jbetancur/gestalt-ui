@@ -2,7 +2,7 @@
 
 exports[`Components::Form::Form mounts with default props 1`] = `
 .c4:not(:disabled) {
-  color: white !important;
+  color: white;
 }
 
 .c5 {
@@ -17,7 +17,7 @@ exports[`Components::Form::Form mounts with default props 1`] = `
   width: 100%;
   width: calc(100% - 56px);
   background-color: #fafafa;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eeeeee;
   padding: 8px 24px 8px 24px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -125,7 +125,7 @@ exports[`Components::Form::Form mounts with default props 1`] = `
 
 exports[`Components::Form::Form renders correctly when disabled 1`] = `
 .c4:not(:disabled) {
-  color: white !important;
+  color: white;
 }
 
 .c5 {
@@ -140,7 +140,7 @@ exports[`Components::Form::Form renders correctly when disabled 1`] = `
   width: 100%;
   width: calc(100% - 56px);
   background-color: #fafafa;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eeeeee;
   padding: 8px 24px 8px 24px;
   display: -webkit-box;
   display: -webkit-flex;

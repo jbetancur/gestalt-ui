@@ -55,7 +55,7 @@ const Actions = styled.div`
 
 const EnvironmentType = styled.div`
   max-width: 180px;
-  padding-left: 24px;
+  padding-left: 27px;
   padding-right: 8px;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -6,7 +6,7 @@ exports[`(Component) LambdaIcon renders component without exploding 1`] = `
   class="MuiSvgIcon-root-1"
   focusable="false"
   role="presentation"
-  style="font-size: 24px;"
+  style="font-size: 22px;"
   viewBox="0 0 364.7 364.7"
 >
   <path

@@ -14,7 +14,7 @@ JavaIcon.propTypes = {
 };
 
 JavaIcon.defaultProps = {
-  size: 24,
+  size: 22,
 };
 
 export default JavaIcon;

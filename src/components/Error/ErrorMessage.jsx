@@ -13,7 +13,7 @@ const ErrorWrapper = styled.div`
   justify-content: center;
   width: 100%;
   min-height: 48px;
-  background: ${props => props.theme.colors['$md-red-500']};
+  background: ${props => props.theme.colors.error};
   color: white;
   text-align: center;
   font-weight: 700;

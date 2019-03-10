@@ -38,14 +38,14 @@ const IndicatorNumber = styled.div`
   position: relative;
   text-align: center;
   z-index: 1;
-  border: 2px solid ${props => props.theme.colors['$md-grey-500']};
-  color: ${props => props.theme.colors['$md-grey-500']};
-  background-color: ${props => props.theme.colors['$md-white']};
+  border: 2px solid ${props => props.theme.colors.grey[500]};
+  color: ${props => props.theme.colors.grey[500]};
+  background-color: ${props => props.theme.colors.common.white};
 
   &.active {
-    border: 2px solid ${props => props.theme.colors['$md-blue-500']};
-    color: ${props => props.theme.colors['$md-white']};
-    background-color: ${props => props.theme.colors['$md-blue-500']};
+    border: 2px solid ${props => props.theme.colors.secondary[500]};
+    color: ${props => props.theme.colors.common.white};
+    background-color: ${props => props.theme.colors.secondary[500]};
   }
 `;
 

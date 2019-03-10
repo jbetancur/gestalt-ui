@@ -20,7 +20,7 @@ const Subheader = styled.header`
   align-items: center;
   height: 56px;
   padding: 6px;
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.background.default};
   z-index: 1;
   border-bottom: 1px solid ${props => props.theme.colors.dividerVariant};
 

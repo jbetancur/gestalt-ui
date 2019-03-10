@@ -47,7 +47,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
   min-width: var(--width);
 }
 
-.c3 {
+.c2 {
   box-sizing: border-box;
   margin: 5px;
   max-height: 100%;
@@ -64,21 +64,6 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
   min-width: var(--width);
 }
 
-.c2 {
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c2 .md-slider-thumb {
-  z-index: 2;
-}
-
-.c2 .md-slider-discrete-tick {
-  z-index: 1;
-}
-
 @media (min-width:0) and (max-width:599px) {
   .c1 {
     --width: calc(66.66666666666666% - 10px);
@@ -90,7 +75,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
 }
 
 @media (min-width:0) and (max-width:599px) {
-  .c3 {
+  .c2 {
     --width: calc(33.33333333333333% - 10px);
     -webkit-flex: 0 1 var(--width);
     -ms-flex: 0 1 var(--width);
@@ -106,7 +91,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     class="c1"
   >
     <div
-      class="md-slider-container c2 md-pointer--hover"
+      class="md-slider-container md-pointer--hover"
     >
       <label
         class="md-slider-label md-text"
@@ -158,7 +143,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     </div>
   </div>
   <div
-    class="c3"
+    class="c2"
   >
     <div
       class="MuiFormControl-root-10 MuiFormControl-marginDense-12 MuiFormControl-fullWidth-13"
@@ -207,7 +192,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     class="c1"
   >
     <div
-      class="md-slider-container c2 md-pointer--hover"
+      class="md-slider-container md-pointer--hover"
     >
       <label
         class="md-slider-label md-text"
@@ -323,7 +308,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     </div>
   </div>
   <div
-    class="c3"
+    class="c2"
   >
     <div
       class="MuiFormControl-root-10 MuiFormControl-marginDense-12 MuiFormControl-fullWidth-13"

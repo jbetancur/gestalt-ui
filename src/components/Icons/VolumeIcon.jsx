@@ -14,7 +14,7 @@ VolumeIcon.propTypes = {
 };
 
 VolumeIcon.defaultProps = {
-  size: 24,
+  size: 22,
 };
 
 export default VolumeIcon;

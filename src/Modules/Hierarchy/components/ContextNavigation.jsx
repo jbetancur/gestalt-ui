@@ -19,11 +19,11 @@ const NavHeader = styled.nav`
   position: relative;
   width: 100%;
   background-color: white;
-  border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
+  border-bottom: 1px solid ${props => props.theme.colors.background.defaultBorder};
   min-height: 56px;
   padding: 0 16px 0 10px;
   flex: 0;
-  z-index: 4;
+  z-index: 11;
   ${() => media.xs`
     padding-top: 20px;
     padding-bottom: 20px;
@@ -39,10 +39,10 @@ const CollapseWrapper = styled.div`
 
 const CollapseButton = styled.button`
   position: relative;
-  background-color: ${props => props.theme.colors.background};
-  border-top: 1px solid ${props => props.theme.colors.backgroundVariant};
-  border-left: 1px solid ${props => props.theme.colors.backgroundVariant};
-  border-right: 1px solid ${props => props.theme.colors.backgroundVariant};
+  background-color: ${props => props.theme.colors.background.default};
+  border-top: 1px solid ${props => props.theme.colors.background.defaultBorder};
+  border-left: 1px solid ${props => props.theme.colors.background.defaultBorder};
+  border-right: 1px solid ${props => props.theme.colors.background.defaultBorder};
   border-bottom: none;
   padding: 0;
   width: 96px;
@@ -56,7 +56,7 @@ const CollapseButton = styled.button`
   transition: background-color 0.15s ease-in-out;
 
   &:hover:not([disabled]) {
-    background-color: ${props => props.theme.colors.backgroundVariant};
+    background-color: ${props => props.theme.colors.background.defaultBorder};
   }
 
   &:hover:disabled {

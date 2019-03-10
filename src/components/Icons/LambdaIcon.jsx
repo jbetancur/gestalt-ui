@@ -13,7 +13,7 @@ LambdaIcon.propTypes = {
 };
 
 LambdaIcon.defaultProps = {
-  size: 24,
+  size: 22,
 };
 
 export default LambdaIcon;

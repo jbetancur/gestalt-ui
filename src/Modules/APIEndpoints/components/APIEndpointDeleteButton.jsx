@@ -5,7 +5,7 @@ import { IconButton } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
 
 const DeleteButton = styled(IconButton)`
-  color: ${props => props.theme.colors['$md-red-500']};
+  color: ${props => props.theme.colors.error};
 `;
 
 class APIEndpointDeleteButton extends PureComponent {

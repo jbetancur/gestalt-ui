@@ -1,4 +1,6 @@
 @import '~react-md/src/scss/_react-md';
+$md-light-blue-500: #03a9f4;
+$md-blue-500: #2196f3;
 $md-primary-color: $md-light-blue-500;
 $md-secondary-color: $md-blue-500;
 
@@ -26,10 +28,10 @@ $md-secondary-color: $md-blue-500;
   // @include react-md-layovers;
   // @include react-md-lists;
   // @include react-md-media;
-  @include react-md-menus;
+  // @include react-md-menus;
   // @include react-md-navigation-drawers;
   // @include react-md-overlays;
-  @include react-md-papers;
+  // @include react-md-papers;
   // @include react-md-pickers;
   @include react-md-progress;
   // @include react-md-select-fields;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const TabStyle = styled.div`
   cursor: pointer;
-  border-bottom: 2px solid ${props => (props.active ? `${props.theme.colors['$md-blue-500']}` : 'transparent')};
+  border-bottom: 2px solid ${props => (props.active ? `${props.theme.colors.secondary[500]}` : 'transparent')};
 `;
 
 const TabTitle = styled.div`
@@ -17,7 +17,7 @@ const TabTitle = styled.div`
   text-transform: uppercase;
   font-weight: 500;
   font-size: 12px;
-  color: ${props => props.theme.colors['$md-grey-900']};
+  color: ${props => props.theme.colors.grey[900]};
   user-select: none;
 `;
 

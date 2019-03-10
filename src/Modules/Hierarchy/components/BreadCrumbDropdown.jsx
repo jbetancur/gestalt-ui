@@ -72,7 +72,7 @@ const DropDownButton = styled(AccessibleFakeInkedButton)`
   color: ${props => props.theme.colors.defaultIcon};
 
   &:hover {
-    background: ${props => props.theme.colors.backgroundVariant};
+    background: ${props => props.theme.colors.background.paper};
   }
 `;
 

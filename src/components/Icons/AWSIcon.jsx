@@ -14,7 +14,7 @@ AWSLogo.propTypes = {
 };
 
 AWSLogo.defaultProps = {
-  size: 24,
+  size: 22,
 };
 
 export default AWSLogo;

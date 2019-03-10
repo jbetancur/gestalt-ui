@@ -14,7 +14,7 @@ ContainerIcon.propTypes = {
 };
 
 ContainerIcon.defaultProps = {
-  size: 24
+  size: 22
 };
 
 export default ContainerIcon;

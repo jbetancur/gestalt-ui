@@ -13,7 +13,7 @@ import Upgrade from './Upgrade';
 const UpgradeWrapper = styled.div`
   padding-top: 64px;
   height: 100%;
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.background.default};
 `;
 
 

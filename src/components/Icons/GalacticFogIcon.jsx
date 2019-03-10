@@ -14,7 +14,7 @@ GFIcon.propTypes = {
 };
 
 GFIcon.defaultProps = {
-  size: 24,
+  size: 22,
   fill: '#fff',
 };
 
