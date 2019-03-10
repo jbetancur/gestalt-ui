@@ -136,7 +136,6 @@ class EntitlementListing extends PureComponent {
                   searchLabel={searchLabel}
                   searchField={searchField}
                   onResult={this.handleSelectedIdentity}
-                  helpText="search is case sensitive"
                   userSearch
                 />
               </Col>
