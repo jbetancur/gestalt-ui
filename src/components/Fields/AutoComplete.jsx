@@ -136,6 +136,7 @@ class IntegrationReactSelect extends Component {
           onInputChange={this.handleInputChange}
           placeholder={label}
           isLoading={isLoading}
+          menuPortalTarget={document.body}
           // noOptionsMessage="No Results found"
           isClearable
         />

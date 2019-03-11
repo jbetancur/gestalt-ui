@@ -1,7 +1,4 @@
 @import '~sanitize.css/sanitize.css';
-@import 'fonts';
-@import 'reset';
-@import 'theme';
 
 html, body {
   height: 100%;
@@ -29,4 +26,34 @@ body {
   flex-direction: column;
   flex: 1 0;
   height: 100%;
+}
+
+
+// Deal with disabled links properly
+a[disabled] {
+  pointer-events: none;
+}
+
+/* Override stupid chrome autofill yellow inputs ;) */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 500px white inset;
+}
+
+// Disable Google Chrome Blue Field Outline
+textarea, input, *:focus {
+  outline: none !important;
+}
+
+/* Override react-flexybox when using flex to overflow hidden */
+.flex {
+  overflow: hidden;
+}
+
+$font-path: '../assets/fonts/';
+
+@font-face {
+  font-family: 'lovelo';
+  src: url('#{$font-path}/lovelo_black-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }

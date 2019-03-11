@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
-import { SelectionControlGroup } from 'react-md';
+import RadioGroup from 'components/Fields/RadioGroup';
 import Checkbox from 'components/Fields/Checkbox';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -72,17 +72,23 @@ class ReparentModal extends PureComponent {
   }
 
   handleEntity = (value) => {
-    this.setState({ entity: value });
+    this.setState({
+      entity: value,
+    });
   }
 
   handleReparent = () => {
-    this.setState(prevState => ({ reparent: !prevState.reparent }));
+    this.setState(prevState => ({
+      reparent: !prevState.reparent,
+      reparentTargetValue: null,
+      reparentTargetName: null,
+    }));
   }
 
-  handleReparentTarget = (value, item) => {
+  handleReparentTarget = (value) => {
     this.setState({
-      reparentTargetValue: value,
-      reparentTargetName: item.name,
+      reparentTargetValue: value.id,
+      reparentTargetName: value.name,
     });
   }
 
@@ -127,27 +133,7 @@ class ReparentModal extends PureComponent {
 
             <span>Optionally transfer ownership of assets to another user or organization</span>
 
-            <Row gutter={10} padding="16px">
-              {reparent && (
-                <Col flex={5}>
-                  <SelectionControlGroup
-                    id="selection-control-group-search-type"
-                    name="selection-control-group-search-type"
-                    type="radio"
-                    defaultValue="users"
-                    onChange={this.handleEntity}
-                    inline
-                    controls={[{
-                      label: 'User',
-                      value: 'users',
-                    }, {
-                      label: 'Organization',
-                      value: 'orgs',
-                    }]}
-                  />
-                </Col>
-              )}
-
+            <Row gutter={10}>
               {reparent && (
                 <Col flex={7}>
                   <Search
@@ -155,6 +141,26 @@ class ReparentModal extends PureComponent {
                     searchLabel={`search ${entity} to transfer to`}
                     onResult={this.handleReparentTarget}
                     userSearch={this.state.entity === 'users'}
+                  />
+                </Col>
+              )}
+
+              {reparent && (
+                <Col flex={5}>
+                  <RadioGroup
+                    id="selection-control-group-search-type"
+                    name="selection-control-group-search-type"
+                    defaultValue="users"
+                    onChange={this.handleEntity}
+                    inline
+                    noPadding
+                    controls={[{
+                      label: 'User',
+                      value: 'users',
+                    }, {
+                      label: 'Organization',
+                      value: 'orgs',
+                    }]}
                   />
                 </Col>
               )}

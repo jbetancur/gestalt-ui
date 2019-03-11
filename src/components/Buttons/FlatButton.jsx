@@ -9,19 +9,27 @@ const ButtonStyled = styled(Button)`
     ${props => props.variant === 'contained' && 'color: white'};
     ${props => props.important && `background-color: ${props.theme.colors.error}`};
   }
+
+  svg {
+    vertical-align: top;
+  }
 `;
 
 const IconSeperator = styled.span`
-  padding-right: 8px;
+  ${props => (props.iconAfter
+    ? 'padding-left: 8px'
+    : 'padding-right: 8px')};
 `;
 
-const ButtonWrapper = ({ label, icon, tooltipLabel, tooltipPosition, ...rest }) => {
+const ButtonWrapper = ({ label, icon, tooltipLabel, tooltipPosition, iconAfter, children, ...rest }) => {
   if (tooltipLabel) {
     return (
       <Tooltip title={tooltipLabel} aria-label={tooltipLabel} placement={tooltipPosition}>
         <ButtonStyled {...rest}>
-          {icon && <IconSeperator>{icon}</IconSeperator>}
+          {icon && !iconAfter && <IconSeperator iconAfter={iconAfter}>{icon}</IconSeperator>}
           {label}
+          {icon && iconAfter && <IconSeperator iconAfter={iconAfter}>{icon}</IconSeperator>}
+          {children}
         </ButtonStyled>
       </Tooltip>
     );
@@ -29,8 +37,10 @@ const ButtonWrapper = ({ label, icon, tooltipLabel, tooltipPosition, ...rest }) 
 
   return (
     <ButtonStyled {...rest}>
-      {icon && <IconSeperator>{icon}</IconSeperator>}
+      {icon && !iconAfter && <IconSeperator iconAfter={iconAfter}>{icon}</IconSeperator>}
       {label}
+      {icon && iconAfter && <IconSeperator iconAfter={iconAfter}>{icon}</IconSeperator>}
+      {children}
     </ButtonStyled>
   );
 };
@@ -40,6 +50,8 @@ ButtonWrapper.propTypes = {
   icon: PropTypes.any,
   tooltipLabel: PropTypes.string,
   tooltipPosition: PropTypes.string,
+  iconAfter: PropTypes.bool,
+  children: PropTypes.any,
 };
 
 ButtonWrapper.defaultProps = {
@@ -47,6 +59,8 @@ ButtonWrapper.defaultProps = {
   icon: null,
   tooltipLabel: null,
   tooltipPosition: 'bottom',
+  iconAfter: false,
+  children: null,
 };
 
 export default ButtonWrapper;

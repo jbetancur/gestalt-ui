@@ -68,10 +68,10 @@ class EntitlementTreeItems extends PureComponent {
               />
             </li>
             <UL>
-              {entitlement.actions.map(action => (
-                <li key={action.key}>
+              {entitlement.actions.map((action, index) => (
+                <li key={`${action.key}-${index}`}>
                   <EntitlementCheckbox
-                    id={action.key}
+                    id={`${action.key}-${index}`}
                     name={action.key}
                     label={action.action}
                     checked={action.toggled}

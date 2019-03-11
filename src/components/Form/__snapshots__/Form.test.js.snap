@@ -5,6 +5,10 @@ exports[`Components::Form::Form mounts with default props 1`] = `
   color: white;
 }
 
+.c4 svg {
+  vertical-align: top;
+}
+
 .c5 {
   padding-right: 8px;
 }
@@ -126,6 +130,10 @@ exports[`Components::Form::Form mounts with default props 1`] = `
 exports[`Components::Form::Form renders correctly when disabled 1`] = `
 .c4:not(:disabled) {
   color: white;
+}
+
+.c4 svg {
+  vertical-align: top;
 }
 
 .c5 {

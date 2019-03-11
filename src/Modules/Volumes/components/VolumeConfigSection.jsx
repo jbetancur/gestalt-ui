@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { SelectionControlGroup } from 'components/ReduxFormFields';
+import RadioGroup from 'components/Fields/RadioGroup';
 import { SelectField, TextField, AceEditor } from 'components/Form';
 import { fixInputNumber, composeValidators, required, validator } from 'util/forms';
 import { isYAML } from 'util/validations';
@@ -12,6 +12,7 @@ import { volumeTypes, accessTypes, sizeUnits } from '../constants';
 class VolumeConfigSection extends Component {
   static propTypes = {
     selectedProvider: PropTypes.object.isRequired,
+    form: PropTypes.object.isRequired,
     formValues: PropTypes.object.isRequired,
     editMode: PropTypes.bool,
   };
@@ -22,7 +23,6 @@ class VolumeConfigSection extends Component {
 
   renderConfig() {
     const { formValues, selectedProvider, editMode } = this.props;
-
     switch (formValues.properties.type) {
       case 'dynamic':
         return (
@@ -89,7 +89,7 @@ class VolumeConfigSection extends Component {
   }
 
   render() {
-    const { formValues, selectedProvider, editMode } = this.props;
+    const { form, formValues, selectedProvider, editMode } = this.props;
     const menuItems = editMode
       ? [{ type: formValues.properties.type || '' }]
       : volumeTypes.filter(v => v.supported.some(p => p === selectedProvider.type));
@@ -142,16 +142,16 @@ class VolumeConfigSection extends Component {
         {this.renderConfig()}
 
         <Col flex={12}>
-          <Field
-            inline
-            component={SelectionControlGroup}
+          <RadioGroup
             id="accessmode-selection"
             name="properties.access_mode"
-            type="radio"
+            inline
+            noPadding
             label="Access Mode"
             controls={accessTypes}
             defaultValue={formValues.properties.access_mode}
             disabled={editMode}
+            onChange={value => form.change('properties.access_mode', value)}
           />
         </Col>
       </Row>

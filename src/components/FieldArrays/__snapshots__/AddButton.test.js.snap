@@ -1,12 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Components) AddButton renders correctly with basic required props 1`] = `
-.c0 {
+.c0 svg {
+  vertical-align: top;
+}
+
+.c1 {
   padding-right: 8px;
 }
 
 <button
-  class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-text-3 MuiButton-textPrimary-4 MuiButton-flat-6 MuiButton-flatPrimary-7 "
+  class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-text-3 MuiButton-textPrimary-4 MuiButton-flat-6 MuiButton-flatPrimary-7 c0"
   tabindex="0"
   type="button"
 >
@@ -14,7 +18,7 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
     class="MuiButton-label-2"
   >
     <span
-      class="c0"
+      class="c1"
     >
       <svg
         aria-hidden="true"
@@ -37,12 +41,16 @@ exports[`(Components) AddButton renders correctly with basic required props 1`] 
 `;
 
 exports[`(Components) AddButton renders correctly with label 1`] = `
-.c0 {
+.c0 svg {
+  vertical-align: top;
+}
+
+.c1 {
   padding-right: 8px;
 }
 
 <button
-  class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-text-3 MuiButton-textPrimary-4 MuiButton-flat-6 MuiButton-flatPrimary-7 "
+  class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-text-3 MuiButton-textPrimary-4 MuiButton-flat-6 MuiButton-flatPrimary-7 c0"
   tabindex="0"
   type="button"
 >
@@ -50,7 +58,7 @@ exports[`(Components) AddButton renders correctly with label 1`] = `
     class="MuiButton-label-2"
   >
     <span
-      class="c0"
+      class="c1"
     >
       <svg
         aria-hidden="true"

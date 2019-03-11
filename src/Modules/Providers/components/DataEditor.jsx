@@ -43,7 +43,8 @@ const DataEditor = ({ title, editMode, editorMode, subTypes, form }) => {
             id={`${title}-${editorMode}-config`}
             label={`Upload ${editorMode}`}
             onChange={onFile}
-            primary
+            color="primary"
+            accept=".yaml, .yml, .json"
           />
           {editMode &&
           <Row center gutter={16}>
