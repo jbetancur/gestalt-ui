@@ -3,7 +3,6 @@
     "version": "2.4.3",
     "title": "Galactic Fog",
     "description": "gestalt ui",
-    "sideEffects": false,
     "engines": {
         "node": ">=10.15.0"
     },
