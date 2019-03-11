@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { fetchAPI } from 'config/lib/utility';
 import loggingSagas, {
   fetchLogProvider,

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';

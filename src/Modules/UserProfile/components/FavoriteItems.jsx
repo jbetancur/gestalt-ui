@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import memoize from 'memoize-one';
 import { IconButton } from 'components/Buttons';
 import CloseIcon from '@material-ui/icons/Close';

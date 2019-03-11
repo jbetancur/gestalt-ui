@@ -1,7 +1,7 @@
 
 import React, { PureComponent, createContext } from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { providerModel } from 'Modules/Providers';
 import runTimes from '../lists/runTimes';
 

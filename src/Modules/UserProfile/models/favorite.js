@@ -1,5 +1,5 @@
 import { object, string } from 'yup';
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 import jsonPatch from 'fast-json-patch';
 
 const schema = object().shape({

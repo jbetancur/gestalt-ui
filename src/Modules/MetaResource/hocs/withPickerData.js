@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import { buildParams } from 'config/lib/urlmapper';
 import withContext from '../../Hierarchy/hocs/withContext';
 

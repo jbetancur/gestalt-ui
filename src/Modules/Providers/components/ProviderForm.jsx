@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-// import { isEqual } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/Form';

@@ -60,7 +60,7 @@ export default [
     format: '{filename}.py',
     codeFormat: 'python',
     options: {},
-    codeOptionsInline
+    codeOptions: codeOptionsInline,
   },
   {
     value: 'csharp',

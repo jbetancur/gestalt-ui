@@ -1,4 +1,4 @@
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import providerModel from '../models/provider';
 import dcosModel from '../models/dcos';
 import kubernetesModel from '../models/kubernetes';

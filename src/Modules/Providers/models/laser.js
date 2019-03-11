@@ -1,5 +1,7 @@
 import { object, array, string, boolean } from 'yup';
-import { get as getProp, pick, omit } from 'lodash';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
+import getProp from 'lodash/get';
 import jsonPatch from 'fast-json-patch';
 import base64 from 'base-64';
 import { mapTo2DArray, arrayToMap } from 'util/helpers/transformations';

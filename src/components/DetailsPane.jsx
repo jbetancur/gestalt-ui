@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime, FormattedRelative } from 'react-intl';

@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import { arrayToMap } from 'util/helpers/transformations';
 import jsonPatch from 'fast-json-patch';
 

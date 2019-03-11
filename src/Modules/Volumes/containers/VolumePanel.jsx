@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { withRouter } from 'react-router-dom';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import DataTable from 'react-data-table-component';

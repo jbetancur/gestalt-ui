@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { nestedObjectFromString } from 'util/helpers/transformations';
 import { isFQON, fqonPattern } from 'util/validations';
 

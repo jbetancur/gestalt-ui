@@ -1,4 +1,5 @@
-import { cloneDeep, merge } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import merge from 'lodash/merge';
 
 /**
  * get

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Field, FormSpy } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { TextField, SelectField, Checkbox } from 'components/Form';

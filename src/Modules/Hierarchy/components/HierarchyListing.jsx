@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import memoize from 'memoize-one';
 import { Row, Col } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';

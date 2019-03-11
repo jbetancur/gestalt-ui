@@ -1,4 +1,6 @@
-import { map, compact, get } from 'lodash';
+import map from 'lodash/map';
+import compact from 'lodash/compact';
+import get from 'lodash/get';
 
 /**
  * arrayToMap

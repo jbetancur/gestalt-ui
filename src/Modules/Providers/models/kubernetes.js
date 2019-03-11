@@ -1,5 +1,6 @@
 import { object, array, string, boolean } from 'yup';
-import { pick, omit } from 'lodash';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 import base64 from 'base-64';
 import jsonPatch from 'fast-json-patch';
 

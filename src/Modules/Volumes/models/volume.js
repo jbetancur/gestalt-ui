@@ -1,5 +1,5 @@
 import { object, string, number } from 'yup';
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 
 const schema = object().shape({
   id: string(),

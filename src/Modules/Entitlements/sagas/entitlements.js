@@ -1,12 +1,10 @@
 import { takeLatest, put, call, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
 import { fetchAPI } from 'config/lib/utility';
-import {
-  sortBy,
-  groupBy,
-  map,
-  uniq,
-} from 'lodash';
+import sortBy from 'lodash/sortBy';
+import groupBy from 'lodash/groupBy';
+import map from 'lodash/map';
+import uniq from 'lodash/uniq';
 import {
   FETCH_ENTITLEMENTS_REQUEST,
   FETCH_ENTITLEMENTS_FULFILLED,

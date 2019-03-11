@@ -1,5 +1,5 @@
 import { object, array, boolean, string, number } from 'yup';
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 import { mapTo2DArray, arrayToMap, convertFromMaps } from 'util/helpers/transformations';
 
 const reformatHealthChecks = healthChecks => (
