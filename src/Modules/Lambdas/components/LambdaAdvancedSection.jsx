@@ -21,8 +21,10 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
             <Field
               component={TextField}
               name="properties.pre_warm"
-              min={0}
-              step={1}
+              inputProps={{
+                min: 0,
+                step: 1,
+              }}
               label="Pre Warm"
               type="number"
               required
@@ -34,8 +36,10 @@ const LambdaAdvancedSection = ({ selectedProvider, selectedRuntime }) => (
             <Field
               component={TextField}
               name="properties.timeout"
-              min={1}
-              step={1}
+              inputProps={{
+                min: 1,
+                step: 1,
+              }}
               label="Timeout"
               type="number"
               required

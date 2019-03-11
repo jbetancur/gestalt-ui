@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
@@ -23,6 +24,15 @@ import withProvider from '../hocs/withProvider';
 import providerModel from '../models/provider';
 
 const focusOnErrors = createDecorator();
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  button {
+    margin: 5px;
+  }
+`;
 
 class ProviderCreate extends PureComponent {
   static propTypes = {
@@ -209,6 +219,7 @@ class ProviderCreate extends PureComponent {
                               dataValue="name"
                               onSelected={this.handleProviderChange}
                               noOptionsMessage={() => 'no resource types were found'}
+                              autoFocus
                             />
                           </Col>
 
@@ -225,24 +236,20 @@ class ProviderCreate extends PureComponent {
                             </Col>
                           )}
 
-                          <Row gutter={5}>
-                            <Col flex={12}>
-                              <Col flex={12}>
-                                <FlatButton
-                                  label="Cancel"
-                                  component={Link}
-                                  to={this.generateBackLink()}
-                                />
-                                <FlatButton
-                                  label="Next"
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={this.handleNextPage}
-                                  disabled={!providerSelected || providerPending || envSchemaPending}
-                                />
-                              </Col>
-                            </Col>
-                          </Row>
+                          <ButtonWrapper>
+                            <FlatButton
+                              label="Cancel"
+                              component={Link}
+                              to={this.generateBackLink()}
+                            />
+                            <FlatButton
+                              label="Next"
+                              variant="contained"
+                              color="primary"
+                              onClick={this.handleNextPage}
+                              disabled={!providerSelected || providerPending || envSchemaPending}
+                            />
+                          </ButtonWrapper>
                         </Row>
                       </Panel>
                     </Col>

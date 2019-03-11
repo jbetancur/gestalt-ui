@@ -55,8 +55,11 @@ class ConfirmModal extends PureComponent {
                 label="Scale to"
                 type="number"
                 value={numInstances}
-                min={0}
-                max={maxInstances}
+                inputProps={{
+                  min: 0,
+                  max: maxInstances,
+                  step: 1,
+                }}
                 onChange={this.scaleChanged}
                 required
               />

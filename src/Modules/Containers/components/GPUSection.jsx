@@ -26,9 +26,11 @@ const GPUSection = memo(({ selectedProvider }) => (
           <Field
             component={TextField}
             name="properties.gpu_support.count"
-            min={1}
-            max={64}
-            step={1}
+            inputProps={{
+              min: 1,
+              max: 64,
+              step: 1,
+            }}
             label="GPU Count"
             type="number"
             required

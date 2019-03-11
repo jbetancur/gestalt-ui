@@ -118,8 +118,10 @@ class VolumeConfigSection extends Component {
             label="Size"
             type="number"
             format={fixInputNumber}
-            min={1}
-            step={1}
+            inputProps={{
+              min: 1,
+              step: 1,
+            }}
             validate={composeValidators(required())}
             required
             disabled={editMode}

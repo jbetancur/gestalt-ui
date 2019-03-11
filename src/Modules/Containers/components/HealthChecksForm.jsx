@@ -48,7 +48,9 @@ const HealthChecksForm = memo(({ fieldName }) => (
                     id={`${member}.grace_period_seconds`}
                     name={`${member}.grace_period_seconds`}
                     type="number"
-                    min={1}
+                    inputProps={{
+                      min: 1,
+                    }}
                     label="Grace Period"
                     component={TextField}
                     parse={fixInputNumber}
@@ -62,7 +64,9 @@ const HealthChecksForm = memo(({ fieldName }) => (
                     id={`${member}.interval_seconds`}
                     name={`${member}.interval_seconds`}
                     type="number"
-                    min={1}
+                    inputProps={{
+                      min: 1,
+                    }}
                     label="Interval"
                     component={TextField}
                     parse={fixInputNumber}
@@ -76,7 +80,9 @@ const HealthChecksForm = memo(({ fieldName }) => (
                     id={`${member}.timeout_seconds`}
                     name={`${member}.timeout_seconds`}
                     type="number"
-                    min={1}
+                    inputProps={{
+                      min: 1,
+                    }}
                     label="Timeout"
                     component={TextField}
                     parse={fixInputNumber}
@@ -90,7 +96,9 @@ const HealthChecksForm = memo(({ fieldName }) => (
                     id={`${member}.max_consecutive_failures`}
                     name={`${member}.max_consecutive_failures`}
                     type="number"
-                    min={1}
+                    inputProps={{
+                      min: 1,
+                    }}
                     label="Max Consecutive Failures"
                     component={TextField}
                     parse={fixInputNumber}
@@ -116,8 +124,10 @@ const HealthChecksForm = memo(({ fieldName }) => (
                       id={`${member}.port`}
                       name={`${member}.port`}
                       type="number"
-                      min={1}
-                      max={65536}
+                      inputProps={{
+                        min: 1,
+                        max: 65536,
+                      }}
                       label="Port Number"
                       component={TextField}
                       parse={fixInputNumber}
@@ -131,8 +141,10 @@ const HealthChecksForm = memo(({ fieldName }) => (
                       id={`${member}.port_index`}
                       name={`${member}.port_index`}
                       type="number"
-                      min={0}
-                      max={65536}
+                      inputProps={{
+                        min: 0,
+                        max: 65536,
+                      }}
                       label="Port Index"
                       component={TextField}
                       parse={fixInputNumber}

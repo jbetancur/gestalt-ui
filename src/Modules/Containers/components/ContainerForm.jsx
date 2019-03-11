@@ -135,9 +135,11 @@ class ContainerForm extends PureComponent {
                   <Field
                     component={TextField}
                     name={`${formName}.properties.num_instances`}
-                    min={0}
-                    max={999}
-                    step={1}
+                    inputProps={{
+                      min: 0,
+                      max: 999,
+                      step: 1,
+                    }}
                     label="Instances"
                     type="number"
                     parse={fixInputNumber}
@@ -148,9 +150,11 @@ class ContainerForm extends PureComponent {
                   <Field
                     component={TextField}
                     name={`${formName}.properties.cpus`}
-                    min={0.1}
-                    max={10.0}
-                    step={0.1}
+                    inputProps={{
+                      min: 0.1,
+                      max: 10.0,
+                      step: 0.1,
+                    }}
                     label="CPU"
                     type="number"
                     required
@@ -162,8 +166,10 @@ class ContainerForm extends PureComponent {
                   <Field
                     component={TextField}
                     name={`${formName}.properties.memory`}
-                    min={32}
-                    step={1}
+                    inputProps={{
+                      min: 32,
+                      step: 1,
+                    }}
                     label="Memory (MB)"
                     type="number"
                     required
