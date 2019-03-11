@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Button, FontIcon } from 'react-md';
-import { ClipboardButton } from 'components/Buttons';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import { FlatButton, ClipboardButton } from 'components/Buttons';
+import AddIcon from '@material-ui/icons/Add';
 import { Title } from 'components/Typography';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
@@ -109,18 +110,15 @@ class APIEndpointInlineList extends PureComponent {
     const { onAddEndpoint, disabled, apiEndpoints } = this.props;
 
     return (
-      <div>
+      <React.Fragment>
         <Div padding="8px" paddingLeft="16px">
-          <Button
-            key="add-endpoint"
-            iconChildren="add"
-            primary
-            flat
+          <FlatButton
+            label="Add Endpoint"
+            icon={<AddIcon />}
+            color="primary"
             onClick={onAddEndpoint}
             disabled={disabled}
-          >
-            Add Endpoint
-          </Button>
+          />
         </Div>
         <Row>
           <Col flex={12}>
@@ -128,7 +126,7 @@ class APIEndpointInlineList extends PureComponent {
               noHeader
               data={apiEndpoints}
               highlightOnHover
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no endpoints to display</Title>}
@@ -136,7 +134,7 @@ class APIEndpointInlineList extends PureComponent {
             />
           </Col>
         </Row>
-      </div>
+      </React.Fragment>
     );
   }
 }

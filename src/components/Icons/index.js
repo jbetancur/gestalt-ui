@@ -38,8 +38,6 @@ export { default as MainframeIcon } from './MainframeIcon';
 export { default as DigitalOceanIcon } from './DigitalOceanIcon';
 export { default as AWSIcon } from './AWSIcon';
 export { default as BashIcon } from './BashIcon';
-export { default as CheckCircleIcon } from './CheckCircleIcon';
-export { default as DashboardIcon } from './DashboardIcon';
 export { default as ECSIcon } from './ECSIcon';
 export { default as LlvmIcon } from './LlvmIcon';
 export { default as AppDeploymentIcon } from './AppDeploymentIcon';

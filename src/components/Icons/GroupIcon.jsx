@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Icon from '@material-ui/icons/Group';
 
-const GroupIconStyle = styled(FontIcon)`
-  font-size: ${props => `${props.size}px !important`};
+const GroupIconStyle = styled(Icon)`
+  font-size: ${props => `${props.size}px`};
+  color: ${props => `${props.color}`};
 `;
 
-const GroupIcon = ({ size }) => <GroupIconStyle size={size}>group</GroupIconStyle>;
+const GroupIcon = ({ size, color, ...rest }) => <GroupIconStyle size={size} color={color} {...rest} />;
 
 GroupIcon.propTypes = {
-  size: PropTypes.number
+  size: PropTypes.number,
+  color: PropTypes.string,
 };
 
 GroupIcon.defaultProps = {
-  size: 24,
+  size: 22,
+  color: 'action',
 };
 
 export default GroupIcon;

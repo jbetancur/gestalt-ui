@@ -2,51 +2,42 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { withRouter, Link } from 'react-router-dom';
 import { Col, Row } from 'react-flexybox';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { ListItem, Divider, FontIcon } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import EditIcon from '@material-ui/icons/Edit';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import CloneIcon from '@material-ui/icons/FilterNone';
+import { EntitlementIcon } from 'components/Icons';
+import Divider from 'components/Divider';
 import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
+import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { generateContextEntityState } from 'util/helpers/context';
+import { formatName } from 'util/forms';
+import ScaleModal from '../ActionModals/Scale';
+import MigrateModal from '../ActionModals/Migrate';
+import PromoteModal from '../ActionModals/Promote';
 import actionCreators from '../actions';
 import withContext from '../../Hierarchy/hocs/withContext';
 import withContainer from '../hocs/withContainer';
 import withContainers from '../hocs/withContainers';
+import containerDataModel from '../models/container';
 
 const dividerStyle = { borderRight: '1px solid #e0e0e0' };
-const ActionsWrapper = styled.div`
-  display: inline-block;
 
-  .container-action-button {
-    .md-text--disabled {
-      color: ${props => props.theme.colors['$md-grey-500']} !important;
+const ListItemTextStatus = styled(({ color, disabled, ...rest }) => <ListItemText {...rest} />)`
+  ${props => !props.disabled && css`
+    span {
+      color: ${props.theme.colors[props.color]};
     }
-  }
-
-  .button--start * {
-    color: ${props => props.theme.colors['$md-green-500']};
-  }
-
-  .button--suspend * {
-    color: ${props => props.theme.colors['$md-orange-500']};
-  }
-
-  .button--scale * {
-    color: ${props => props.theme.colors['$md-blue-500']};
-  }
-
-  .button--destroy * {
-    color: ${props => props.theme.colors['$md-red-a400']};
-  }
-
-  button {
-    &:hover {
-      background-color: transparent;
-    }
-  }
+  `}
 `;
 
 const ListWrapper = styled.div`
@@ -58,28 +49,24 @@ const ListMenu = styled.div`
   padding-right: 8px;
 `;
 
-const EnhancedDivider = styled(Divider)`
-  margin: 0;
-`;
-
 class ContainerActions extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     containerModel: PropTypes.object.isRequired,
-    scaleContainerModal: PropTypes.func.isRequired,
     containerActions: PropTypes.object.isRequired,
     containersActions: PropTypes.object.isRequired,
-    migrateContainerModal: PropTypes.func.isRequired,
-    promoteContainerModal: PropTypes.func.isRequired,
-    confirmContainerDelete: PropTypes.func.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     inContainerView: PropTypes.bool,
     disableDestroy: PropTypes.bool,
     disablePromote: PropTypes.bool,
+    disableMigrate: PropTypes.bool,
+    disableScale: PropTypes.bool,
+    disableEntitlements: PropTypes.bool,
+    disableClone: PropTypes.bool,
     // actions: PropTypes.array.isRequired,
     // actionsPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     editURL: PropTypes.string,
     onStart: PropTypes.func,
     onDestroy: PropTypes.func,
@@ -93,6 +80,10 @@ class ContainerActions extends PureComponent {
     inContainerView: false,
     disableDestroy: false,
     disablePromote: false,
+    disableMigrate: false,
+    disableScale: false,
+    disableEntitlements: false,
+    disableClone: false,
     editURL: null,
     onStart: () => {},
     onDestroy: () => {},
@@ -102,10 +93,43 @@ class ContainerActions extends PureComponent {
     onPromote: () => {},
   }
 
-  handleEntitlements = () => {
-    const { match, entitlementActions, containerModel } = this.props;
+  static contextType = ModalConsumer;
 
-    entitlementActions.showEntitlementsModal(containerModel.name, match.params.fqon, containerModel.id, 'containers', 'Container');
+  handleClone = () => {
+    const { match, containersActions, containerModel, hierarchyContext } = this.props;
+    const { context: { environment, environments } } = hierarchyContext;
+    const { showModal } = this.context;
+
+    const modalAction = ({ name, selectedTargetValue }) => {
+      const payload = containerDataModel.create({ ...containerModel, name });
+      const updateState = environment.id === selectedTargetValue;
+
+      // containersActions.createContainers is handles container creation specifically for the listing screen
+      containersActions.createContainers({ fqon: match.params.fqon, environmentId: selectedTargetValue, payload, updateState });
+    };
+
+    showModal(NameModal, {
+      title: `Clone "${containerModel.name}" Container`,
+      nameFormatter: formatName,
+      proceedLabel: 'Clone',
+      onProceed: modalAction,
+      targetDropdownLabel: 'Select Environment',
+      showTargetDropdown: true,
+      targetDropdownValues: environments,
+      defaultTargetValue: environment.id
+    });
+  }
+
+  handleEntitlements = () => {
+    const { containerModel } = this.props;
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${containerModel.name}" Container`,
+      fqon: containerModel.org.properties.fqon,
+      entityId: containerModel.id,
+      entityKey: 'containers',
+    });
   };
 
   populateContainers() {
@@ -124,7 +148,8 @@ class ContainerActions extends PureComponent {
   }
 
   destroy = () => {
-    const { match, history, confirmContainerDelete, containerActions, containerModel, inContainerView, onDestroy } = this.props;
+    const { match, history, containerActions, containerModel, inContainerView, onDestroy } = this.props;
+    const { showModal } = this.context;
     const onSuccess = () => {
       if (inContainerView) {
         history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
@@ -136,7 +161,10 @@ class ContainerActions extends PureComponent {
       onDestroy();
     };
 
-    confirmContainerDelete(modalAction, containerModel.name);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to destroy ${containerModel.name}?`,
+      onProceed: modalAction,
+    });
   }
 
   start = () => {
@@ -176,7 +204,8 @@ class ContainerActions extends PureComponent {
   }
 
   scale = () => {
-    const { match, containerActions, scaleContainerModal, containerModel, inContainerView, onScale } = this.props;
+    const { match, containerActions, containerModel, inContainerView, onScale } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -186,18 +215,23 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    const modalAction = (numInstances) => {
+    const onProceed = (numInstances) => {
       if (numInstances !== containerModel.properties.num_instances) {
         containerActions.scaleContainer({ fqon: match.params.fqon, containerId: containerModel.id, numInstances, onSuccess });
         onScale();
       }
     };
 
-    scaleContainerModal(modalAction, containerModel.name, containerModel.properties.num_instances);
+    showModal(ScaleModal, {
+      title: containerModel.name,
+      numInstances: containerModel.properties.num_instances,
+      onProceed,
+    });
   }
 
   migrate = () => {
-    const { match, containerActions, migrateContainerModal, containerModel, inContainerView, onMigrate } = this.props;
+    const { match, containerActions, containerModel, inContainerView, onMigrate } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       if (inContainerView) {
@@ -207,16 +241,22 @@ class ContainerActions extends PureComponent {
       }
     };
 
-    const modalAction = (providerId) => {
+    const onProceed = (providerId) => {
       containerActions.migrateContainer({ fqon: match.params.fqon, containerId: containerModel.id, providerId, onSuccess });
       onMigrate();
     };
 
-    migrateContainerModal(modalAction, containerModel.name, containerModel.properties.provider, inContainerView);
+    showModal(MigrateModal, {
+      title: containerModel.name,
+      sourceProvider: containerModel.properties.provider,
+      inContainerView,
+      onProceed,
+    });
   }
 
   promote = () => {
-    const { match, containerActions, promoteContainerModal, containerModel, hierarchyContextActions, onPromote } = this.props;
+    const { match, containerActions, containerModel, hierarchyContextActions, onPromote } = this.props;
+    const { showModal } = this.context;
 
     // reroute and force immediate containers call to populate
     const onSuccess = environment => () => {
@@ -230,12 +270,16 @@ class ContainerActions extends PureComponent {
       this.populateContainers();
     };
 
-    const modalAction = (environment) => {
+    const onProceed = (environment) => {
       containerActions.promoteContainer({ fqon: match.params.fqon, containerId: containerModel.id, environmentId: environment.id, onSuccess: onSuccess(environment) });
       onPromote();
     };
 
-    promoteContainerModal(modalAction, containerModel.name, match.params);
+    showModal(PromoteModal, {
+      title: containerModel.name,
+      sourceProvider: containerModel.properties.provider,
+      onProceed,
+    });
   }
 
   render() {
@@ -244,6 +288,10 @@ class ContainerActions extends PureComponent {
       containerModel,
       disablePromote,
       disableDestroy,
+      disableMigrate,
+      disableScale,
+      disableEntitlements,
+      disableClone,
       // actions,
       // actionsPending,
       // match,
@@ -251,7 +299,6 @@ class ContainerActions extends PureComponent {
 
     const menuItems = [
       <ListWrapper key="container-actions-menu--dropdown">
-
         <Row>
           <Col flex={12}>
             <ListMenu>
@@ -259,60 +306,130 @@ class ContainerActions extends PureComponent {
               <Subtitle>{containerModel.properties.status}</Subtitle>
             </ListMenu>
 
-            <EnhancedDivider />
+            <Divider />
           </Col>
 
           <Col flex={6} style={dividerStyle}>
-            <ListItem className="container-action-button button--start" primaryText="Start" onClick={this.start} disabled={containerModel.properties.num_instances > 0} />
-            <ListItem className="container-action-button button--suspend" primaryText="Suspend" onClick={this.suspend} disabled={containerModel.properties.num_instances === 0} />
-            <ListItem className="container-action-button button--scale" primaryText="Scale" onClick={this.scale} />
-            <ListItem primaryText="Migrate" onClick={this.migrate} />
-            {!disablePromote &&
-              <ListItem primaryText="Promote" onClick={this.promote} />}
-            {!disableDestroy &&
-              <ListItem className="container-action-button button--destroy" primaryText="Destroy" onClick={this.destroy} />}
+            {!disableScale && (
+              <React.Fragment>
+                <ListItem
+                  button
+                  dense
+                  onClick={this.start}
+                  disabled={containerModel.properties.num_instances > 0}
+                >
+                  <ListItemTextStatus primary="Start" color="success" disabled={containerModel.properties.num_instances > 0} />
+                </ListItem>
 
+                <ListItem
+                  button
+                  dense
+                  onClick={this.suspend}
+                  disabled={containerModel.properties.num_instances === 0}
+                >
+                  <ListItemTextStatus primary="Suspend" color="warning" disabled={containerModel.properties.num_instances === 0} />
+                </ListItem>
+
+                <ListItem
+                  button
+                  dense
+                  onClick={this.scale}
+                >
+                  <ListItemTextStatus primary="Scale" color="info" />
+                </ListItem>
+              </React.Fragment>
+            )}
+
+            {!disableMigrate && (
+              <ListItem
+                button
+                dense
+                onClick={this.migrate}
+              >
+                <ListItemText primary="Migrate" />
+              </ListItem>
+            )}
+
+            {!disablePromote && (
+              <ListItem
+                button
+                dense
+                onClick={this.promote}
+              >
+                <ListItemText primary="Promote" />
+              </ListItem>
+            )}
+
+            {!disableDestroy && (
+              <ListItem
+                button
+                dense
+                onClick={this.destroy}
+              >
+                <ListItemTextStatus primary="Destroy" color="error" />
+              </ListItem>
+            )}
           </Col>
 
           <Col flex={6}>
-            {!inContainerView ?
+            {!inContainerView && (
               <ListItem
-                key="container--edit"
-                primaryText="Edit"
-                leftIcon={<FontIcon>edit</FontIcon>}
+                button
+                dense
                 to={this.props.editURL}
                 component={Link}
-              /> : <div />}
+              >
+                <EditIcon fontSize="small" color="action" />
+                <ListItemText primary="Edit" />
+              </ListItem>
+            )}
+
             <ListItem
-              key="container--entitlements"
-              primaryText="Entitlements"
-              leftIcon={<FontIcon>security</FontIcon>}
+              button
+              dense
               onClick={this.handleEntitlements}
-            />
-            <CopyToClipboard
-              key="container--copyuuid"
-              text={containerModel.id}
+              disabled={disableEntitlements}
             >
-              <ListItem
-                primaryText="Copy uuid"
-                leftIcon={<FontIcon>content_copy</FontIcon>}
-              />
+              <EntitlementIcon size={20} />
+              <ListItemText primary="Entitlements" />
+            </ListItem>
+
+            <CopyToClipboard text={containerModel.id}>
+              <ListItem button dense>
+                <CopyIcon fontSize="small" color="action" />
+                <ListItemText primary="Copy UUID" />
+              </ListItem>
             </CopyToClipboard>
+
+            {!inContainerView && (
+              <ListItem
+                button
+                dense
+                onClick={this.handleClone}
+                disabled={disableClone}
+              >
+                <CloneIcon fontSize="small" color="action" />
+                <ListItemText primary="Clone" />
+              </ListItem>
+            )}
           </Col>
         </Row>
       </ListWrapper>
     ];
 
-    return (
-      containerModel.id ?
-        <ActionsWrapper inContainerView={inContainerView}>
-          <StatusButton
-            status={containerModel.properties.status}
-            menuItems={menuItems}
-            inMenu={!inContainerView}
-          />
-        </ActionsWrapper> : null
-    );
+
+    if (containerModel.id) {
+      return (
+        <StatusButton
+          status={containerModel.properties.status}
+          asButton={inContainerView}
+        >
+          {menuItems}
+        </StatusButton>
+      );
+    }
+
+    return null;
   }
 }
 
@@ -320,7 +437,6 @@ export default compose(
   withContainer({ unload: false }),
   withContainers({ unload: false }),
   withContext(),
-  withEntitlements,
   withRouter,
   connect(null, Object.assign({}, actionCreators)),
 )(ContainerActions);

@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { SelectField, TextField, FontIcon } from 'react-md';
-import { Button } from 'components/Buttons';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SelectField from 'components/Fields/SelectField';
+import TextField from 'components/Fields/TextField';
+import { IconButton } from 'components/Buttons';
 import { media } from 'util/helpers/media';
 import withListFilter from './withListFilter';
 
@@ -14,25 +18,26 @@ const Wrapper = styled.div`
   ${() => media.xs`
     display: none;
   `};
-  ${() => media.sm`
-    display: none;
-  `};
 `;
 
 const Search = styled(TextField)`
-  max-width: 400px;
+  max-width: 300px;
   margin-left: 10px;
+  height: 38px;
 `;
 
 const Filter = styled(SelectField)`
-  width: 130px;
+  max-width: 150px;
   margin-left: 10px;
+  height: 38px;
 `;
 
-const InlineButton = styled(Button)`
-  padding: 0;
-  height: 20px;
-  max-width: 20px;
+const InlineButton = styled(IconButton)`
+  padding: 6px !important;
+
+  svg {
+    font-size: 18px;
+  }
 `;
 
 class SelectFilter extends PureComponent {
@@ -89,13 +94,13 @@ class SelectFilter extends PureComponent {
     this.props.listFilterActions.clearFilterText();
   }
 
-  handleFilter = (value) => {
-    this.props.listFilterActions.setFilter(value);
+  handleFilter = ({ target }) => {
+    this.props.listFilterActions.setFilter(target.value);
   }
 
-  handleFilterText = (searchValue) => {
-    this.setState({ searchValue });
-    this.props.listFilterActions.setFilterDebounced('SHOW_ALL', searchValue);
+  handleFilterText = ({ target }) => {
+    this.setState({ searchValue: target.value });
+    this.props.listFilterActions.setFilterDebounced('SHOW_ALL', target.value);
   }
 
   render() {
@@ -108,22 +113,30 @@ class SelectFilter extends PureComponent {
           placeholder={filterTextPlaceHolder}
           onChange={this.handleFilterText}
           value={this.state.searchValue}
-          leftIcon={<FontIcon>search</FontIcon>}
-          inlineIndicator={<InlineButton onClick={this.clearSearch} icon>close</InlineButton>}
-          lineDirection="right"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" color="primary" />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <InlineButton onClick={this.clearSearch} icon={<CloseIcon fontSize="small" />} />
+              </InputAdornment>
+            ),
+          }}
           autoFocus
         />
         <Filter
           id="listing-table-filter"
-          fullWidth
           itemLabel="name"
           itemValue="value"
           menuItems={this.generateItems()}
           onChange={this.handleFilter}
           value={listFilter.filterValue}
-          simplifiedMenu={false}
           onFocus={this.clearSearchText}
           disabled={disabled}
+          autoWidth
         />
       </Wrapper>
     );

@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Icon from '@material-ui/icons/VerifiedUser';
 
-const PolicyIconStyle = styled(FontIcon)`
-  font-size: ${props => `${props.size}px !important`};
+const PolicyIconStyle = styled(Icon)`
+  font-size: ${props => `${props.size}px`};
+  color: ${props => `${props.color}`};
 `;
 
-const PolicyIcon = ({ size, ...rest }) => <PolicyIconStyle size={size} {...rest}>verified_user</PolicyIconStyle>;
+const PolicyIcon = ({ size, color, ...rest }) => <PolicyIconStyle size={size} color={color} {...rest} />;
 
 PolicyIcon.propTypes = {
-  size: PropTypes.number
+  size: PropTypes.number,
+  color: PropTypes.string,
 };
 
 PolicyIcon.defaultProps = {
-  size: 24,
+  size: 22,
+  color: 'action',
 };
 
 export default PolicyIcon;

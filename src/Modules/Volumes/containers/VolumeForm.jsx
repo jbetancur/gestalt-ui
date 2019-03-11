@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Field } from 'react-final-form';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { formatName, composeValidators, required } from 'util/forms';
 import SelectedProvider from './SelectedProvider';
@@ -15,7 +15,7 @@ const VolumeForm = ({ form, values, selectedProvider, editMode }) => (
     <Row gutter={5}>
       {!editMode &&
         <Col flex={7} xs={12} sm={12} md={12}>
-          <Panel title="General" expandable={false} fill>
+          <Panel expandable={false} fill>
             <Row gutter={5}>
               <Col flex={12}>
                 <SelectedProvider
@@ -41,16 +41,16 @@ const VolumeForm = ({ form, values, selectedProvider, editMode }) => (
         </Col>}
 
       <Col flex>
-        <Panel title="Description" expandable={false} fill>
+        <Panel expandable={false} fill>
           <Row gutter={5}>
             <Col flex={12}>
               <Field
                 id="description"
                 component={TextField}
                 name="description"
-                placeholder="Description"
-                rows={1}
-                maxRows={6}
+                label="Description"
+                multiline
+                rowsMax={6}
               />
             </Col>
           </Row>

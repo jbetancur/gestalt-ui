@@ -1,7 +1,11 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { MenuButton, ListItem, FontIcon } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DateIcon from '@material-ui/icons/DateRange';
 import { FormattedRelative } from 'react-intl';
 import { Card } from 'components/Cards';
 import { FavoriteCheckbox } from 'Modules/UserProfile';
@@ -51,20 +55,17 @@ const Actions = styled.div`
 
 const EnvironmentType = styled.div`
   max-width: 180px;
-  padding-left: 24px;
+  padding-left: 27px;
   padding-right: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-transform: uppercase;
+  color: ${props => props.theme.colors.font};
+  font-size: 12px;
 
-  &,
-  i {
-    font-size: 12px !important;
-    color: ${props => props.theme.colors.fontTitle};
-  }
-
-  i {
+  svg {
+    font-size: 16px !important;
     padding-right: 3px;
   }
 `;
@@ -74,14 +75,14 @@ const Created = styled.div`
   left: 8px;
   bottom: 6px;
   line-height: 12px;
+  color: ${props => props.theme.colors.fontCaption};
 
-  &,
-  i {
-    font-size: 12px !important;
-    color: ${props => props.theme.colors.fontCaption};
+  span {
+    font-size: 12px;
   }
 
-  i {
+  svg {
+    font-size: 16px !important;
     padding-right: 3px;
   }
 `;
@@ -117,7 +118,7 @@ const GFCard = memo(({
         </EnvironmentType>}
 
       <Created>
-        <FontIcon>date_range</FontIcon>
+        <DateIcon fontSize="small" color="action" />
         <FormattedRelative value={created} />
       </Created>
     </Content>
@@ -125,23 +126,19 @@ const GFCard = memo(({
     <Actions>
       <MenuButton
         id={`${id}--actions`}
-        icon
-        primary
-        menuItems={menuActions.map(action => (
+        icon={<MoreVertIcon color="primary" fontSize="small" />}
+      >
+        {menuActions.map(action => (
           <ListItem
             key={action.id}
-            primaryText={action.title}
             onClick={action.onClick}
-            leftIcon={action.icon}
-          />)
-        )}
-        centered
-        anchor={{
-          x: MenuButton.HorizontalAnchors.CENTER,
-          y: MenuButton.VerticalAnchors.CENTER,
-        }}
-      >
-        more_vert
+            dense
+            button
+          >
+            {action.icon}
+            <ListItemText primary={action.title} />
+          </ListItem>
+        ))}
       </MenuButton>
       <FavoriteCheckbox id={id} checked={favorited} onChange={onFavoriteToggled} />
     </Actions>

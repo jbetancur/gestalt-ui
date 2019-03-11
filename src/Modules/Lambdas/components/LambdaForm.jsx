@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { get, orderBy } from 'lodash';
-import { SelectField } from 'components/ReduxFormFields';
+import { TextField, SelectField } from 'components/Form';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { Panel } from 'components/Panels';
 import { UnixVariablesForm } from 'Modules/Variables';
 import { SecretsPanelForm } from 'Modules/Secrets';
-import LambdaSection from './LambaSection';
+import { lowercase } from 'util/forms';
 import LambdaFunctionSection from './LambdaFunctionSection';
 import LambdaPeriodicSection from './LambdaPeriodicSection';
 import LambdaAdvancedSection from './LambdaAdvancedSection';
@@ -28,6 +28,7 @@ class LambdaForm extends PureComponent {
     secrets: PropTypes.array.isRequired,
     onSaveInlineCode: PropTypes.func,
     lambdaStateActions: PropTypes.object.isRequired,
+    selectedRuntime: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -36,13 +37,9 @@ class LambdaForm extends PureComponent {
     onSaveInlineCode: null,
   };
 
-  // shouldComponentUpdate(nextProps) {
-  //   return !isEqual(this.props.values, nextProps.values);
-  // }
-
-  handleRuntimeProps = (id) => {
+  handleRuntimeProps = (e) => {
     const { editMode, executors, form, lambdaStateActions } = this.props;
-    const selectedExecutor = executors.find(e => e.id === id);
+    const selectedExecutor = executors.find(exec => exec.id === e.target.value);
     const selectedRuntime = {
       codeOptions: [{ displayName: 'Package', value: 'package' }],
       ...runTimes.find(runtime => runtime.value === get(selectedExecutor, 'properties.config.env.public.RUNTIME')),
@@ -68,21 +65,24 @@ class LambdaForm extends PureComponent {
         lambdaStateActions.setRunTime(selectedRuntime);
       }
 
-      form.change('properties.runtime', id);
+      form.change('properties.runtime', e.target.value);
     });
   }
 
   generateMenuItems() {
     const { executors } = this.props;
+
     return orderBy(executors, 'name').map(item => ({
-      label: item.name,
-      value: item.id,
+      key: item.id,
+      id: item.id,
+      name: item.name,
+      // secondaryLabel: item.description || ' ',
       leftIcon: iconMap(get(item, 'properties.config.env.public.RUNTIME')),
     }));
   }
 
   render() {
-    const { form, errors, values, lambda, providers, secrets, editMode, onSaveInlineCode } = this.props;
+    const { form, errors, values, lambda, providers, secrets, editMode, onSaveInlineCode, selectedRuntime } = this.props;
     const safeErrors = {
       ...errors,
       properties: {
@@ -121,9 +121,10 @@ class LambdaForm extends PureComponent {
                     component={SelectField}
                     name="properties.runtime"
                     menuItems={this.generateMenuItems()}
-                    listHeightRestricted={false}
                     required
                     label="Runtime"
+                    itemLabel="name"
+                    itemValue="id"
                     async
                     onChange={this.handleRuntimeProps}
                   />
@@ -135,27 +136,70 @@ class LambdaForm extends PureComponent {
       );
     }
 
+    const functionSectionTitle = selectedRuntime.value ? `Function (${selectedRuntime.value})` : 'Function';
+
     return (
       <React.Fragment>
-        <LambdaSection providers={providers} editMode={editMode} />
+        <Row gutter={5}>
+          <Col flex={12}>
+            <Panel expandable={false} fill>
+              <Row gutter={5}>
+                <Col flex={6} xs={12}>
+                  <Field
+                    component={TextField}
+                    name="name"
+                    label="Lambda Name"
+                    type="text"
+                    parse={lowercase}
+                    required
+                    autoFocus={!editMode}
+                  />
+                </Col>
+                <Col flex={6} xs={12}>
+                  <Field
+                    id="description"
+                    component={TextField}
+                    name="description"
+                    label="Description"
+                    multiline
+                    rowsMax={4}
+                  />
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
+        </Row>
 
         <Row gutter={5}>
-          <Col flex={7} xs={12} sm={12} md={12}>
-            <LambdaFunctionSection
-              codeType={values.properties.code_type}
-              packageCompressed={values.properties.compressed}
-              editMode={editMode}
-            />
+          <Col flex={6} xs={12} sm={12} md={12}>
+            <Panel
+              title={functionSectionTitle}
+              expandable={false}
+              fill
+            >
+              <LambdaFunctionSection
+                editMode={editMode}
+                selectedRuntime={selectedRuntime}
+              />
+            </Panel>
           </Col>
 
-          <Col flex={5} xs={12} sm={12} md={12}>
-            <LambdaAdvancedSection formValues={values} form={form} />
+          <Col flex={6} xs={12} sm={12} md={12}>
+            <Panel title="Function Options" fill expandable={false}>
+              <LambdaAdvancedSection
+                selectedProvider={selectedProvider}
+                selectedRuntime={selectedRuntime}
+              />
+            </Panel>
           </Col>
 
-          {values.properties.code_type === 'code' &&
+          {values.properties.code_type === 'code' && (
             <Col flex={12}>
-              <LambdaSourceSection onSave={onSaveInlineCode} formValues={values} />
-            </Col>}
+              <Panel title="Source Code" noPadding>
+                <LambdaSourceSection onSave={onSaveInlineCode} />
+              </Panel>
+            </Col>
+          )}
 
           <Col flex={12}>
             <Panel
@@ -192,11 +236,14 @@ class LambdaForm extends PureComponent {
 
         <Row gutter={5}>
           <Col flex={12}>
-            <LambdaPeriodicSection
-              editMode={editMode}
-              expanded={!!values.properties.periodic_info.schedule}
+            <Panel
+              title="Periodic Configuration"
+              defaultExpanded={!!(editMode && values.properties.periodic_info.schedule)}
               error={!!safeErrors.properties.periodic_info}
-            />
+              fill
+            >
+              <LambdaPeriodicSection />
+            </Panel>
           </Col>
         </Row>
       </React.Fragment>

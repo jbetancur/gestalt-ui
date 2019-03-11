@@ -26,10 +26,12 @@ import {
   INIT_LAMBDAEDIT_FULFILLED,
   INIT_LAMBDAEDIT_REJECTED,
   INIT_LAMBDAEDIT_CANCELLED,
+  CREATE_LAMBDAS_REQUEST,
+  CREATE_LAMBDAS_FULFILLED,
+  CREATE_LAMBDAS_REJECTED,
   UNLOAD_LAMBDA,
 } from '../actionTypes';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
-import lambdaModel from '../models/lambda';
 
 /**
  * fetchLambdas
@@ -57,15 +59,32 @@ export function* fetchLambdas(action) {
 export function* createLambda(action) {
   try {
     const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, action.payload);
-    const payload = lambdaModel.get(data);
 
-    yield put({ type: CREATE_LAMBDA_FULFILLED, payload });
-    yield put(notificationActions.addNotification({ message: `${payload.name} Lambda created` }));
+    yield put({ type: CREATE_LAMBDA_FULFILLED, payload: data });
+    yield put(notificationActions.addNotification({ message: `${data.name} Lambda created` }));
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(payload);
+      action.onSuccess(data);
     }
   } catch (e) {
     yield put({ type: CREATE_LAMBDA_REJECTED, payload: e.message });
+  }
+}
+
+/**
+ * createLambdaFromListing
+ * @param {*} action - { fqon, environmentId, payload, onSuccess {returns response.data} }
+ */
+export function* createLambdaFromListing(action) {
+  try {
+    const { data } = yield call(axios.post, `${action.fqon}/environments/${action.environmentId}/lambdas?embed=provider`, action.payload);
+
+    yield put({ type: CREATE_LAMBDAS_FULFILLED, payload: data, updateState: action.updateState });
+    yield put(notificationActions.addNotification({ message: `${data.name} Lambda created` }));
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess(data);
+    }
+  } catch (e) {
+    yield put({ type: CREATE_LAMBDAS_REJECTED, payload: e.message });
   }
 }
 
@@ -78,13 +97,17 @@ export function* updateLambda(action) {
     const { data } = yield call(axios.patch, `${action.fqon}/lambdas/${action.lambdaId}?embed=provider`, action.payload);
     // On a patch resource we still need to pull in the inheritied envs so we can reconcile them
     const envResponse = yield call(axios.get, `${data.properties.parent.href}/env`);
-    const payload = lambdaModel.get(data, envResponse.data);
+
+    const payload = {
+      lambda: data,
+      inheritedEnv: envResponse.data,
+    };
 
     yield put({ type: UPDATE_LAMBDA_FULFILLED, payload });
-    yield put(notificationActions.addNotification({ message: `${payload.name} Lambda updated` }));
+    yield put(notificationActions.addNotification({ message: `${data.name} Lambda updated` }));
 
     if (typeof action.onSuccess === 'function') {
-      action.onSuccess(payload);
+      action.onSuccess(data);
     }
   } catch (e) {
     yield put({ type: UPDATE_LAMBDA_REJECTED, payload: e.message });
@@ -182,14 +205,14 @@ export function* editViewWorkflow(action) {
     ]);
 
     const envResponse = yield call(axios.get, `${lambda.data.properties.parent.href}/env`);
-    const payload = lambdaModel.get(lambda.data, envResponse.data);
 
     yield put({
       type: INIT_LAMBDAEDIT_FULFILLED,
       payload: {
         executors: executors.data,
         secrets: secrets.data,
-        lambda: payload,
+        lambda: lambda.data,
+        inheritedEnv: envResponse.data,
       },
     });
   } catch (e) {
@@ -229,6 +252,7 @@ export function* watchEditViewWorkflow() {
 export default function* () {
   yield takeLatest(FETCH_LAMBDAS_REQUEST, fetchLambdas);
   yield takeLatest(CREATE_LAMBDA_REQUEST, createLambda);
+  yield takeLatest(CREATE_LAMBDAS_REQUEST, createLambdaFromListing);
   yield takeLatest(UPDATE_LAMBDA_REQUEST, updateLambda);
   yield takeLatest(DELETE_LAMBDA_REQUEST, deleteLambda);
   yield takeLatest(DELETE_LAMBDAS_REQUEST, deleteLambdas);

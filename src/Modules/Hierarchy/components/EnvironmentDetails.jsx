@@ -1,13 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { Link } from 'react-router-dom';
-import { MenuButton, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
+import { Link, withRouter } from 'react-router-dom';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import EditIcon from '@material-ui/icons/Edit';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
-import withHierarchy from '../hocs/withHierarchy';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 
 class EnvironmentDetails extends PureComponent {
   static propTypes = {
@@ -15,76 +20,67 @@ class EnvironmentDetails extends PureComponent {
     hierarchyContext: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
 
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
+
   showEntitlements = () => {
-    const { hierarchyContext, match, entitlementActions } = this.props;
+    const { hierarchyContext } = this.props;
+    const { showModal } = this.context;
     const { context: { environment } } = hierarchyContext;
     const name = environment.description || environment.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, environment.id, 'environments', 'Environment');
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${name}" Environment`,
+      fqon: environment.org.properties.fqon,
+      entityId: environment.id,
+      entityKey: 'environments',
+    });
   }
 
   delete = () => {
-    const { hierarchyContext, match, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, match, history, hierarchyContextActions } = this.props;
+    const { showModal } = this.context;
     const { context: { environment } } = hierarchyContext;
     const name = environment.description || environment.name;
-    const onSuccess = () =>
-      history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environments`);
 
-    hierarchyActions.confirmDelete(({ force }) => {
-      hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } });
-    }, name, 'Environment');
-  }
-
-  renderMenuItems() {
-    const { hierarchyContext } = this.props;
-    const { context: { environment } } = hierarchyContext;
-
-    return [
-      {
-        id: 'environment-menu-entitlements',
-        key: 'environment-menu-entitlements',
-        primaryText: 'Entitlements',
-        leftIcon: <EntitlementIcon size={20} />,
-        onClick: this.showEntitlements,
-      },
-      {
-        id: 'environment-menu-edit',
-        key: 'environment-menu-edit',
-        primaryText: 'Edit',
-        leftIcon: <FontIcon>edit</FontIcon>,
-        component: Link,
-        to: { pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/edit`, state: { modal: true } },
-      },
-      <Divider key="organization-menu-divider-1" />,
-      {
-        id: 'environment-menu-delete',
-        key: 'environment-menu-delete',
-        primaryText: 'Delete',
-        leftIcon: <DeleteIcon />,
-        onClick: this.delete,
-      }
-    ];
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete the "${name}" Environment`,
+      values: { name, type: 'Environment' },
+      requireConfirm: true,
+      important: true,
+      onProceed: ({ force }) => hierarchyContextActions.deleteEnvironment({ fqon: match.params.fqon, resource: environment, onSuccess, params: { force } }),
+    });
   }
 
   renderActions() {
+    const { hierarchyContext } = this.props;
+    const { context: { environment } } = hierarchyContext;
+
     return (
       <MenuButton
         id="environment--details--actions"
         flat
-        primary
-        iconBefore={false}
-        iconChildren="arrow_drop_down"
-        anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-          y: MenuButton.VerticalAnchors.BOTTOM,
-        }}
-        simplifiedMenu={false}
-        menuItems={this.renderMenuItems()}
+        flatColor="info"
+        label="Actions"
+        iconAfter
+        icon={<ArrowDropDownIcon fontSize="small" />}
       >
-        Actions
+        <ListItem dense button onClick={this.showEntitlements}>
+          <EntitlementIcon size={20} />
+          <ListItemText primary="Entitlements" />
+        </ListItem>
+        <ListItem dense button component={Link} to={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/environment/${environment.id}/edit`, state: { modal: true } }}>
+          <EditIcon color="action" fontSize="small" />
+          <ListItemText primary="Edit" />
+        </ListItem>
+        <Divider />
+        <ListItem dense button onClick={this.delete}>
+          <DeleteIcon size={20} />
+          <ListItemText primary="Delete" />
+        </ListItem>
       </MenuButton>
     );
   }
@@ -108,7 +104,6 @@ class EnvironmentDetails extends PureComponent {
   }
 }
 
-export default compose(
-  withHierarchy,
-  withEntitlements,
-)(EnvironmentDetails);
+export default withRouter(EnvironmentDetails);
+// TODO: Place here to fix hoisting issue
+EnvironmentDetails.contextType = ModalConsumer;

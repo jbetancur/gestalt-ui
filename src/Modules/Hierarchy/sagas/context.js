@@ -25,6 +25,7 @@ export function* buildOrganizationPayload(action) {
         contextMeta: {
           context: 'organization',
           fqon: action.fqon,
+          baseHref: action.fqon,
         },
         organization: organization.data,
         organizations: organizations.data,
@@ -48,6 +49,7 @@ export function* buildWorkspacePayload(action) {
       context: 'workspace',
       fqon: action.fqon,
       workspaceId: action.workspaceId,
+      baseHref: `${action.fqon}/workspaces/${action.workspaceId}`,
     };
 
     // if there !organization.id then get the whole state tree up to the workspace context
@@ -107,6 +109,7 @@ export function* buildEnvironmentPayload(action) {
       fqon: action.fqon,
       workspaceId: action.workspaceId,
       environmentId: action.environmentId,
+      baseHref: `${action.fqon}/environments/${action.environmentId}`
     };
 
     let envResponse;
@@ -187,6 +190,18 @@ export function* buildEnvironmentPayload(action) {
  * @param {*} action - { fqon, id, context }
  */
 export function* fetchContext(action) {
+  const getBaseHref = () => {
+    if (action.environmentId) {
+      return `${action.fqon}/environments/${action.environmentId}`;
+    }
+
+    if (action.workspaceId) {
+      return `${action.fqon}/workspaces/${action.workspaceId}`;
+    }
+
+    return action.fqon;
+  };
+
   yield put({
     type: PRE_CONTEXT_REQUEST,
     payload: {
@@ -195,6 +210,7 @@ export function* fetchContext(action) {
         fqon: action.fqon,
         workspaceId: action.workspaceId,
         environmentId: action.environmentId,
+        baseHref: getBaseHref(),
       },
     },
   });

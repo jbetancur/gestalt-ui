@@ -1,96 +1,105 @@
 import React from 'react';
-import { CheckCircleIcon } from 'components/Icons';
+import CheckCircleOutlintIcon from '@material-ui/icons/CheckCircleOutline';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/ErrorOutline';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
+import NewReleaseIcon from '@material-ui/icons/NewReleases';
+import ClearIcon from '@material-ui/icons/Clear';
+import HelpOutline from '@material-ui/icons/HelpOutline';
+import Stop from '@material-ui/icons/Stop';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
 export default (status) => {
   switch (status.toUpperCase()) {
     case 'RUNNING':
       return {
-        icon: <CheckCircleIcon />,
+        icon: <CheckCircleOutlintIcon fontSize="small" />,
         color: '$md-green-a700',
       };
     case 'HEALTHY':
       return {
-        icon: 'check_circle',
+        icon: <CheckCircleIcon fontSize="small" />,
         color: '$md-green-a700',
       };
     case 'UNHEALTHY':
       return {
-        icon: 'error_outline',
+        icon: <ErrorIcon fontSize="small" />,
         color: '$md-red-a400',
       };
     case 'SCALING':
       return {
-        icon: 'access_time',
+        icon: <AccessTimeIcon fontSize="small" />,
         color: '$md-blue-500',
       };
     case 'SUSPENDED':
       return {
-        icon: 'info_outline',
+        icon: <InfoIcon fontSize="small" />,
         color: '$md-orange-500',
       };
     case 'LOST':
       return {
-        icon: 'new_releases',
+        icon: <NewReleaseIcon fontSize="small" />,
         color: '$md-red-a400',
       };
     case 'ERROR':
       return {
-        icon: 'error_outline',
+        icon: <ErrorIcon fontSize="small" />,
         color: '$md-red-a400',
       };
     case 'ACTIVE':
       return {
-        icon: <CheckCircleIcon />,
+        icon: <CheckCircleOutlintIcon fontSize="small" />,
         color: '$md-blue-grey-500',
       };
     case 'FAILED':
       return {
-        icon: 'new_releases',
+        icon: <NewReleaseIcon fontSize="small" />,
         color: '$md-red-a400',
       };
     case 'PENDING':
       return {
-        icon: 'access_time',
+        icon: <AccessTimeIcon fontSize="small" />,
         color: '$md-orange-500',
       };
     case 'DELETED':
       return {
-        icon: 'clear',
+        icon: <ClearIcon fontSize="small" />,
         color: '$md-grey-900',
       };
     case 'DISABLED':
       return {
-        icon: 'remove_circle',
+        icon: <RemoveCircleIcon fontSize="small" />,
         color: '$md-grey-500',
       };
     case 'LAUNCHED':
       return {
-        icon: 'help_outline',
-        color: '$md-grey-300',
+        icon: <AccessTimeIcon fontSize="small" />,
+        color: '$md-grey-500',
       };
     case 'CORRUPT':
       return {
-        icon: 'new_releases',
+        icon: <NewReleaseIcon fontSize="small" />,
         color: '$md-red-a400',
       };
     case 'UNKNOWN':
       return {
-        icon: 'help_outline',
+        icon: <HelpOutline fontSize="small" />,
         color: '$md-red-a400',
       };
     case 'STOPPED':
       return {
-        icon: 'stop',
+        icon: <Stop fontSize="small" />,
         color: '$md-grey-500',
       };
     case 'SUCCESS':
       return {
-        icon: 'check_circle',
+        icon: <CheckCircleIcon fontSize="small" />,
         color: '$md-green-a700',
       };
     default:
       return {
-        icon: 'info_outline',
+        icon: <InfoIcon fontSize="small" />,
         color: '$md-blue-grey-500',
       };
   }

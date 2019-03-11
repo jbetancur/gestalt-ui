@@ -4,20 +4,21 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
-import { withEntitlements } from 'Modules/Entitlements';
 import { PolicyRules } from 'Modules/PolicyRules';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import PolicyTypesMenu from './PolicyTypesMenu';
 import PolicyForm from './PolicyForm';
-import actions from '../actions';
 import { getEditPolicyModel } from '../reducers/selectors';
 import withPolicy from '../hocs/withPolicy';
 import policyModel from '../models/policy';
@@ -28,9 +29,10 @@ class PolicyEdit extends Component {
     policy: PropTypes.object.isRequired,
     policyActions: PropTypes.object.isRequired,
     policyPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, policyActions } = this.props;
@@ -46,9 +48,16 @@ class PolicyEdit extends Component {
   }
 
   showEntitlements = () => {
-    const { entitlementActions, policy, match } = this.props;
+    const { policy } = this.props;
 
-    entitlementActions.showEntitlementsModal(policy.name, match.params.fqon, policy.id, 'policies', 'Policy');
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${policy.name}" Policy`,
+      fqon: policy.org.properties.fqon,
+      entityId: policy.id,
+      entityKey: 'policies',
+    });
   }
 
   render() {
@@ -68,14 +77,12 @@ class PolicyEdit extends Component {
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies`}
             actions={[
               <PolicyTypesMenu key="policy--types-menu" />,
-              <Button
+              <FlatButton
                 key="policy--entitlements"
-                flat
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>]}
+              />]}
           />
 
           {policyPending && <ActivityContainer id="policy-form" />}
@@ -142,6 +149,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withPolicy,
-  withEntitlements,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(PolicyEdit);

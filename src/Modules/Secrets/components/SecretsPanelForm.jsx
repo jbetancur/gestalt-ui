@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { NoData } from 'components/TableCells';
 import Alert from 'components/Alert';
@@ -82,15 +82,15 @@ const SecretsPanelForm = memo(({ type, fieldName, provider, secretsDropdown, for
           {fields.map((member, index) => {
             const field = fields.value[index] || {};
 
-            const handleSecretNamePopulation = (value) => {
-              const secret = secretsDropdown.find(i => i.id === value);
-              if (value) {
-                form.mutators.update(fieldName, index, { ...field, secret_id: value, secret_name: secret.name });
+            const handleSecretNamePopulation = ({ target }) => {
+              const secret = secretsDropdown.find(i => i.id === target.value);
+              if (target.value) {
+                form.mutators.update(fieldName, index, { ...field, secret_id: target.value, secret_name: secret.name });
               }
             };
 
-            const reset = (value) => {
-              form.mutators.update(fieldName, index, { ...field, mount_type: value, secret_key: '', path: '' });
+            const reset = ({ target }) => {
+              form.mutators.update(fieldName, index, { ...field, mount_type: target.value, secret_key: '', path: '' });
             };
 
             return (

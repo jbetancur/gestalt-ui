@@ -17,6 +17,7 @@ export default function* rootSaga() {
     yield takeLatest(...generateFetchAll({ name: 'PROVIDERS', entity: 'providers' })),
     yield takeLatest(...generateFetchOne({ name: 'PROVIDER', entity: 'providers' })),
     yield takeLatest(...generateCreate({ name: 'PROVIDER', entity: 'providers' })),
+    yield takeLatest(...generateCreate({ name: 'PROVIDERS', entity: 'providers' })),
     yield takeLatest(...generateUpdate({ name: 'PROVIDER', entity: 'providers' })),
     yield takeLatest(...generateDelete({ name: 'PROVIDER', entity: 'providers' })),
   ]);

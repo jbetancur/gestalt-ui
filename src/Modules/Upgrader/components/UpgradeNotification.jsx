@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css, withTheme } from 'styled-components';
-import { FontIcon } from 'react-md';
-import { Button } from 'components/Buttons';
+import CloseIcon from '@material-ui/icons/Close';
+import WhatsHotIcon from '@material-ui/icons/Whatshot';
+import { FlatButton } from 'components/Buttons';
 import { ALink } from 'components/Links';
 import { media } from 'util/helpers/media';
 import withUpgrader from '../hocs/withUpgrader';
@@ -33,7 +34,7 @@ const Notification = styled.div`
   }
 `;
 
-const Icon = styled(FontIcon)`
+const Icon = styled(WhatsHotIcon)`
   ${() => media.xs`
     display: none;
   `};
@@ -65,7 +66,7 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
-const UpgradeButton = styled(Button)`
+const UpgradeButton = styled(FlatButton)`
   flex-shrink: 0;
 `;
 
@@ -131,18 +132,18 @@ class UpgradeNotification extends PureComponent {
       return (
         <Notification statusColor={status}>
           <Left>
-            <Icon>whatshot</Icon>
+            <Icon fontSize="small" color="inherit" />
             <Message>
               {severity && <span>{titleSeverity}: </span>}
               <span>Newer Version Available</span>
               {upgradeNotes && <ALink to={upgradeNotes} target="_blank" rel="noopener noreferrer">Release Notes</ALink>}
             </Message>
-            <UpgradeButton onClick={this.handleUpgrade} flat>Upgrade</UpgradeButton>
+            <UpgradeButton label="Upgrade" onClick={this.handleUpgrade} />
           </Left>
 
           <Right>
             <CloseButton onClick={this.handleDismiss}>
-              <FontIcon>close</FontIcon>
+              <CloseIcon fontSize="small" color="inherit" />
             </CloseButton>
           </Right>
         </Notification>

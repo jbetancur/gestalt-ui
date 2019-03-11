@@ -8,17 +8,23 @@ import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
 import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { LambdaIcon } from 'components/Icons';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
+import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
+import { lowercase } from 'util/forms';
+import withContext from '../../Hierarchy/hocs/withContext';
 import LambdaMenuActions from './LambdaMenuActions';
 // import LambdaExpanderRow from '../components/LambdaExpanderRow'
-import actions from '../actions';
 import withLambdas from '../hocs/withLambdas';
 import iconMap from '../../Providers/config/iconMap';
+import lambdaModel from '../models/lambda';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 const tableTheme = {
   rows: {
     fontSize: '12px',
@@ -30,10 +36,12 @@ class LambdaListing extends PureComponent {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     lambdas: PropTypes.array.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     lambdasActions: PropTypes.object.isRequired,
     lambdasPending: PropTypes.bool.isRequired,
+    hierarchyContext: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -50,29 +58,33 @@ class LambdaListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, lambdasActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      lambdasActions.deleteLambda({ fqon: match.params.fqon, resource: row, onSuccess, force });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => lambdasActions.deleteLambda({ fqon: match.params.fqon, resource: row, onSuccess, force }),
+    });
   }
 
   deleteMultiple = () => {
     const { match, lambdasActions } = this.props;
     const { selectedRows } = this.state;
-
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      lambdasActions.deleteLambdas({ resources: selectedRows, fqon: match.params.fqon, onSuccess, force });
-    }, 'Confirm Delete Lambdas', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Lambdas',
+      multipleItems: names,
+      onProceed: ({ force }) => lambdasActions.deleteLambdas({ resources: selectedRows, fqon: match.params.fqon, onSuccess, force }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -85,6 +97,30 @@ class LambdaListing extends PureComponent {
     history.push(`${match.url}/${row.id}`);
   }
 
+  handleClone = (row) => {
+    const { match, lambdasActions, hierarchyContext } = this.props;
+    const { context: { environment, environments } } = hierarchyContext;
+    const { showModal } = this.context;
+
+    const modalAction = ({ name, selectedTargetValue }) => {
+      const payload = lambdaModel.create({ ...row, name });
+
+      const updateState = environment.id === selectedTargetValue;
+      lambdasActions.createLambdas({ fqon: match.params.fqon, environmentId: selectedTargetValue, payload, updateState });
+    };
+
+    showModal(NameModal, {
+      title: `Clone "${row.name}" Lambda`,
+      nameFormatter: lowercase,
+      proceedLabel: 'Clone',
+      onProceed: modalAction,
+      targetDropdownLabel: 'Select Environment',
+      showTargetDropdown: true,
+      targetDropdownValues: environments,
+      defaultTargetValue: row.properties.parent.id
+    });
+  }
+
   defineContextActions() {
     return [
       <DeleteIconButton key="delete-items" onClick={this.deleteMultiple} />,
@@ -92,6 +128,8 @@ class LambdaListing extends PureComponent {
   }
 
   defineColumns() {
+    const { match } = this.props;
+
     return [
       {
         width: '56px',
@@ -101,10 +139,10 @@ class LambdaListing extends PureComponent {
         cell: row => (
           <LambdaMenuActions
             row={row}
-            fqon={this.props.match.params.fqon}
+            fqon={match.params.fqon}
             onDelete={this.deleteOne}
-            editURL={`${this.props.match.url}/${row.id}`}
-            {...this.props}
+            onClone={this.handleClone}
+            editURL={`${match.url}/${row.id}`}
           />
         ),
       },
@@ -154,6 +192,8 @@ class LambdaListing extends PureComponent {
   }
 
   render() {
+    const { lambdas, lambdasPending } = this.props;
+
     return (
       <Row gutter={5}>
         <Col flex={12}>
@@ -161,17 +201,17 @@ class LambdaListing extends PureComponent {
             <DataTable
               title="Lambdas"
               customTheme={tableTheme}
-              data={this.props.lambdas}
+              data={lambdas}
               highlightOnHover
               pointerOnHover
               selectableRows
               selectableRowsComponent={Checkbox}
-              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
               // expandableRows
               // expandableRowsComponent={<LambdaExpanderRow />}
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
-              progressPending={this.props.lambdasPending}
+              progressPending={lambdasPending}
               progressComponent={<LinearProgress id="lambda-listing" />}
               columns={this.defineColumns()}
               contextActions={this.defineContextActions()}
@@ -179,7 +219,7 @@ class LambdaListing extends PureComponent {
               clearSelectedRows={this.state.clearSelected}
               noDataComponent={<NoData message="There are no lambdas to display" icon={<LambdaIcon size={150} />} />}
               onRowClicked={this.handleRowClicked}
-              actions={<SelectFilter disabled={this.props.lambdasPending} />}
+              actions={<SelectFilter disabled={lambdasPending} />}
               pagination
               paginationPerPage={15}
             />
@@ -195,6 +235,7 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
+  withContext(),
   withLambdas,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(LambdaListing);

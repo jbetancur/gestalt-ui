@@ -7,34 +7,29 @@ exports[`(Panels) ExpanderIcon renders component without exploding 1`] = `
   -webkit-transition: -webkit-transform 100ms ease;
   -webkit-transition: transform 100ms ease;
   transition: transform 100ms ease;
-  -webkit-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
+  -webkit-transform: rotate(0);
+  -ms-transform: rotate(0);
+  transform: rotate(0);
 }
 
-<i
-  class="md-icon material-icons c0"
-/>
+<svg
+  aria-hidden="true"
+  class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 c0"
+  focusable="false"
+  role="presentation"
+  viewBox="0 0 24 24"
+>
+  <path
+    d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+  />
+  <path
+    d="M0 0h24v24H0z"
+    fill="none"
+  />
+</svg>
 `;
 
 exports[`(Panels) ExpanderIcon renders when collapsed 1`] = `
-.c0 {
-  margin-left: 3px;
-  margin-right: 3px;
-  -webkit-transition: -webkit-transform 100ms ease;
-  -webkit-transition: transform 100ms ease;
-  transition: transform 100ms ease;
-  -webkit-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-}
-
-<i
-  class="md-icon material-icons c0"
-/>
-`;
-
-exports[`(Panels) ExpanderIcon renders when expanded 1`] = `
 .c0 {
   margin-left: 3px;
   margin-right: 3px;
@@ -46,7 +41,48 @@ exports[`(Panels) ExpanderIcon renders when expanded 1`] = `
   transform: rotate(0);
 }
 
-<i
-  class="md-icon material-icons c0"
-/>
+<svg
+  aria-hidden="true"
+  class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 c0"
+  focusable="false"
+  role="presentation"
+  viewBox="0 0 24 24"
+>
+  <path
+    d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+  />
+  <path
+    d="M0 0h24v24H0z"
+    fill="none"
+  />
+</svg>
+`;
+
+exports[`(Panels) ExpanderIcon renders when expanded 1`] = `
+.c0 {
+  margin-left: 3px;
+  margin-right: 3px;
+  -webkit-transition: -webkit-transform 100ms ease;
+  -webkit-transition: transform 100ms ease;
+  transition: transform 100ms ease;
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+<svg
+  aria-hidden="true"
+  class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 c0"
+  focusable="false"
+  role="presentation"
+  viewBox="0 0 24 24"
+>
+  <path
+    d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+  />
+  <path
+    d="M0 0h24v24H0z"
+    fill="none"
+  />
+</svg>
 `;

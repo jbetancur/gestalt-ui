@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { Caption } from 'components/Typography';
-import { AceEditor, SelectField } from 'components/ReduxFormFields';
+import { SelectField, AceEditor } from 'components/Form';
 import { Panel } from 'components/Panels';
-import { FileInput } from 'react-md';
+import { FileButton } from 'components/Buttons';
 import { isYAML } from 'util/validations';
 import { isJSON } from 'validator';
 import { composeValidators, validator, required } from 'util/forms';
@@ -39,11 +39,12 @@ const DataEditor = ({ title, editMode, editorMode, subTypes, form }) => {
             </Col>
           </Row>
 
-          <FileInput
+          <FileButton
             id={`${title}-${editorMode}-config`}
-            label={`Upload ${editorMode.toUpperCase()}`}
+            label={`Upload ${editorMode}`}
             onChange={onFile}
-            primary
+            color="primary"
+            accept=".yaml, .yml, .json"
           />
           {editMode &&
           <Row center gutter={16}>

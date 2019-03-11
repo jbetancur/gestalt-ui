@@ -1,28 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MenuButton, ListItem } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const generateListItems = onSelect => (
   [{ name: 'Create New', value: 'create' }, { name: 'Attach Existing', value: 'attach' }].map(type => (
     <ListItem
       key={type.value}
-      primaryText={type.name}
+      button
       onClick={() => onSelect(type)}
-    />)));
+    >
+      <ListItemText primary={type.name} />
+    </ListItem>
+  )));
 
 const VolumeCreateMenu = ({ onSelect }) => (
   <MenuButton
     id="add-volumeitem"
-    key="add-volumeitem"
     flat
-    sameWidth
-    primary
-    position="below"
-    iconBefore={false}
-    menuItems={generateListItems(onSelect)}
-    iconChildren="expand_more"
+    flatColor="info"
+    label="Add Volume"
+    iconAfter
+    icon={<ArrowDropDownIcon fontSize="small" />}
   >
-    Add Volume
+    {generateListItems(onSelect)}
   </MenuButton>
 );
 

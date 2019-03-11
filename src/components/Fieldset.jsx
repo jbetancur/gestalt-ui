@@ -3,23 +3,24 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const FieldsetStyle = styled.fieldset`
-  ${props => (props.border ? `border: .2em solid ${props.theme.colors['$md-grey-100']} !important` : 'border: none!important')};
-  ${props => props.background && `background-color: ${props.theme.colors['$md-grey-100']}`};
-  width: 100% !important;
+  ${props => (props.border
+    ? `border: 2px solid ${props.theme.colors.divider} !important`
+    : 'border: none !important')};
+  ${props => props.background && `background-color: ${props.theme.colors.background.default}`};
 `;
 
 const LegendStyle = styled.legend`
   height: 1.3em;
-  color: ${props => props.theme.colors['$md-grey-700']} !important;
+  color: ${props => props.theme.colors.font} !important;
 
   code {
-    color: ${props => props.theme.colors['$md-grey-100']} !important;
+    color: ${props => props.theme.colors.background.default} !important;
   }
 
   font-size: ${props => props.legendFontSize};
 `;
 
-const ContentStyle = styled(({ height, overflow, maxHeight, ...rest }) => <div {...rest} />)`
+const ContentStyle = styled(({ height, overflow, minHeight, maxHeight, ...rest }) => <div {...rest} />)`
   width: 100%;
   ${props => props.maxHeight && 'overflow: scroll'};
   ${props => props.maxHeight && `max-height: ${props.maxHeight}`};

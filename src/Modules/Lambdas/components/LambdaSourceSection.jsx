@@ -2,11 +2,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Field } from 'react-final-form';
-import { AceEditor } from 'components/ReduxFormFields';
-import { SelectField } from 'react-md';
-import { Button } from 'components/Buttons';
-import { Panel } from 'components/Panels';
+import { Field, FormSpy } from 'react-final-form';
+import { AceEditor } from 'components/Form';
+import SelectField from 'components/Fields/SelectField';
+import { IconButton } from 'components/Buttons';
+import SaveIcon from '@material-ui/icons/Save';
+import CloseIcon from '@material-ui/icons/Close';
+import FullScreenIcon from '@material-ui/icons/Fullscreen';
 import FullScreen from 'components/FullScreen';
 import withLambdaState from '../hocs/withLambdaState';
 
@@ -21,7 +23,8 @@ const HeaderControls = styled.div`
 `;
 
 const Options = styled.div`
-  flex: 1 1 auto;
+  display: flex;
+  flex: 1;
 
   > :first-child {
     margin-right: 10px;
@@ -57,7 +60,6 @@ class LambdaSourceSection extends PureComponent {
   static propTypes = {
     selectedRuntime: PropTypes.object.isRequired,
     onSave: PropTypes.func,
-    formValues: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -81,18 +83,14 @@ class LambdaSourceSection extends PureComponent {
     this.setState(prevState => ({ fullscreen: !prevState.fullscreen }));
   }
 
-  handleTheme = (theme) => {
-    localStorage.setItem('gf-editor-theme', theme);
-    this.setState({ theme });
+  handleTheme = ({ target }) => {
+    localStorage.setItem('gf-editor-theme', target.value);
+    this.setState({ theme: target.value });
   }
 
-  handleKeyBinding = (keyBinding) => {
-    localStorage.setItem('gf-editor-keybinding', keyBinding);
-    this.setState({ keyBinding });
-  }
-
-  handleOnSave = () => {
-    this.props.onSave(this.props.formValues);
+  handleKeyBinding = ({ target }) => {
+    localStorage.setItem('gf-editor-keybinding', target.value);
+    this.setState({ keyBinding: target.value });
   }
 
   renderCodeSection() {
@@ -123,29 +121,28 @@ class LambdaSourceSection extends PureComponent {
             />
           </Options>
 
-          <Buttons isFullScreen={this.state.fullscreen}>
-            {onSave && this.state.fullscreen &&
-              <Button
-                icon
-                primary
-                onClick={this.handleOnSave}
-                tooltipLabel="Save"
-                tooltipPosition="left"
-              >
-                save
-              </Button>}
+          <FormSpy subscription={{ values: true }}>
+            {({ values }) => (
+              <Buttons isFullScreen={this.state.fullscreen}>
+                {onSave && this.state.fullscreen &&
+                  <IconButton
+                    icon={<SaveIcon fontSize="small" />}
+                    color="primary"
+                    onClick={() => this.props.onSave(values)}
+                    tooltipLabel="Save"
+                    tooltipPosition="left"
+                  />}
 
-            <Button
-              icon
-              primary
-              onClick={this.handleFullScreen}
-              tooltipLabel={this.state.fullscreen ? 'Exit Full Screen' : 'Full Screen'}
-              tooltipPosition="left"
-            // iconChildren={this.state.fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-            >
-              {this.state.fullscreen ? 'close' : 'fullscreen'}
-            </Button>
-          </Buttons>
+                <IconButton
+                  icon={this.state.fullscreen ? <CloseIcon fontSize="small" /> : <FullScreenIcon fontSize="small" />}
+                  color="primary"
+                  onClick={this.handleFullScreen}
+                  tooltipLabel={this.state.fullscreen ? 'Exit Full Screen' : 'Full Screen'}
+                  tooltipPosition="left"
+                />
+              </Buttons>
+            )}
+          </FormSpy>
         </HeaderControls>
 
         <Editor isFullScreen={this.state.fullscreen}>
@@ -166,14 +163,11 @@ class LambdaSourceSection extends PureComponent {
   render() {
     const { fullscreen } = this.state;
 
-    return (
-      <Panel title="Source Code" noPadding>
-        {fullscreen
-          ? <FullScreen>{this.renderCodeSection()}</FullScreen>
-          : this.renderCodeSection()
-        }
-      </Panel>
-    );
+    if (fullscreen) {
+      return <FullScreen>{this.renderCodeSection()}</FullScreen>;
+    }
+
+    return this.renderCodeSection();
   }
 }
 

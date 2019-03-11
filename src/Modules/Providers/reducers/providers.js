@@ -1,4 +1,4 @@
-import { removeItemById } from 'util/helpers/lists';
+import { removeItemById, insertItem } from 'util/helpers/lists';
 import {
   FETCH_PROVIDERS_REQUEST,
   FETCH_PROVIDERS_FULFILLED,
@@ -6,6 +6,7 @@ import {
   DELETE_PROVIDER_REQUEST,
   DELETE_PROVIDER_FULFILLED,
   DELETE_PROVIDER_REJECTED,
+  CREATE_PROVIDERS_FULFILLED,
   UNLOAD_PROVIDERS,
 } from '../actionTypes';
 
@@ -53,6 +54,20 @@ export default (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.payload,
+      };
+
+    // Insert container into lambda listing state
+    case CREATE_PROVIDERS_FULFILLED:
+      // only update if within the same environment context - see the saga createProviders for logic
+      if (action.updateState) {
+        return {
+          ...state,
+          providers: insertItem(state.providers, action.payload)
+        };
+      }
+
+      return {
+        ...state,
       };
     case UNLOAD_PROVIDERS:
       return initialState;

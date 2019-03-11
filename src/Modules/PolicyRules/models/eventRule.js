@@ -90,10 +90,17 @@ const initForm = (model = {}) => pick(get(model), [
   'properties.match_actions',
 ]);
 
+/**
+ * rawGet
+ * @param {Object} model
+ */
+const rawGet = (model = {}) => transformOut(schema.cast(model));
+
 export default {
   schema,
   get,
   create,
   patch,
   initForm,
+  rawGet,
 };

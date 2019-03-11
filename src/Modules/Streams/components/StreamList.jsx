@@ -9,23 +9,26 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { StreamIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
-import actions from '../actions';
 import withStreamSpecs from '../hocs/withStreamSpecs';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class StreamList extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     streamSpecs: PropTypes.array.isRequired,
     streamSpecsPending: PropTypes.bool.isRequired,
     streamSpecsActions: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -38,27 +41,32 @@ class StreamList extends PureComponent {
 
   deleteOne = (row) => {
     const { match, streamSpecsActions } = this.props;
+    const { showModal } = this.context;
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      streamSpecsActions.deleteStreamSpec({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => streamSpecsActions.deleteStreamSpec({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
   deleteMultiple = () => {
     const { match, streamSpecsActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      streamSpecsActions.deleteStreamSpecs({ fqon: match.params.fqon, resources: selectedRows, onSuccess, params: { force } });
-    }, 'Confirm Delete Streams Specifications', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Streams Specifications',
+      multipleItems: names,
+      onProceed: ({ force }) => streamSpecsActions.deleteStreamSpecs({ fqon: match.params.fqon, resources: selectedRows, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -136,8 +144,8 @@ class StreamList extends PureComponent {
               pointerOnHover
               selectableRows
               selectableRowsComponent={Checkbox}
-              selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               progressPending={this.props.streamSpecsPending}
               progressComponent={<LinearProgress id="stream-listing" />}
@@ -164,5 +172,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withStreamSpecs,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(StreamList);

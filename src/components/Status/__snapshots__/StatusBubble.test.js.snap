@@ -27,10 +27,6 @@ exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = 
   height: 14px;
 }
 
-.c1 {
-  color: #ff9800 !important;
-}
-
 @media (min-width:0) and (max-width:599px) {
   .c0 div {
     height: 18px;
@@ -47,12 +43,24 @@ exports[`Components::StatusBubble::StatusBubble mounts with default props 1`] = 
   class="c0"
   color="$md-orange-500"
 >
-  <i
-    class="md-icon material-icons c1"
-    color="$md-orange-500"
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root-1 MuiSvgIcon-fontSizeSmall-8"
+    focusable="false"
+    role="presentation"
+    viewBox="0 0 24 24"
   >
-    access_time
-  </i>
+    <path
+      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+    />
+    <path
+      d="M0 0h24v24H0z"
+      fill="none"
+    />
+    <path
+      d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+    />
+  </svg>
   <div>
     PENDING
   </div>
@@ -86,10 +94,6 @@ exports[`Components::StatusBubble::StatusBubble renders correctly when a status 
   height: 14px;
 }
 
-.c1 {
-  color: #00c853 !important;
-}
-
 @media (min-width:0) and (max-width:599px) {
   .c0 div {
     height: 18px;
@@ -106,27 +110,21 @@ exports[`Components::StatusBubble::StatusBubble renders correctly when a status 
   class="c0"
   color="$md-green-a700"
 >
-  <i
-    class="md-icon material-icons c1"
-    color="$md-green-a700"
+  <svg
+    aria-hidden="true"
+    class="MuiSvgIcon-root-1 MuiSvgIcon-fontSizeSmall-8"
+    focusable="false"
+    role="presentation"
+    viewBox="0 0 24 24"
   >
-    <svg
-      class="md-icon md-icon material-icons"
-      focusable="false"
-      role="img"
-      style="height: 20px; width: 20px;"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M0 0h24v24H0V0zm0 0h24v24H0V0z"
-        fill="none"
-      />
-      <path
-        d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-      />
-    </svg>
-  </i>
+    <path
+      d="M0 0h24v24H0V0zm0 0h24v24H0V0z"
+      fill="none"
+    />
+    <path
+      d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+    />
+  </svg>
   <div>
     running
   </div>

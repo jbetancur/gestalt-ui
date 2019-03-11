@@ -1,20 +1,30 @@
 import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import CodeBlock from 'components/CodeBlock';
-import { generateProviderPayload } from '../payloadTransformer';
 import providerModel from '../models/provider';
 
-const PayloadViewer = memo(({ value, name, hasContainer }) => {
-  const [raw, toggleRaw] = useState(0);
+const PayloadViewer = memo(({ value, name, providerType }) => {
+  const [raw, toggleRaw] = useState(false);
 
-  const data = raw
-    ? providerModel.get(value)
-    : generateProviderPayload(value, hasContainer);
+  const formatPayload = () => {
+    // use the correct model to format the provider payload
+    if (providerType.model) {
+      const data = raw
+        ? providerType.model.rawGet(value)
+        : providerType.model.create(value);
+
+      return data;
+    }
+
+    return raw
+      ? providerModel.rawGet(value)
+      : providerModel.create(value);
+  };
 
   return (
     <CodeBlock
       mode="json"
-      value={data}
+      value={formatPayload()}
       enableDownload
       fileName={name}
       enableRawOption
@@ -26,7 +36,11 @@ const PayloadViewer = memo(({ value, name, hasContainer }) => {
 PayloadViewer.propTypes = {
   value: PropTypes.any.isRequired,
   name: PropTypes.string.isRequired,
-  hasContainer: PropTypes.bool.isRequired,
+  providerType: PropTypes.object,
+};
+
+PayloadViewer.defaultProps = {
+  providerType: {},
 };
 
 export default PayloadViewer;

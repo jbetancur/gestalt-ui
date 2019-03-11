@@ -1,9 +1,11 @@
 import { object, array, string } from 'yup';
 import { pick } from 'lodash';
+import jsonPatch from 'fast-json-patch';
+import favoriteModel from './favorite';
 
 const schema = object().shape({
   id: string(),
-  name: string().default('').required(),
+  name: string().default(''),
   description: string(),
   resource_type: string(),
   resource_state: string(),
@@ -14,12 +16,11 @@ const schema = object().shape({
     properties: object().shape({}),
   }),
   properties: object().shape({
-    resource_favorites: array().of(object().shape({
-      resource_id: string().required(),
-      resource_type_id: string().required(),
-      resource_name: string().required(),
-      nickname: string(),
-    })).default([]),
+    parent: object().shape({
+      id: string(),
+    }),
+    avatar: string(),
+    resource_favorites: array().of(favoriteModel.schema).default([]),
   }),
 });
 
@@ -37,14 +38,20 @@ const create = (model = {}) =>
   pick(get(model), [
     'name',
     'description',
-    'properties',
+    'properties.avatar',
+    'properties.resource_favorites',
   ]);
 
 /**
  * patch - only allow mutable props
  * @param {Object} model - override the model
+ * @param {Object} updatedModel - override the model
  */
-const patch = (model = {}) => create(model);
+const patch = (model = {}, updatedModel = {}) => (
+  jsonPatch.compare(
+    create(model),
+    create(updatedModel))
+);
 
 /**
  * initForm

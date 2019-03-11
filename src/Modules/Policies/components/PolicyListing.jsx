@@ -9,13 +9,15 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { PolicyIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
-import actions from '../actions';
 import withPolicies from '../hocs/withPolicies';
 
-const handleIndeterminate = isIndeterminate => (isIndeterminate ? <FontIcon>indeterminate_check_box</FontIcon> : <FontIcon>check_box_outline_blank</FontIcon>);
+const handleIndeterminate = isIndeterminate => isIndeterminate;
 
 class PolicyListing extends PureComponent {
   static propTypes = {
@@ -23,9 +25,10 @@ class PolicyListing extends PureComponent {
     history: PropTypes.object.isRequired,
     policies: PropTypes.array.isRequired,
     policiesPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
     policiesActions: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -38,28 +41,33 @@ class PolicyListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, policiesActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      policiesActions.deletePolicy({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => policiesActions.deletePolicy({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
   deleteMultiple = () => {
     const { match, policiesActions } = this.props;
     const { selectedRows } = this.state;
+    const { showModal } = this.context;
     const names = selectedRows.map(item => (item.name));
 
     const onSuccess = () => {
       this.setState(prevState => ({ clearSelected: !prevState.clearSelected }));
     };
 
-    this.props.confirmDelete(({ force }) => {
-      policiesActions.deletePolicies({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } });
-    }, 'Confirm Delete Policies', names);
+    showModal(ConfirmModal, {
+      title: 'Confirm Deleting Multiple Policies',
+      multipleItems: names,
+      onProceed: ({ force }) => policiesActions.deletePolicies({ resources: selectedRows, fqon: match.params.fqon, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -143,8 +151,8 @@ class PolicyListing extends PureComponent {
             pointerOnHover
             selectableRows
             selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ uncheckedIcon: handleIndeterminate }}
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+            sortIcon={<ArrowDownIcon />}
             defaultSortField="name"
             progressPending={this.props.policiesPending}
             progressComponent={<LinearProgress id="policy-listing" />}
@@ -170,5 +178,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withPolicies,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(PolicyListing);

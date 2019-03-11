@@ -14,7 +14,6 @@ import {
 } from '../actionTypes';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 import { setSelectedProvider } from '../actions';
-import containerModel from '../models/container';
 
 export function* createViewWorkflow() {
   try {
@@ -60,17 +59,21 @@ export function* editViewWorkflow(action) {
     }
 
     const { environment } = yield select(state => state.hierarchy.context);
+    const key = action.isJob ? 'jobs' : 'containers';
 
     const [container, secrets, volumes] = yield call(axios.all, [
-      axios.get(`${environment.org.properties.fqon}/containers/${containerId}?embed=provider&embed=volumes`),
+      axios.get(`${environment.org.properties.fqon}/${key}/${containerId}?embed=provider&embed=volumes`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/secrets?expand=true`),
       axios.get(`${environment.org.properties.fqon}/environments/${environment.id}/volumes?expand=true`),
     ]);
 
     const envResponse = yield call(axios.get, `${environment.org.properties.fqon}/environments/${environment.id}/env`);
-    const payload = containerModel.get(container.data, envResponse.data);
+    const containerPayload = {
+      container: container.data,
+      inheritedEnv: action.isJob ? {} : envResponse.data,
+    };
 
-    yield put(setSelectedProvider(payload.properties.provider));
+    yield put(setSelectedProvider(container.data.properties.provider));
 
     yield put({
       type: INIT_CONTAINEREDIT_FULFILLED,
@@ -80,7 +83,7 @@ export function* editViewWorkflow(action) {
       payload: {
         secrets: secrets.data,
         volumes: volumes.data,
-        container: payload,
+        ...containerPayload,
       },
     });
   } catch (e) {

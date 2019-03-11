@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
-import { FontIcon, Button } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import { FlatButton } from 'components/Buttons';
+import LogIcon from '@material-ui/icons/Subject';
 import { getLastFromSplit } from 'util/helpers/strings';
 // import ExpandableLogs from './ExpandableLogs';
 
@@ -15,19 +17,17 @@ const ContainerInstances = ({ containerModel, fqon }) => {
       width: '225px',
       ignoreRowClick: true,
       cell: row => (
-        <Button
-          flat
-          primary
-          iconChildren="subject"
+        <FlatButton
+          label="Expand Log"
+          icon={<LogIcon fontSize="small" />}
+          color="primary"
           to={{
             pathname: '/logs',
             search: `?name=${containerModel.name} - ${row.host}&fqon=${fqon}&providerId=${containerModel.properties.provider.id}&providerType=${providerType}&logType=container&logId=${row.id}`
           }}
           target="_blank"
           component={Link}
-        >
-          Expand Log
-        </Button>
+        />
       ),
     },
     {
@@ -63,7 +63,7 @@ const ContainerInstances = ({ containerModel, fqon }) => {
     <DataTable
       data={containerModel.properties.instances}
       columns={columns}
-      sortIcon={<FontIcon>arrow_downward</FontIcon>}
+      sortIcon={<ArrowDownIcon />}
       defaultSortField="startedAt"
       noDataComponent={<Title light>There are no instances running</Title>}
       // expandableRows

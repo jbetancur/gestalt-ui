@@ -11,7 +11,7 @@ const PanelWrapper = styled(({ fill, error, expanded, noShadow, noBackground, ..
   width: 100%;
   ${props => props.fill && props.expanded && 'height: 100%'};
   ${props => props.error && !props.expanded && css`
-    box-shadow: 0 0 2px 2px ${props.theme.colors['$md-red-500']};
+    box-shadow: 0 0 2px 2px ${props.theme.colors.error};
   `};
 `;
 

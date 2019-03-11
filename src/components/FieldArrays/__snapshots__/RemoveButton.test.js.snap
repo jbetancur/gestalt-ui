@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Components) RemoveButton mounts with basic renderWithTheme 1`] = `
+.c1 {
+  font-size: 20px;
+  color: action;
+}
+
 @media (min-width:0) and (max-width:599px) {
   .c0 {
     position: absolute;
@@ -18,22 +23,23 @@ exports[`(Components) RemoveButton mounts with basic renderWithTheme 1`] = `
 }
 
 <button
-  class="md-btn md-btn--icon md-pointer--hover md-inline-block c0"
+  aria-label="Add to shopping cart"
+  class="MuiButtonBase-root-8 MuiIconButton-root-2 c0"
+  tabindex="0"
   type="button"
 >
-  <i
-    class="md-icon material-icons md-text--inherit"
+  <span
+    class="MuiIconButton-label-7"
   >
     <svg
-      class="md-icon md-icon material-icons"
+      aria-hidden="true"
+      class="MuiSvgIcon-root-11 MuiSvgIcon-colorAction-14 c1"
       focusable="false"
-      role="img"
-      style="height: 20px; width: 20px;"
+      role="presentation"
+      size="20"
       viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        color="none"
         d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
       />
       <path
@@ -41,6 +47,6 @@ exports[`(Components) RemoveButton mounts with basic renderWithTheme 1`] = `
         fill="none"
       />
     </svg>
-  </i>
+  </span>
 </button>
 `;

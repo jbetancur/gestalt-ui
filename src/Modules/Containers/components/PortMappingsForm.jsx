@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { SelectField, TextField, Checkbox } from 'components/ReduxFormFields';
+import { SelectField, TextField, Checkbox } from 'components/Form';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
 import { Chips } from 'components/Lists';
 import { fixInputNumber, composeValidators, required, min, max, maxLen, formatName } from 'util/forms';
@@ -17,10 +17,10 @@ const initialValues = {
 };
 
 class PortMappingsForm extends PureComponent {
-  handleLBPort = (field, index) => (value) => {
+  handleLBPort = (field, index) => (e) => {
     const { form, fieldName } = this.props;
     const item = { ...field };
-    const port = fixInputNumber(value);
+    const port = fixInputNumber(e.target.value);
 
     if (field.expose_endpoint) {
       item.lb_port = port;
@@ -45,12 +45,12 @@ class PortMappingsForm extends PureComponent {
               return (
                 <FieldItem key={`portmapping-${member}`}>
                   <Row gutter={5} alignItems="baseline" columnDivisions={24}>
-                    <Col flex={2} xs={24} sm={24} md={24} style={{ minWidth: '90px' }}>
+                    <Col flex={2} xs={24} sm={24} md={24} style={{ minWidth: '140px' }}>
                       <Field
                         id={`${member}.expose_endpoint`}
                         name={`${member}.expose_endpoint`}
                         component={Checkbox}
-                        checked={field.expose_endpoint}
+                        type="checkbox"
                         label="Expose Service"
                       />
                     </Col>
@@ -64,7 +64,6 @@ class PortMappingsForm extends PureComponent {
                           itemLabel="displayName"
                           itemValue="value"
                           menuItems={exposureTypes}
-                          sameWidth={false}
                           validate={composeValidators(required())}
                           required
                         />
@@ -96,8 +95,10 @@ class PortMappingsForm extends PureComponent {
                         <Field
                           name={`${member}.container_port`}
                           type="number"
-                          min={0}
-                          max={65535}
+                          inputProps={{
+                            min: 0,
+                            max: 65536,
+                          }}
                           label="Container Port"
                           component={TextField}
                           required
@@ -111,8 +112,10 @@ class PortMappingsForm extends PureComponent {
                         <Field
                           name={`${member}.lb_port`}
                           type="number"
-                          min={0}
-                          max={65535}
+                          inputProps={{
+                            min: 0,
+                            max: 65536,
+                          }}
                           label="Load Balancer Port"
                           component={TextField}
                           required

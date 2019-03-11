@@ -1,76 +1,111 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { MenuButton, ListItem, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
+import { get } from 'lodash';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import EditIcon from '@material-ui/icons/Edit';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import FilterNone from '@material-ui/icons/FilterNone';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { EntitlementIcon } from 'components/Icons';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
+import Divider from 'components/Divider';
 import { getLastFromSplit } from 'util/helpers/strings';
 
-const GenericMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL, entityKey, disableEntitlements, disableCopy }) => {
+const GenericMenuActions = ({ row, rowNameField, fqon, onDelete, onClone, editURL, entityKey, disableEntitlements, disableCopy }) => {
+  const { showModal } = useContext(ModalContext);
+
   const handleDelete = () => {
     onDelete(row);
   };
 
+  const handleClone = () => {
+    onClone(row);
+  };
+
   const handleEntitlements = () => {
-    entitlementActions.showEntitlementsModal(row.name, fqon, row.id, entityKey, getLastFromSplit(row.resource_type));
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${get(row, rowNameField)}" ${getLastFromSplit(row.resource_type)}`,
+      fqon,
+      entityId: row.id,
+      entityKey,
+    });
   };
 
   return (
     <MenuButton
       id={`${entityKey}--menu-actions`}
-      key={`${entityKey}--menu-actions`}
-      primary
-      icon
-      simplifiedMenu={false}
-      repositionOnScroll={false}
-      position={MenuButton.Positions.TOP_LEFT}
-      anchor={{
-        x: MenuButton.HorizontalAnchors.INNER_LEFT,
-        y: MenuButton.VerticalAnchors.OVERLAP,
-      }}
-      menuItems={
-        <React.Fragment>
-          {editURL ?
-            <ListItem
-              primaryText="Edit"
-              leftIcon={<FontIcon>edit</FontIcon>}
-              to={editURL}
-              component={Link}
-            /> : <div />}
-          {!disableEntitlements ?
-            <ListItem
-              primaryText="Entitlements"
-              leftIcon={<FontIcon>security</FontIcon>}
-              onClick={handleEntitlements}
-            /> : <div />}
-          {!disableCopy &&
-            <CopyToClipboard text={row.id}>
-              <ListItem
-                primaryText="Copy uuid"
-                leftIcon={<FontIcon>content_copy</FontIcon>}
-              />
-            </CopyToClipboard>}
-          {!disableEntitlements && !disableCopy && <Divider />}
-          <ListItem
-            primaryText="Delete"
-            leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>}
-            onClick={handleDelete}
-          />
-        </React.Fragment>
-      }
-      centered
+      icon={<MoreVertIcon fontSize="small" color="primary" />}
     >
-      more_vert
+      {editURL && (
+        <ListItem
+          button
+          dense
+          to={editURL}
+          component={Link}
+        >
+          <EditIcon fontSize="small" color="action" />
+          <ListItemText primary="Edit" />
+        </ListItem>
+      )}
+
+      {!disableEntitlements && (
+        <ListItem
+          button
+          dense
+          onClick={handleEntitlements}
+        >
+          <EntitlementIcon size={20} />
+          <ListItemText primary="Entitlements" />
+        </ListItem>
+      )}
+
+      {!disableCopy && (
+        <CopyToClipboard text={row.id}>
+          <ListItem button dense>
+            <CopyIcon fontSize="small" color="action" />
+            <ListItemText primary="Copy UUID" />
+          </ListItem>
+        </CopyToClipboard>
+      )}
+
+      {onClone && (
+        <ListItem
+          button
+          dense
+          onClick={handleClone}
+        >
+          <FilterNone fontSize="small" color="action" />
+          <ListItemText primary="Clone" />
+        </ListItem>
+      )}
+
+      {!disableEntitlements && !disableCopy && <Divider />}
+
+      <ListItem
+        button
+        dense
+        onClick={handleDelete}
+      >
+        <DeleteIcon fontSize="small" color="error" />
+        <ListItemText primary="Delete" />
+      </ListItem>
     </MenuButton>
   );
 };
 
 GenericMenuActions.propTypes = {
   row: PropTypes.object,
+  rowNameField: PropTypes.string,
   fqon: PropTypes.string,
   editURL: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
-  entitlementActions: PropTypes.object.isRequired,
+  onClone: PropTypes.func,
   entityKey: PropTypes.string.isRequired,
   disableEntitlements: PropTypes.bool,
   disableCopy: PropTypes.bool,
@@ -78,10 +113,12 @@ GenericMenuActions.propTypes = {
 
 GenericMenuActions.defaultProps = {
   row: {},
+  rowNameField: 'name',
   fqon: null,
   editURL: null,
   disableEntitlements: false,
   disableCopy: false,
+  onClone: null,
 };
 
-export default withEntitlements(GenericMenuActions);
+export default GenericMenuActions;

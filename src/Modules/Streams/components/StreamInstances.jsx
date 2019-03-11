@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { FontIcon, MenuButton } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import InsertChart from '@material-ui/icons/InsertChart';
 import DataTable from 'react-data-table-component';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import { ActionsMenu } from 'Modules/Actions';
 import { StatusBubble } from 'components/Status';
 import { Timestamp } from 'components/TableCells';
 import { Title } from 'components/Typography';
-import { Button } from 'components/Buttons';
-import actions from '../actions';
+import { FlatButton } from 'components/Buttons';
+import StreamInstanceModal from './StreamInstanceModal';
 
 const translateRetries = (value) => {
   if (value === -1) {
@@ -19,7 +19,8 @@ const translateRetries = (value) => {
   return value;
 };
 
-const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, showModal }) => {
+const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions }) => {
+  const { showModal } = useContext(ModalContext);
   const columns = [
     {
       name: 'Status',
@@ -47,15 +48,17 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
       button: true,
       ignoreRowClick: true,
       cell: row => (
-        <Button
-          flat
-          primary
-          iconChildren="insert_chart"
-          onClick={() => showModal({ fqon, streamId: streamSpec.id, persistenceId: row.persistenceId })}
+        <FlatButton
+          color="primary"
+          label="View Metrics"
+          icon={<InsertChart fontSize="small" />}
+          onClick={() => showModal(StreamInstanceModal, {
+            fqon,
+            streamId: streamSpec.id,
+            persistenceId: row.persistenceId,
+          })}
           disabled={!(row.status === 'active' || row.status === 'starting')}
-        >
-          View Metrics
-        </Button>
+        />
       ),
     },
   ];
@@ -73,11 +76,6 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
           resource={row}
           actionList={providerActions}
           fqon={fqon}
-          position={MenuButton.Positions.TOP_LEFT}
-          anchor={{
-            x: MenuButton.HorizontalAnchors.INNER_LEFT,
-            y: MenuButton.VerticalAnchors.OVERLAP,
-          }}
           disabled={!(row.status === 'active' || row.status === 'starting')}
         />
       )
@@ -89,7 +87,7 @@ const StreamInstances = ({ fqon, streamSpec, streamInstances, providerActions, s
       keyField="persistenceId"
       data={streamInstances}
       columns={columns}
-      sortIcon={<FontIcon>arrow_downward</FontIcon>}
+      sortIcon={<ArrowDownIcon />}
       defaultSortField="startTime"
       defaultSortAsc={false}
       noDataComponent={<Title light>There are no stream instances running</Title>}
@@ -102,9 +100,6 @@ StreamInstances.propTypes = {
   streamSpec: PropTypes.object.isRequired,
   streamInstances: PropTypes.array.isRequired,
   providerActions: PropTypes.array.isRequired,
-  showModal: PropTypes.func.isRequired,
 };
 
-export default compose(
-  connect(null, actions)
-)(StreamInstances);
+export default StreamInstances;

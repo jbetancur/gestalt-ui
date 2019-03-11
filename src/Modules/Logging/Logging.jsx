@@ -6,10 +6,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import axios from 'axios';
-import { SelectField } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
 import Log from 'components/Log';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { Button, FileDownloadButton } from 'components/Buttons';
+import { IconButton, FlatButton, FileDownloadButton } from 'components/Buttons';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import CloseIcon from '@material-ui/icons/Close';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import { Title } from 'components/Typography';
 import { API_TIMEOUT } from '../../constants';
 import { timeSpans } from './constants';
@@ -32,6 +36,10 @@ const Toolbar = styled.header`
   ${props => props.fullPage && css`
     z-index: 1;
   `};
+
+  button {
+    margin-left: 5px;
+  }
 `;
 
 const TitleSection = styled.div`
@@ -56,14 +64,26 @@ const ScrollButtons = styled.div`
   border-radius: 5px;
 `;
 
-const TopScrollButton = styled(Button)`
+const TopScrollButton = styled(IconButton)`
+  ${props => props.fullPage && 'color: white'};
+  display: block !important;
+`;
+
+const BottomScrollButton = styled(IconButton)`
   ${props => props.fullPage && 'color: white'};
   display: block;
 `;
 
-const BottomScrollButton = styled(Button)`
-  ${props => props.fullPage && 'color: white'};
-  display: block;
+const OutputButtons = styled.div`
+  padding: 5px 5px 5px 5px;
+
+  button {
+    margin-left: 5px;
+  }
+`;
+
+const TimeSpanSelect = styled(SelectField)`
+  height: 38px;
 `;
 
 class Logging extends PureComponent {
@@ -141,7 +161,7 @@ class Logging extends PureComponent {
     this.props.unloadLogProvider();
   }
 
-  setLogTimespan = value => this.setState({ logTimespan: value });
+  setLogTimespan = ({ target }) => this.setState({ logTimespan: target.value });
 
   showStdErr = stderr => this.setState({ stderr });
 
@@ -199,60 +219,46 @@ class Logging extends PureComponent {
           </TitleSection>
           <ToolbarControls>
             {showLogOutputs &&
-              <React.Fragment>
-                <Button
-                  raised={!this.state.stderr}
-                  primary={!this.state.stderr}
+              <OutputButtons>
+                <FlatButton
+                  variant={!this.state.stderr ? 'contained' : 'text'}
+                  color={!this.state.stderr ? 'primary' : 'default'}
                   onClick={() => this.showStdErr(false)}
                   disabled={disableControls}
-                >
-                  STDOUT
-                </Button>
-                <Button
-                  raised={this.state.stderr}
-                  primary={this.state.stderr}
+                  label="STDOUT"
+                />
+                <FlatButton
+                  variant={this.state.stderr ? 'contained' : 'text'}
+                  color={this.state.stderr ? 'primary' : 'default'}
                   onClick={() => this.showStdErr(true)}
                   disabled={disableControls}
-                >
-                  STDERR
-                </Button>
-              </React.Fragment>}
-            <SelectField
+                  label="STDERR"
+                />
+              </OutputButtons>}
+            <TimeSpanSelect
               id="log--timespan"
               menuItems={timeSpans}
               itemLabel="name"
               itemValue="value"
-              defaultValue={logTimespan}
-              lineDirection="center"
+              value={logTimespan}
               onChange={this.setLogTimespan}
-              simplifiedMenu={false}
-              repositionOnScroll={false}
-              position={SelectField.Positions.BELOW}
-              anchor={{
-                x: SelectField.HorizontalAnchors.CENTER,
-                y: SelectField.VerticalAnchors.BOTTOM,
-              }}
               disabled={disableControls}
-              toolbar
             />
-            <Button
-              icon
-              iconChildren="refresh"
+            <IconButton
+              icon={<RefreshIcon fontSize="small" />}
               tooltipLabel="Refresh Log"
               onClick={() => this.fetchLogs(this.props, this.state)}
               disabled={disableControls}
             />
             <FileDownloadButton
-              icon
               data={(logs.length > 0 && logs.join('\n')) || ''}
               tooltipLabel="Download Log"
               fileName={`${name}-${logType}.log`}
               disabled={disableControls}
             />
             {fullPage &&
-              <Button
-                icon
-                iconChildren="close"
+              <IconButton
+                icon={<CloseIcon fontSize="small" />}
                 tooltipLabel="Close"
                 onClick={() => window.close()}
               />}
@@ -265,18 +271,16 @@ class Logging extends PureComponent {
         {fullPage &&
           <ScrollButtons>
             <TopScrollButton
-              icon
-              iconChildren="arrow_upward"
-              primary
+              icon={<ArrowUpwardIcon fontSize="small" />}
+              color="primary"
               tooltipLabel="Scroll to Top"
               tooltipPosition="left"
               onClick={this.scrollToTop}
               fullPage={fullPage}
             />
             <BottomScrollButton
-              icon
-              iconChildren="arrow_downward"
-              primary
+              icon={<ArrowDownwardIcon fontSize="small" />}
+              color="primary"
               tooltipLabel="Scroll to Bottom"
               tooltipPosition="left"
               onClick={this.scrollToBottom}

@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form as FinalForm, Field } from 'react-final-form';
 import createDecorator from 'final-form-focus';
-import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
-import { AceEditor, SelectField, TextField } from 'components/ReduxFormFields';
+import Form, { SelectField, TextField, AceEditor } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { Caption } from 'components/Typography';
-import { FileInput } from 'react-md';
+import { FileButton } from 'components/Buttons';
 import { composeValidators, required } from 'util/forms';
 import withAppDeployments from '../hocs/withAppDeployments';
 
@@ -128,7 +127,7 @@ class AppDeploymentCreate extends Component {
                           </Col>
                         </Row>
 
-                        <FileInput
+                        <FileButton
                           id="app-deployment-yaml-config"
                           label="Upload YAML"
                           onChange={onFile}

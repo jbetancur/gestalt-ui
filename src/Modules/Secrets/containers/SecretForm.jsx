@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Field } from 'react-final-form';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { getLastFromSplit } from 'util/helpers/strings';
 import SecretItemsForm from '../components/SecretItemsForm';
@@ -13,8 +13,8 @@ const SecretForm = ({ providers, values, form, editMode }) => {
   const providersFiltered = filteredprovidersData.length > 0 ? filteredprovidersData : providers;
   const selectedProvider = Object.assign({}, providers.length ? providers.find(p => p.id === values.properties.provider.id) : {});
   const isMultiPartSecret = getLastFromSplit(selectedProvider.resource_type) === 'Kubernetes';
-  const handleProviderChange = (value) => {
-    form.change('properties.provider.id', value);
+  const handleProviderChange = (e) => {
+    form.change('properties.provider.id', e.target.value);
     form.change('properties.items', values.properties.items.slice(-1));
   };
 
@@ -22,7 +22,7 @@ const SecretForm = ({ providers, values, form, editMode }) => {
     <React.Fragment>
       <Row gutter={5}>
         <Col flex={7} xs={12} sm={12} md={12}>
-          <Panel title="General" expandable={false} fill>
+          <Panel expandable={false} fill>
             <Row gutter={5}>
               <Col flex={12}>
                 <Field
@@ -53,16 +53,16 @@ const SecretForm = ({ providers, values, form, editMode }) => {
         </Col>
 
         <Col flex={5} xs={12} sm={12} md={12}>
-          <Panel title="Description" expandable={false} fill>
+          <Panel expandable={false} fill>
             <Row gutter={5}>
               <Col flex={12}>
                 <Field
                   id="description"
                   component={TextField}
                   name="description"
-                  placeholder="Description"
-                  rows={1}
-                  maxRows={6}
+                  label="Description"
+                  multiline
+                  rowsMax={6}
                 />
               </Col>
             </Row>

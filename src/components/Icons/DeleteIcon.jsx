@@ -1,26 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SVGIcon } from 'react-md';
+import styled from 'styled-components';
+import Icon from '@material-ui/icons/DeleteOutline';
 
-/* eslint react/jsx-indent: 0 */
+const DeleteOutlineIconStyle = styled(Icon)`
+  font-size: ${props => `${props.size}px`};
+  color: ${props => `${props.color}`};
+`;
 
-// TODO: delete_outline ligature is missing from material-design-icons lib so subing the svg
-const DeleteIcon = ({ size, isRed, ...rest }) => (
-  <SVGIcon viewBox="0 0 24 24" size={size} className="md-icon material-icons" {...rest}>
-    <path color={isRed ? '#f44336' : 'none'} d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
-    <path fill="none" d="M0 0h24v24H0V0z" />
-  </SVGIcon>
-);
+const DeleteOutlineIcon = ({ size, color, ...rest }) => <DeleteOutlineIconStyle size={size} color={color} {...rest} />;
 
-DeleteIcon.propTypes = {
+DeleteOutlineIcon.propTypes = {
   size: PropTypes.number,
-  isRed: PropTypes.bool,
+  color: PropTypes.string,
 };
 
-DeleteIcon.defaultProps = {
-  size: 20,
-  isRed: false,
+DeleteOutlineIcon.defaultProps = {
+  size: 22,
+  color: 'action',
 };
 
-
-export default DeleteIcon;
+export default DeleteOutlineIcon;

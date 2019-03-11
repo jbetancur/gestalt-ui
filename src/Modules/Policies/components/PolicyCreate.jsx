@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
@@ -9,7 +8,6 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { generateContextEntityState } from 'util/helpers/context';
 import PolicyForm from './PolicyForm';
-import actions from '../actions';
 import withPolicy from '../hocs/withPolicy';
 import policyModel from '../models/policy';
 
@@ -67,5 +65,4 @@ class PolicyCreate extends Component {
 
 export default compose(
   withPolicy,
-  connect(null, actions),
 )(PolicyCreate);

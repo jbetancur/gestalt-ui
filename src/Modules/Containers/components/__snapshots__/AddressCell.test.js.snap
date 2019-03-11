@@ -7,7 +7,7 @@ exports[`Containers::Component AddressCell renders with a valid address 1`] = `
   font-size: 13px;
   -webkit-text-decoration: none;
   text-decoration: none;
-  color: #1e88e5;
+  color: #03a9f4;
 }
 
 .c0 {

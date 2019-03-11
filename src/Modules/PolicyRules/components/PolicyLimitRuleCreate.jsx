@@ -9,7 +9,6 @@ import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import PolicyLimitRuleForm from './PolicyLimitRuleForm';
-import actions from '../actions';
 import limitRuleModel from '../models/limitRule';
 import { getCreateLimitRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
@@ -71,5 +70,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withPolicyRule,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(PolicyLimitRuleCreate);

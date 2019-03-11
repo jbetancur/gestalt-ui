@@ -29,7 +29,7 @@ const validate = (values) => {
 const Wrapper = styled(Container)`
   position: relative;
   padding-bottom: 72px;
-  background: radial-gradient(circle, ${props => props.theme.colors['$russian-black-50']} 0, ${props => props.theme.colors['$russian-black-300']} 100%);
+  background: radial-gradient(circle, ${props => props.theme.colors.loginBackground} 0, ${props => props.theme.colors.loginBackgroundVariant} 100%);
   height: 100%;
 `;
 
@@ -83,8 +83,12 @@ class LoginContainer extends Component {
     location is used when pasting in an address into he address bar
     if last lastVisitedRoute location object is present in localstorage then that path will be redirected upon logon
     */
-    const path = (location.state && location.state.nextPathname) || JSON.parse(getItem('lastVisitedRoute')) || '/';
-    const onSuccess = () => history.replace(path);
+    const nextLocation = (location.state && location.state.nextLocation) ?
+      location.state.nextLocation
+      : JSON.parse(getItem('lastVisitedRoute'))
+      || '/';
+
+    const onSuccess = () => history.replace(nextLocation);
 
     login(values.username, values.password, onSuccess);
   };
@@ -99,7 +103,7 @@ class LoginContainer extends Component {
               <Card>
 
                 <LoginCardHeader>
-                  <GalacticFogIcon size={56} fill="white" />
+                  <GalacticFogIcon size={64} fill="white" />
                   <span>{APP_TITLE}</span>
                 </LoginCardHeader>
                 <Form

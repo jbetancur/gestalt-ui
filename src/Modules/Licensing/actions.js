@@ -82,24 +82,8 @@ export function updateLicense(fqon, payload) {
   };
 }
 
-/**
- * showLicenseModal
- */
-export function showLicenseModal() {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'LicenseModal',
-  };
-}
-
-export function hideLicenseModal() {
-  return { type: 'HIDE_MODAL' };
-}
-
 export default {
   unloadLicense,
   fetchLicense,
   updateLicense,
-  showLicenseModal,
-  hideLicenseModal,
 };

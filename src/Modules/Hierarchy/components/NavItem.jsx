@@ -16,7 +16,7 @@ const ListItem = styled.li`
   color: ${props => props.theme.colors.fontVariant};
 
   &:hover {
-    background-color: ${props => props.theme.colors.primaryVariant};
+    background-color: ${props => props.theme.colors.leftNavBackgroundVariant};
 
     .nav-on-menu-hover {
       display: flex;
@@ -38,12 +38,8 @@ const Icon = styled.div`
   line-height: 0;
   margin: 13px 21px;
 
-  i {
-    color: white;
-  }
-
   svg {
-    fill: white;
+    color: white;
   }
 `;
 
@@ -64,7 +60,7 @@ const SubMenu = styled(({ miniWidth, expandedWidth, ...rest }) => <div {...rest}
   box-shadow: 2px 1px 2px -2px rgba(0, 0, 0, 0.1);
   opacity: 0.98;
   left: calc(${props => props.miniWidth} - 1px);
-  border-left: 1px solid ${props => props.theme.colors.primary};
+  border-left: 1px solid ${props => props.theme.colors.leftNavBackground};
   max-width: calc(${props => props.expandedWidth} - ${props => props.miniWidth});
   background-color: ${props => props.theme.colors.accent};
   color: ${props => props.theme.colors.font};

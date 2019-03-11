@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AutoSizer } from 'react-virtualized';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -19,35 +18,30 @@ class IFrame extends Component {
     onReceived: PropTypes.func,
     match: PropTypes.object.isRequired,
     onLoaded: PropTypes.func,
+    width: PropTypes.string,
+    height: PropTypes.string,
   };
 
   static defaultProps = {
     onReceived: null,
     onLoaded: null,
+    width: '100%',
+    height: '100%',
   };
 
-  constructor(props) {
-    super(props);
+  iframe = React.createRef();
 
-    this.iframe = React.createRef();
-
-    this.state = {
-      height: '100%',
-      loading: true,
-    };
-  }
+  state = {
+    height: '100%',
+    loading: true,
+  };
 
   componentDidMount() {
     window.addEventListener('message', this.onPostMessage);
-
-    // we need to do this since the iframe is a child of main (due to react routing) that has overflow
-    // we will remove the overflow to prevent height weirdness with the iframe and restore in on unmount
-
-    this.iframe.current.parentElement.style.overflow = 'visible';
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { match: { params } } = this.props;
+    const { match: { params }, width, height } = this.props;
     const { loading } = this.state;
 
     if (nextProps.match.params.urlEncoded !== params.urlEncoded) {
@@ -58,14 +52,19 @@ class IFrame extends Component {
       return true;
     }
 
+    if (nextState.width !== width) {
+      return true;
+    }
+
+    if (nextState.height !== height) {
+      return true;
+    }
+
     return false;
   }
 
   componentWillUnmount() {
     window.removeEventListener('message', this.onPostMessage);
-
-    // restore parent(main)
-    this.iframe.current.parentElement.style.overflow = 'auto';
   }
 
   onPostMessage = (event) => {
@@ -88,24 +87,21 @@ class IFrame extends Component {
   };
 
   render() {
-    const { id, src, ...rest } = this.props;
+    const { id, src, onLoaded, width, height, ...rest } = this.props;
     const { loading } = this.state;
 
     return (
       <React.Fragment>
-        <AutoSizer>
-          {({ width, height }) => (
-            <ResponsiveFrame
-              id={id}
-              src={src}
-              ref={this.iframe}
-              onLoad={this.handleOnLoad}
-              width={`${width}px`}
-              height={`${height}px`}
-              {...rest}
-            />
-          )}
-        </AutoSizer>
+        <ResponsiveFrame
+          id={id}
+          src={src}
+          ref={this.iframe}
+          onLoad={this.handleOnLoad}
+          onLoaded={onLoaded}
+          width={width}
+          height={height}
+          {...rest}
+        />
         {loading && <ActivityContainer id="iframe-loading" />}
       </React.Fragment>
     );

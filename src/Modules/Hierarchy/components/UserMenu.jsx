@@ -1,83 +1,67 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { compose } from 'redux';
-import { translate } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import i18next from 'i18next';
-import { USEnglishLangIcon, UserIcon } from 'components/Icons';
-import {
-  Avatar,
-  FontIcon,
-  MenuButton,
-  ListItem,
-  Divider,
-} from 'react-md';
+import styled from 'styled-components';
+import MenuButton from 'components/Menus/MenuButton';
+import Avatar from '@material-ui/core/Avatar';
+import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import { withUserProfile } from 'Modules/UserProfile';
 import withSelf from '../../../App/hocs/withSelf';
 
-const AvatarStyled = styled(Avatar)`
-  .md-avatar-content {
-    margin-left: -5px;
-  }
+const AvatarStyle = styled(Avatar)`
+  height: 34px !important;
+  width: 34px !important;
 `;
 
-const UserMenu = ({ self, t, onLogout }) => {
-  const menuItems = [
-    <ListItem
-      id="main--user--menu--profile"
-      key="main--user--menu--profile"
-      primaryText={self.name || ''}
-      leftAvatar={<AvatarStyled iconSized>{self.name && self.name.substring(0, 1).toUpperCase()}</AvatarStyled>}
-      component={Link}
-      to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}
-    />,
-    <ListItem
-      id="main--user--menu--locale"
-      key="main--user--menu--locale"
-      primaryText={t('general.nouns.language')}
-      leftIcon={<FontIcon>language</FontIcon>}
-      nestedItems={[
-        <ListItem
-          primaryText="English"
-          leftIcon={<USEnglishLangIcon />}
-          key={0}
-          onClick={() => i18next.changeLanguage('en')}
-        />,
-      ]}
-    />,
-    <Divider key="main--user--menu--divider" />,
-    <ListItem
-      id="main--user--menu--logout"
-      key="main--user--menu--logout"
-      primaryText={t('auth.logout')}
-      leftIcon={<FontIcon>power_settings_new</FontIcon>}
-      onClick={onLogout}
-    />,
-  ];
+const Img = styled.img`
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  border: 1px solid ${props => props.theme.colors.active};
+`;
+
+const UserMenu = ({ self, userProfile, onLogout }) => {
+  const name = self.properties.firstName === self.properties.lastName
+    ? self.properties.firstName
+    : `${self.properties.firstName} ${self.properties.lastName}`;
+
+  const avatarInits =
+    self.properties && self.properties.firstName && self.properties.lastName
+      ? `${self.properties.firstName.substring(0, 1)
+        .toUpperCase()}${self.properties.lastName.substring(0, 1).toUpperCase()}`
+      : self.name.substring(0, 1).toUpperCase();
+
+  const avatarComponent = userProfile.properties.avatar
+    ? <Img src={userProfile.properties.avatar} alt={name} />
+    : avatarInits;
 
   return (
     <MenuButton
-      id="main--info--menu"
-      icon
-      menuItems={menuItems}
-      anchor={{
-        x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-        y: MenuButton.VerticalAnchors.BOTTOM,
-      }}
-      simplifiedMenu={false}
+      id="main--user--menu"
+      icon={<AvatarStyle>{avatarComponent}</AvatarStyle>}
     >
-      <UserIcon />
+      <ListItem dense button component={Link} to={`/${self.properties.gestalt_home.properties.fqon}/users/${self.id}`}>
+        <AvatarStyle>{avatarComponent}</AvatarStyle>
+        <ListItemText primary={name} secondary={self.name} />
+      </ListItem>
+
+      <Divider />
+
+      <ListItem dense button onClick={onLogout}>
+        <LogoutIcon fontSize="small" color="action" />
+        <ListItemText primary="Logout" />
+      </ListItem>
     </MenuButton>
   );
 };
 
 UserMenu.propTypes = {
-  t: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   self: PropTypes.object.isRequired,
+  userProfile: PropTypes.object.isRequired,
 };
 
-export default compose(
-  translate(),
-  withSelf,
-)(UserMenu);
+export default withSelf(withUserProfile(UserMenu));

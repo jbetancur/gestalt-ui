@@ -1,6 +1,6 @@
-import Entitlements from './containers/EntitlementListing';
+import Entitlements from './components/EntitlementListing';
 
-export { default as EntitlementModal } from './containers/EntitlementModal';
-export { default as withEntitlements } from './hocs/withEntitlementsState';
+export { default as EntitlementModal } from './components/EntitlementModal';
+export { default as withEntitlements } from './hocs/withEntitlements';
 export { default as entitlementSagas } from './sagas';
 export default Entitlements;

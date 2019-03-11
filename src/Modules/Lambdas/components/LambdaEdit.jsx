@@ -8,17 +8,20 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import createDecorator from 'final-form-focus';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
+import LogIcon from '@material-ui/icons/Subject';
 import { Row, Col } from 'react-flexybox';
-import { APIEndpointInlineList } from 'Modules/APIEndpoints';
+import { APIEndpointInlineList, APIEndpointWizardModal } from 'Modules/APIEndpoints';
 import { Tabs, Tab } from 'components/Tabs';
 import { Logging } from 'Modules/Logging';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import LambdaForm from './LambdaForm';
 import LambdaStats from './LambdaStats';
@@ -40,7 +43,6 @@ class LambdaEdit extends PureComponent {
     lambdaActions: PropTypes.object.isRequired,
     apiEndpointsActions: PropTypes.object.isRequired,
     lambdaPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     providers: PropTypes.array.isRequired,
     executors: PropTypes.array.isRequired,
@@ -50,6 +52,8 @@ class LambdaEdit extends PureComponent {
     lambdaStateActions: PropTypes.object.isRequired,
     selectedRuntime: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { runtime: null };
 
@@ -92,9 +96,27 @@ class LambdaEdit extends PureComponent {
   }
 
   showEntitlements = () => {
-    const { entitlementActions, lambda, match } = this.props;
+    const { lambda } = this.props;
+    const { showModal } = this.context;
 
-    entitlementActions.showEntitlementsModal(lambda.name, match.params.fqon, lambda.id, 'lambdas', 'Lambda');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${lambda.name}" Lambda`,
+      fqon: lambda.org.properties.fqon,
+      entityId: lambda.id,
+      entityKey: 'lambdas',
+    });
+  }
+
+  showEndpointWizard = () => {
+    const { lambda, match } = this.props;
+    const { showModal } = this.context;
+
+    showModal(APIEndpointWizardModal, {
+      fqon: lambda.org.properties.fqon,
+      environmentId: lambda.properties.parent.id || match.params.environmentId,
+      implementationId: lambda.id,
+      implementationType: 'lambda',
+    });
   }
 
   handleSaveInlineCode = (values) => {
@@ -112,7 +134,6 @@ class LambdaEdit extends PureComponent {
       initialFormValues,
       apiEndpoints,
       apiEndpointsPending,
-      lambdaStateActions,
       selectedRuntime,
     } = this.props;
 
@@ -132,27 +153,23 @@ class LambdaEdit extends PureComponent {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/lambdas`}
             actions={[
-              <Button
+              <FlatButton
                 key="lambda--log"
-                flat
-                iconChildren="subject"
+                icon={<LogIcon fontSize="small" />}
+                label="Expand Log"
                 to={{
                   pathname: '/logs',
                   search: `?name=${lambda.name}&fqon=${match.params.fqon}&providerId=${lambda.properties.provider.id}&logType=lambda&logId=${lambda.id}`
                 }}
                 target="_blank"
                 component={Link}
-              >
-                Expand Log
-              </Button>,
-              <Button
+              />,
+              <FlatButton
                 key="lambda--entitlements"
-                flat
-                iconChildren="security"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
                 onClick={this.showEntitlements}
-              >
-                Entitlements
-              </Button>
+              />
             ]}
           />
 
@@ -172,7 +189,7 @@ class LambdaEdit extends PureComponent {
                 <Col flex={12}>
                   <Panel title="Public Endpoints" pending={apiEndpointsPending && !apiEndpoints.length} noPadding count={apiEndpoints.length}>
                     <APIEndpointInlineList
-                      onAddEndpoint={() => lambdaStateActions.showAPIEndpointWizardModal(match.params, lambda.id, 'lambda')}
+                      onAddEndpoint={this.showEndpointWizard}
                     />
                   </Panel>
                 </Col>
@@ -259,6 +276,5 @@ export default compose(
   withLambdaState,
   withLambda(),
   withAPIEndpoints(),
-  withEntitlements,
   connect(mapStateToProps),
 )(LambdaEdit);

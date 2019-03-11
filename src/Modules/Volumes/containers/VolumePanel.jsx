@@ -4,14 +4,16 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { withRouter } from 'react-router-dom';
-import { FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import Div from 'components/Div';
 import { Title } from 'components/Typography';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
 import { ALink } from 'components/Links';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import VolumeCreateModal from './VolumeCreateModal';
 import VolumeCreateMenu from '../components/VolumeCreateMenu';
 import actions from '../actions';
 import { selectVolumeListing } from '../reducers/selectors';
@@ -21,7 +23,6 @@ class VolumePanel extends PureComponent {
     match: PropTypes.object.isRequired,
     volumesDropdown: PropTypes.array,
     volumes: PropTypes.array.isRequired,
-    showVolumeCreateModal: PropTypes.func.isRequired,
     selectedProvider: PropTypes.object.isRequired,
     editMode: PropTypes.bool,
     volumeListing: PropTypes.array.isRequired,
@@ -34,6 +35,9 @@ class VolumePanel extends PureComponent {
     editMode: false,
     volumesDropdown: [],
   };
+
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
 
   componentDidMount() {
     const { setVolumes, volumes } = this.props;
@@ -63,9 +67,15 @@ class VolumePanel extends PureComponent {
   }
 
   handleMenuSelect = (mode) => {
-    const { showVolumeCreateModal, selectedProvider, volumes, volumesDropdown } = this.props;
+    const { selectedProvider, volumes, volumesDropdown } = this.props;
+    const { showModal } = this.context;
 
-    showVolumeCreateModal(mode, selectedProvider, volumes, volumesDropdown);
+    showModal(VolumeCreateModal, {
+      mode,
+      selectedProvider,
+      volumes,
+      volumesDropdown,
+    });
   }
 
   handleDetach = row => () => {
@@ -131,15 +141,13 @@ class VolumePanel extends PureComponent {
         allowOverflow: true,
         ignoreRowClick: true,
         cell: row => (
-          <Button
+          <IconButton
             id={row.id}
-            icon
+            icon={<DeleteIcon size={20} />}
             tooltipLabel="Detach this volume"
             tooltipPosition="left"
             onClick={this.handleDetach(row)}
-          >
-            <DeleteIcon />
-          </Button>
+          />
         ),
       },
     ];
@@ -149,7 +157,7 @@ class VolumePanel extends PureComponent {
     const { volumeListing, ...rest } = this.props;
 
     return (
-      <div>
+      <React.Fragment>
         <Div padding="8px" paddingLeft="16px">
           <VolumeCreateMenu onSelect={this.handleMenuSelect} {...rest} />
         </Div>
@@ -159,7 +167,7 @@ class VolumePanel extends PureComponent {
               noHeader
               data={volumeListing}
               // highlightOnHover
-              sortIcon={<FontIcon>arrow_downward</FontIcon>}
+              sortIcon={<ArrowDownIcon />}
               defaultSortField="name"
               columns={this.defineColumns()}
               noDataComponent={<Title light>There are no volumes to display</Title>}
@@ -167,7 +175,7 @@ class VolumePanel extends PureComponent {
             />
           </Col>
         </Row>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -180,3 +188,5 @@ export default compose(
   connect(mapStateToProps, actions),
   withRouter,
 )(VolumePanel);
+// TODO: Place here to fix hoisting issue
+VolumePanel.contextType = ModalConsumer;

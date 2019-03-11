@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`(Cards) CardText mounts with basic props 1`] = `
+.c0 {
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px;
+  color: #212121;
+}
+
+<p
+  class="c0"
+/>
+`;

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { Button } from 'react-md';
+import { IconButton } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
 import { media } from 'util/helpers/media';
 
-const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {...rest} />)`
+const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <IconButton {...rest} />)`
   ${props => props.absoluteTopRight && css`
     position: absolute;
     top: -15px;
@@ -26,7 +26,7 @@ const ButtonStyle = styled(({ theme, absoluteTopRight, ...rest }) => <Button {..
 const RemoveButton = ({ onRemove, fieldIndex, ...props }) => {
   const handleRemove = () => onRemove(fieldIndex);
 
-  return <ButtonStyle icon inkDisabled onClick={handleRemove} {...props}><DeleteIcon /></ButtonStyle>;
+  return <ButtonStyle disableRipple onClick={handleRemove} {...props}><DeleteIcon size={20} /></ButtonStyle>;
 };
 
 RemoveButton.propTypes = {

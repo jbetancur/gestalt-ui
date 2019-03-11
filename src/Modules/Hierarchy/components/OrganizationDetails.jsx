@@ -1,13 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { Link } from 'react-router-dom';
-import { MenuButton, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
+import { Link, withRouter } from 'react-router-dom';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import EditIcon from '@material-ui/icons/Edit';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, OrganizationIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
-import withHierarchy from '../hocs/withHierarchy';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import withSelf from '../../../App/hocs/withSelf';
 
 class OrganizationDetails extends PureComponent {
@@ -16,80 +22,70 @@ class OrganizationDetails extends PureComponent {
     history: PropTypes.object.isRequired,
     hierarchyContext: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
     self: PropTypes.object.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
 
-  showEntitlements = () => {
-    const { hierarchyContext, match, entitlementActions } = this.props;
-    const { context: { organization } } = hierarchyContext;
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
 
+  showEntitlements = () => {
+    const { hierarchyContext } = this.props;
+    const { context: { organization } } = hierarchyContext;
+    const { showModal } = this.context;
     const name = organization.description || organization.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, null, null, 'Organization');
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${name}" Organization`,
+      fqon: organization.properties.fqon,
+      entityId: null,
+      entityKey: null,
+    });
   }
 
   delete = (e) => {
     e.stopPropagation();
-    const { hierarchyContext, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, history, hierarchyContextActions } = this.props;
     const { context: { organization } } = hierarchyContext;
+    const { showModal } = this.context;
     const name = organization.description || organization.name;
     const onSuccess = () => history.replace(`/${organization.org.properties.fqon}/hierarchy`);
 
-    hierarchyActions.confirmDelete(({ force }) => {
-      hierarchyContextActions.deleteOrg({ fqon: organization.properties.fqon, resource: organization, onSuccess, params: { force } });
-    }, name, 'Organization');
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete the "${name}" Organization`,
+      values: { name, type: 'Environment' },
+      requireConfirm: true,
+      important: true,
+      onProceed: ({ force }) => hierarchyContextActions.deleteOrg({ fqon: organization.properties.fqon, resource: organization, onSuccess, params: { force } }),
+    });
   }
 
-  renderMenuItems() {
+  renderActions() {
     const { match, hierarchyContext, self } = this.props;
     const { context: { organization } } = hierarchyContext;
     const deleteDisabled = match.params.fqon === self.properties.gestalt_home || match.params.fqon === 'root';
 
-    return [
-      {
-        id: 'organization-menu-entitlements',
-        key: 'organization-menu-entitlements',
-        primaryText: 'Entitlements',
-        leftIcon: <EntitlementIcon size={20} />,
-        onClick: this.showEntitlements,
-      },
-      {
-        id: 'organization-menu-edit',
-        key: 'organization-menu-edit',
-        primaryText: 'Edit',
-        leftIcon: <FontIcon>edit</FontIcon>,
-        component: Link,
-        to: { pathname: `/${organization.properties.fqon}/editOrganization`, state: { modal: true } },
-      },
-      <Divider key="organization-menu-divider-1" />,
-      {
-        id: 'organization-menu-delete',
-        key: 'organization-menu-delete',
-        primaryText: 'Delete',
-        leftIcon: <DeleteIcon />,
-        onClick: this.delete,
-        disabled: deleteDisabled,
-      }
-    ];
-  }
-
-  renderActions() {
     return (
       <MenuButton
-        id="org--details--actions"
+        id="environment--details--actions"
         flat
-        primary
-        iconBefore={false}
-        iconChildren="arrow_drop_down"
-        anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-          y: MenuButton.VerticalAnchors.BOTTOM,
-        }}
-        simplifiedMenu={false}
-        menuItems={this.renderMenuItems()}
+        flatColor="info"
+        label="Actions"
+        iconAfter
+        icon={<ArrowDropDownIcon fontSize="small" />}
       >
-        Actions
+        <ListItem dense button onClick={this.showEntitlements}>
+          <EntitlementIcon size={20} />
+          <ListItemText primary="Entitlements" />
+        </ListItem>
+        <ListItem dense button component={Link} to={{ pathname: `/${organization.properties.fqon}/editOrganization`, state: { modal: true } }}>
+          <EditIcon color="action" fontSize="small" />
+          <ListItemText primary="Edit" />
+        </ListItem>
+        <Divider />
+        <ListItem dense button onClick={this.delete} disabled={deleteDisabled}>
+          <DeleteIcon size={20} />
+          <ListItemText primary="Delete" />
+        </ListItem>
       </MenuButton>
     );
   }
@@ -113,7 +109,9 @@ class OrganizationDetails extends PureComponent {
 }
 
 export default compose(
+  withRouter,
   withSelf,
-  withHierarchy,
-  withEntitlements,
 )(OrganizationDetails);
+
+// TODO: Place here to fix hoisting issue
+OrganizationDetails.contextType = ModalConsumer;

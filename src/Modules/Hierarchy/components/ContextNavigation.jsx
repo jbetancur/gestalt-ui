@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'react-flexybox';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import FavoriteIcon from '@material-ui/icons/StarBorderOutlined';
+import ExpanderIcon from '@material-ui/icons/ExpandMore';
 import { media } from 'util/helpers/media';
 import CreateMenu from './CreateMenu';
 import Breadcrumbs from './Breadcrumbs';
@@ -18,27 +18,13 @@ import { AppConsumer } from '../../../App/AppContext';
 const NavHeader = styled.nav`
   position: relative;
   width: 100%;
-  display: flex;
-  align-items: center;
   background-color: white;
-  border-bottom: 1px solid ${props => props.theme.colors.backgroundVariant};
-  padding-top: 7.5px;
-  padding-bottom: 7.5px;
+  border-bottom: 1px solid ${props => props.theme.colors.background.defaultBorder};
   min-height: 56px;
-  padding-left: 16px;
-  padding-right: 16px;
-  text-align: left;
-  overflow: visible;
-  z-index: 4;
+  padding: 0 16px 0 10px;
+  flex: 0;
+  z-index: 11;
   ${() => media.xs`
-    padding-top: 20px;
-    padding-bottom: 20px;
-  `};
-  ${() => media.sm`
-    padding-top: 20px;
-    padding-bottom: 20px;
-  `};
-  ${() => media.md`
     padding-top: 20px;
     padding-bottom: 20px;
   `};
@@ -53,14 +39,15 @@ const CollapseWrapper = styled.div`
 
 const CollapseButton = styled.button`
   position: relative;
-  background-color: ${props => props.theme.colors.background};
-  border-top: 1px solid ${props => props.theme.colors.backgroundVariant};
-  border-left: 1px solid ${props => props.theme.colors.backgroundVariant};
-  border-right: 1px solid ${props => props.theme.colors.backgroundVariant};
+  background-color: ${props => props.theme.colors.background.default};
+  border-top: 1px solid ${props => props.theme.colors.background.defaultBorder};
+  border-left: 1px solid ${props => props.theme.colors.background.defaultBorder};
+  border-right: 1px solid ${props => props.theme.colors.background.defaultBorder};
   border-bottom: none;
   padding: 0;
-  width: 128px;
-  height: 20px;
+  width: 96px;
+  height: 16px;
+  line-height: 12px;
   text-align: center;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -69,7 +56,7 @@ const CollapseButton = styled.button`
   transition: background-color 0.15s ease-in-out;
 
   &:hover:not([disabled]) {
-    background-color: ${props => props.theme.colors.backgroundVariant};
+    background-color: ${props => props.theme.colors.background.defaultBorder};
   }
 
   &:hover:disabled {
@@ -77,90 +64,75 @@ const CollapseButton = styled.button`
   }
 `;
 
-const Section = styled.div`
-  display: flex;
-  align-items: center;
-  height: 24px;
-`;
-
-const ExpansionPanel = styled(({ isExpanded, expandedHeight, ...rest }) => <div {...rest} />)`
+const ExpansionPanel = styled.div`
   width: 100%;
   max-height: ${props => (props.isExpanded ? props.expandedHeight : 0)};
   overflow: hidden;
   transition: max-height 400ms ${props => (props.isExpanded ? 'ease-in-out' : 'cubic-bezier(0, 1, 0, 1)')};
 `;
 
-const ActionsPanel = styled.div`
+const Items = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  min-height: 55px;
+  align-items: center;
+`;
+
+const BreadCrumbSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ActionsSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  overflow: visible;
+  flex: 1;
+  min-width: 275px;
   ${() => media.xs`
-    justify-content: center;
-  `};
-  ${() => media.sm`
-    justify-content: center;
-  `};
-  ${() => media.md`
     justify-content: center;
   `};
 
   button,
   a {
     margin-left: 3px;
-    padding: 4px 8px;
-    font-size: 11px;
-
-    span:last-child,
-    div:last-child {
-      padding-left: 6px;
-    }
-
-    i {
-      font-size: 18px;
-    }
   }
 `;
 
-const CollapseIcon = styled(({ isExpanded, ...rest }) => <FontIcon {...rest} />)`
+const CollapseIcon = styled(({ isExpanded, ...rest }) => <ExpanderIcon {...rest} />)`
+  font-size: 15px !important;
   transition: transform 225ms ease;
   transform: ${props => (props.isExpanded ? 'rotate(-180deg)' : 'rotate(0)')};
 `;
 
 class ContextNavigation extends PureComponent {
   static propTypes = {
-    children: PropTypes.any,
     hierarchyContext: PropTypes.object.isRequired,
     width: PropTypes.string,
     miniWidth: PropTypes.string,
     expandedHeight: PropTypes.string,
+    expanded: PropTypes.bool,
+    onChangeContext: PropTypes.func,
   };
 
   static defaultProps = {
-    children: [],
     width: '200px',
     miniWidth: '64px',
     expandedHeight: '400px',
-  };
-
-  state = {
     expanded: false,
+    onChangeContext: () => { },
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    const { hierarchyContext } = this.props;
+  componentDidUpdate(prevProps) {
+    const { hierarchyContext, onChangeContext } = this.props;
 
     if ((prevProps.hierarchyContext.context.contextMeta.context !== hierarchyContext.context.contextMeta.context
-      || prevProps.hierarchyContext.context.contextMeta.fqon !== hierarchyContext.context.contextMeta.fqon)
-      && prevState.expanded) {
-      // it is safe to disabled linting here and call setState since we have have conditions above
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ expanded: false });
+      || prevProps.hierarchyContext.context.contextMeta.fqon !== hierarchyContext.context.contextMeta.fqon) && prevProps.expanded) {
+      onChangeContext();
     }
-  }
-
-  toggle = () => {
-    this.setState(prevState => ({ expanded: !prevState.expanded }));
   }
 
   renderDetailsComponent() {
@@ -182,55 +154,44 @@ class ContextNavigation extends PureComponent {
     return null;
   }
 
-  renderCollpaseButtonIcon() {
-    const { expanded } = this.state;
-
-    return <CollapseIcon isExpanded={expanded}>expand_more</CollapseIcon>;
-  }
-
   render() {
     const {
+      expanded,
       hierarchyContext,
       expandedHeight,
-      children,
     } = this.props;
     const { contextPending } = hierarchyContext;
-    const { expanded } = this.state;
 
     return (
       <NavHeader>
-        <Row alignItems="center">
-          <Col xs={12} sm={12} md={6} lg={6}>
-            <Section>
-              <Breadcrumbs />
-            </Section>
-          </Col>
+        <AppConsumer>
+          {({ onLogout, onToggleMainNavigation, onToggleFavorites, enableExperimental }) => (
+            <React.Fragment>
+              <Items>
+                <BreadCrumbSection>
+                  <Breadcrumbs />
+                </BreadCrumbSection>
 
-          <Col xs={12} sm={12} md={12} lg={6}>
-            <AppConsumer>
-              {({ onLogout, onToggleFavorites, onShowLicenseModal, enableExperimental }) => (
-                <ActionsPanel>
+                <ActionsSection>
                   <CreateMenu enableExperimental={enableExperimental} {...this.props} />
-                  <Button icon onClick={onToggleFavorites}>star</Button>
+                  <IconButton onClick={onToggleFavorites}><FavoriteIcon fontSize="small" /></IconButton>
+                  <AppToolbarInfoMenu />
                   <UserMenu onLogout={onLogout} />
-                  <AppToolbarInfoMenu onShowLicenseModal={onShowLicenseModal} />
-                </ActionsPanel>
-              )}
-            </AppConsumer>
-          </Col>
+                </ActionsSection>
+              </Items>
 
-          <ExpansionPanel isExpanded={expanded} expandedHeight={expandedHeight}>
-            {this.renderDetailsComponent()}
-          </ExpansionPanel>
-        </Row>
+              <ExpansionPanel isExpanded={expanded} expandedHeight={expandedHeight}>
+                {this.renderDetailsComponent()}
+              </ExpansionPanel>
 
-        {children}
-
-        <CollapseWrapper>
-          <CollapseButton onClick={this.toggle} disabled={contextPending}>
-            {this.renderCollpaseButtonIcon()}
-          </CollapseButton>
-        </CollapseWrapper>
+              <CollapseWrapper>
+                <CollapseButton onClick={onToggleMainNavigation} disabled={contextPending}>
+                  <CollapseIcon isExpanded={expanded} />
+                </CollapseButton>
+              </CollapseWrapper>
+            </React.Fragment>
+          )}
+        </AppConsumer>
       </NavHeader>
     );
   }

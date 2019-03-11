@@ -2,16 +2,16 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { Col, Row } from 'react-flexybox';
 import { Field } from 'react-final-form';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { composeValidators, required } from 'util/forms';
 
 const PolicyForm = () => (
   <Row gutter={5}>
-    <Col flex={7} xs={12} sm={12}>
-      <Panel title="General" expandable={false} fill>
+    <Col flex={12}>
+      <Panel expandable={false} fill>
         <Row gutter={5}>
-          <Col flex={12}>
+          <Col flex={6} xs={12}>
             <Field
               id="name"
               component={TextField}
@@ -21,21 +21,14 @@ const PolicyForm = () => (
               required
             />
           </Col>
-        </Row>
-      </Panel>
-    </Col>
-
-    <Col flex={5} xs={12} sm={12}>
-      <Panel title="Description" expandable={false} fill>
-        <Row gutter={5}>
-          <Col flex={12}>
+          <Col flex={6} xs={12}>
             <Field
               id="description"
               component={TextField}
               name="description"
-              placeholder="Description"
-              rows={1}
-              maxRows={6}
+              label="Description"
+              multiline
+              rowsMax={6}
             />
           </Col>
         </Row>

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SelectionControlGroup } from 'react-md';
+import RadioGroup from 'components/Fields/RadioGroup';
 
 const SearchFields = props => (
-  <SelectionControlGroup
+  <RadioGroup
     id="selection-control-group-fields"
     name="radio-fields"
     type="radio"

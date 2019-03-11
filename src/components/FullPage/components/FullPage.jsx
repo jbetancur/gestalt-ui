@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Title } from 'components/Typography';
-import { Button } from 'react-md';
+import { IconButton } from 'components/Buttons';
+import CloseIcon from '@material-ui/icons/Close';
 
 const TileSection = styled.div`
   padding: 16px;
@@ -14,7 +15,7 @@ const TileSection = styled.div`
 
 const PageWrapper = styled.div`
   position: fixed;
-  background-color: ${props => props.theme.colors['$md-grey-50']};
+  background-color: ${props => props.theme.colors.background.default};
   top: 0;
   left: 0;
   height: 100%;
@@ -60,7 +61,11 @@ class FullPage extends Component {
       <PageWrapper>
         <TileSection>
           <Title large>{this.props.title}</Title>
-          <Button icon onClick={this.close} tooltipLabel="Close">close</Button>
+          <IconButton
+            icon={<CloseIcon fontSize="small" />}
+            onClick={this.close}
+            tooltipLabel="Close"
+          />
         </TileSection>
         <PageContent>
           {this.props.children}

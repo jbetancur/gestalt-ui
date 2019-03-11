@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import AceEditor from 'react-ace';
-import { SelectField, Switch } from 'react-md';
+import SelectField from 'components/Fields/SelectField';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { FileDownloadButton, ClipboardButton } from 'components/Buttons';
 import 'brace/mode/yaml';
 import 'brace/mode/json';
@@ -12,6 +14,12 @@ import 'brace/ext/searchbox';
 import yaml from 'js-yaml';
 
 const menuItems = [{ name: 'JSON', value: 'json' }, { name: 'YAML', value: 'yaml' }];
+
+const SelectMode = styled(SelectField)`
+  height: 38px;
+  margin-right: 8px;
+  margin-left: 8px;
+`;
 
 const Controls = styled.div`
   display: flex;
@@ -78,15 +86,15 @@ class CodeBlock extends PureComponent {
     return 'must be yaml or json';
   }
 
-  handleCodeChange = (mode) => {
-    this.setState({ currentMode: mode });
+  handleCodeChange = ({ target }) => {
+    this.setState({ currentMode: target.value });
   }
 
-  handleRawModeToggle = (value) => {
+  handleRawModeToggle = ({ target }) => {
     const { onToggleRaw } = this.props;
 
-    this.setState({ rawMode: value });
-    onToggleRaw(value);
+    this.setState({ rawMode: target.checked });
+    onToggleRaw(target.checked);
   }
 
   generateActions() {
@@ -98,7 +106,7 @@ class CodeBlock extends PureComponent {
     return (
       <React.Fragment>
         <ControlItem>
-          <SelectField
+          <SelectMode
             id="select-mode"
             menuItems={menuItems}
             itemLabel="name"
@@ -109,12 +117,16 @@ class CodeBlock extends PureComponent {
         </ControlItem>
         {enableRawOption &&
           <ControlItem>
-            <Switch
-              id="raw-mode"
-              name="raw-mode"
+            <FormControlLabel
+              control={(
+                <Switch
+                  id="raw-mode"
+                  name="raw-mode"
+                  checked={rawMode}
+                  onChange={this.handleRawModeToggle}
+                  color="primary"
+                />)}
               label={rawLabel}
-              checked={rawMode}
-              onChange={this.handleRawModeToggle}
             />
           </ControlItem>}
 
@@ -132,9 +144,7 @@ class CodeBlock extends PureComponent {
               tooltipLabel={buttonTiltletoolTip}
               data={this.formatCode()}
               fileName={fileNameExt}
-            >
-              Export
-            </FileDownloadButton>
+            />
           </ControlItem>}
       </React.Fragment>
     );

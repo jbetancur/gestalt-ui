@@ -1,70 +1,47 @@
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { translate } from 'react-i18next';
-import { FontIcon, MenuButton, ListItem, Divider } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
 import { A } from 'components/Links';
 import { GalacticFogIcon } from 'components/Icons';
+import { LicenseModal } from 'Modules/Licensing';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
+import UpgradeIcon from '@material-ui/icons/PresentToAll';
+import DocIcon from '@material-ui/icons/LibraryBooks';
+import LicenseIcon from '@material-ui/icons/VpnKey';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 import { UI_VERSION, DOCUMENTATION_URL, APP_TITLE } from '../../../constants';
 
-const AppToolbarInfoMenu = memo(({ t, onShowLicenseModal }) => {
-  const menuItems = [
-    <ListItem
-      id="main--info--menu--product"
-      key="main--info--menu--product"
-      primaryText={APP_TITLE}
-      secondaryText={`ui v${UI_VERSION}`}
-      leftAvatar={<GalacticFogIcon size={40} fill="#222639" />}
-      inkDisabled
-    />,
-    <ListItem
-      id="main--info--menu--upgrade"
-      key="main--info--menu--upgrade"
-      primaryText="Upgrade"
-      leftIcon={<FontIcon>system_update_alt</FontIcon>}
-      component={Link}
-      to="/upgrade"
-    />,
-    <Divider key="main--info--menu--divider" />,
-    <ListItem
-      id="main--info--menu--documentation"
-      key="main--info--menu--documentation"
-      primaryText={t('documentation.title')}
-      leftIcon={<FontIcon>library_books</FontIcon>}
-      component={A}
-      href={DOCUMENTATION_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      inkDisabled
-    />,
-    <ListItem
-      id="main--info--menu--licensing"
-      key="main--info--menu--licensing"
-      primaryText="Licensing"
-      leftIcon={<FontIcon>vpn_key</FontIcon>}
-      onClick={onShowLicenseModal}
-    />,
-  ];
+const InfoMenu = () => {
+  const { showModal } = useContext(ModalContext);
 
   return (
     <MenuButton
       id="main--info--menu"
-      icon
-      anchor={{
-        x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-        y: MenuButton.VerticalAnchors.BOTTOM,
-      }}
-      simplifiedMenu={false}
-      menuItems={menuItems}
+      icon={<InfoIcon fontSize="small" />}
     >
-      info_outline
+      <ListItem>
+        <GalacticFogIcon size={36} fill="#222639" />
+        <ListItemText primary={APP_TITLE} secondary={`ui v${UI_VERSION}`} />
+      </ListItem>
+      <Divider />
+      <ListItem dense button component={Link} to="/upgrade">
+        <UpgradeIcon fontSize="small" color="action" />
+        <ListItemText primary="Upgrade" />
+      </ListItem>
+      <ListItem dense button onClick={() => showModal(LicenseModal)}>
+        <LicenseIcon fontSize="small" color="action" />
+        <ListItemText primary="Licensing" />
+      </ListItem>
+      <ListItem dense button component={A} href={DOCUMENTATION_URL} target="_blank" rel="noopener noreferrer">
+        <DocIcon fontSize="small" color="action" />
+        <ListItemText primary="Documentation" />
+      </ListItem>
     </MenuButton>
   );
-});
-
-AppToolbarInfoMenu.propTypes = {
-  t: PropTypes.func.isRequired,
-  onShowLicenseModal: PropTypes.func.isRequired,
 };
 
-export default translate()(AppToolbarInfoMenu);
+export default InfoMenu;

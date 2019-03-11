@@ -3,6 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchAPI } from 'config/lib/utility';
 import userProfileSagas, {
   fetchDefaultProfile,
+  updateUserProfile,
   createProfile,
   createFavorite,
   deleteFavorite,
@@ -14,9 +15,9 @@ import {
   FETCH_USERPROFILE_REQUEST,
   FETCH_USERPROFILE_FULFILLED,
   FETCH_USERPROFILE_REJECTED,
-  // UPDATE_FAVORITE_REQUEST,
-  // UPDATE_FAVORITE_FULFILLED,
-  // UPDATE_FAVORITE_REJECTED,
+  UPDATE_USERPROFILE_REQUEST,
+  UPDATE_USERPROFILE_FULFILLED,
+  UPDATE_USERPROFILE_REJECTED,
   CREATE_FAVORITE_REQUEST,
   CREATE_FAVORITE_FULFILLED,
   CREATE_FAVORITE_REJECTED,
@@ -91,6 +92,37 @@ describe('UserProfile::Sagas::fetchDefaultProfile Sequence', () => {
 
     expect(resultError.value).toEqual(
       put({ type: FETCH_USERPROFILE_REJECTED, payload: error })
+    );
+  });
+});
+
+describe('UserProfile::Sagas::updateUserProfile Sequence', () => {
+  const action = { fqon: 'root', id: '123', payload: [] };
+  const saga = updateUserProfile(action);
+  let result;
+
+  it('should make an api call', () => {
+    result = saga.next();
+    expect(result.value).toEqual(
+      call(axios.patch, 'root/userprofiles/123', action.payload)
+    );
+  });
+
+  it('should return a userProfileSagas and dispatch a success status', () => {
+    result = saga.next({ data: { id: '123' } });
+    expect(result.value).toEqual(
+      put({ type: UPDATE_USERPROFILE_FULFILLED, payload: { id: '123' } })
+    );
+  });
+
+  it('should dispatch a reject status when there is an error', () => {
+    const sagaError = updateUserProfile(action);
+    let resultError = sagaError.next();
+
+    resultError = sagaError.throw({ message: error });
+
+    expect(resultError.value).toEqual(
+      put({ type: UPDATE_USERPROFILE_REJECTED, payload: error })
     );
   });
 });
@@ -178,6 +210,13 @@ describe('UserProfile::Sagas::Watchers', () => {
     result = rootSaga.next();
     expect(result.value).toEqual(
       takeLatest(FETCH_USERPROFILE_REQUEST, fetchDefaultProfile)
+    );
+  });
+
+  it('should fork a watcher for updateUserProfile', () => {
+    result = rootSaga.next();
+    expect(result.value).toEqual(
+      takeLatest(UPDATE_USERPROFILE_REQUEST, updateUserProfile)
     );
   });
 

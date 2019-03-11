@@ -1,4 +1,4 @@
-import { removeItemById } from 'util/helpers/lists';
+import { insertItem, removeItemById } from 'util/helpers/lists';
 import {
   FETCH_CONTAINERS_REQUEST,
   FETCH_CONTAINERS_FULFILLED,
@@ -7,6 +7,7 @@ import {
   DELETE_CONTAINER_FULFILLED,
   DELETE_CONTAINER_REJECTED,
   UNLOAD_CONTAINERS,
+  CREATE_CONTAINERS_FULFILLED,
 } from '../actionTypes';
 
 const initialState = {
@@ -37,12 +38,28 @@ export default (state = initialState, action) => {
         error: action.payload,
       };
 
+    // Insert container into container listing state
+    case CREATE_CONTAINERS_FULFILLED:
+      // only update if within the same environment context - see the saga createContainerFromListing for logic
+      if (action.updateState) {
+        return {
+          ...state,
+          containers: insertItem(state.containers, action.payload)
+        };
+      }
+
+      return {
+        ...state,
+      };
+
     case DELETE_CONTAINER_REQUEST:
       return {
         ...state,
         pending: true,
       };
+
     case DELETE_CONTAINER_FULFILLED:
+      // delete container into container listing state
       if (Array.isArray(action.payload)) {
         return {
           ...state,

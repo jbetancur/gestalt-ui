@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import ModalRoot from 'Modules/ModalRoot';
+import { ModalProvider } from 'Modules/ModalRoot/ModalContext';
+import ModalRoot from 'Modules/ModalRoot/ModalRoot';
 import ErrorNotifications from 'Modules/ErrorNotifications';
 import { UpgradeNotification, withUpgrader } from 'Modules/Upgrader';
 import { Notifications } from 'Modules/Notifications';
-import { Navigation, ContextRoutes } from 'Modules/Hierarchy';
+import { Navigation, ContextNavigation, ContextRoutes } from 'Modules/Hierarchy';
 import { FloatingDrawer } from 'components/NavigationDrawers';
 import { FavoriteItems } from 'Modules/UserProfile';
 import { ActivityContainer } from 'components/ProgressIndicators';
@@ -22,10 +23,18 @@ import actions from './actions';
 const konamiCode = ['ctrl+shift+g', 'up up down down left right left right b a enter'];
 
 const AppWrapper = styled.div`
-  z-index: 1;
   display: flex;
   flex: 1;
   overflow: hidden;
+  background-color: ${props => props.theme.colors.background.default};
+`;
+
+const Main = styled.main`
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  background-color: ${props => props.theme.colors.background.default};
 `;
 
 class App extends Component {
@@ -43,6 +52,7 @@ class App extends Component {
 
   state = {
     favoritesOpen: false,
+    mainNavigationExpanded: false,
     navigationExpanded: false,
     enableExperimental: false,
   }
@@ -76,10 +86,12 @@ class App extends Component {
     this.setState(state => ({ enableExperimental: !state.enableExperimental }));
   }
 
-  handleLicenseModel = () => {
-    const { licenseActions } = this.props;
+  handleExpandMainNavigation = () => {
+    this.setState(state => ({ mainNavigationExpanded: !state.mainNavigationExpanded }));
+  }
 
-    licenseActions.showLicenseModal();
+  handleChangeContext = () => {
+    this.setState({ mainNavigationExpanded: false });
   }
 
   handleExpandNavigation = () => {
@@ -108,6 +120,7 @@ class App extends Component {
     } = this.props;
 
     const {
+      mainNavigationExpanded,
       navigationExpanded,
       favoritesOpen,
       enableExperimental,
@@ -123,34 +136,44 @@ class App extends Component {
 
     const initialState = {
       enableExperimental,
+      mainNavigationExpanded,
       navigationExpanded,
       favoritesOpen,
-      onToggleNavigaion: this.handleExpandNavigation,
+      onToggleMainNavigation: this.handleExpandMainNavigation,
+      onToggleNavigation: this.handleExpandNavigation,
       onCloseFavorites: this.handleCloseFavorites,
       onToggleFavorites: this.handleToggleFavorites,
       onLogout: this.logout,
-      onShowLicenseModal: this.handleLicenseModel,
     };
 
     return (
       <AppProvider initialState={initialState}>
-        <UpgradeNotification />
-        <ModalRoot />
-        <ErrorNotifications />
-        <Notifications />
-        <AppWrapper>
-          <Navigation
-            open={navigationExpanded}
-            onOpen={this.handleExpandNavigation}
-          />
-          <ContextRoutes />
+        <ModalProvider>
+          <ModalRoot />
+          <UpgradeNotification />
+          <ErrorNotifications />
+          <Notifications />
           <FloatingDrawer
             direction="right"
+            width="275px"
             open={favoritesOpen}
           >
             <FavoriteItems />
           </FloatingDrawer>
-        </AppWrapper>
+          <AppWrapper>
+            <Navigation
+              open={navigationExpanded}
+              onOpen={this.handleExpandNavigation}
+            />
+            <Main>
+              <ContextNavigation
+                expanded={mainNavigationExpanded}
+                onChangeContext={this.handleChangeContext}
+              />
+              <ContextRoutes />
+            </Main>
+          </AppWrapper>
+        </ModalProvider>
       </AppProvider>
     );
   }

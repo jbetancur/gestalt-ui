@@ -6,17 +6,18 @@ import { Form as FinalForm } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
 import Form from 'components/Form';
 import { Col, Row } from 'react-flexybox';
-import { withEntitlements } from 'Modules/Entitlements';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import PolicyLimitRuleForm from './PolicyLimitRuleForm';
-import actions from '../actions';
 import limitRuleModel from '../models/limitRule';
 import { getEditLimitRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
@@ -28,13 +29,26 @@ class PolicyEventRuleEdit extends Component {
     policyRule: PropTypes.object.isRequired,
     policyRuleActions: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, policyRuleActions } = this.props;
 
     policyRuleActions.fetchPolicyRule({ fqon: match.params.fqon, id: match.params.ruleId });
+  }
+
+  showEntitlements = () => {
+    const { policyRule } = this.props;
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${policyRule.name}" Limit Rule`,
+      fqon: policyRule.org.properties.fqon,
+      entityId: policyRule.id,
+      entityKey: 'rules',
+    });
   }
 
   update = (values) => {
@@ -50,7 +64,6 @@ class PolicyEventRuleEdit extends Component {
       initialValues,
       policyRule,
       policyRulePending,
-      entitlementActions,
     } = this.props;
 
     if (policyRulePending && !policyRule.id) {
@@ -66,14 +79,12 @@ class PolicyEventRuleEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
             actions={[
-              <Button
-                key="eventRule--entitlements"
-                flat
-                iconChildren="security"
-                onClick={() => entitlementActions.showEntitlementsModal(policyRule.name, match.params.fqon, policyRule.id, 'rules', 'Limit Rule')}
-              >
-                Entitlements
-              </Button>
+              <FlatButton
+                key="limitrule--entitlements"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
+                onClick={this.showEntitlements}
+              />
             ]}
           />
 
@@ -134,6 +145,5 @@ const mapStateToProps = state => ({
 
 export default compose(
   withPolicyRule,
-  withEntitlements,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(PolicyEventRuleEdit);

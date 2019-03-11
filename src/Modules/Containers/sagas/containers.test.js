@@ -7,6 +7,7 @@ import containerSagas, {
   fetchContainers,
   fetchContainer,
   createContainer,
+  createContainerFromListing,
   updateContainer,
   deleteContainer,
   scaleContainer,
@@ -17,7 +18,6 @@ import containerSagas, {
 } from './containers';
 import * as types from '../actionTypes';
 import { setSelectedProvider } from '../actions';
-import containerModel from '../models/container';
 
 describe('Container Sagas', () => {
   const error = 'an error has occured';
@@ -85,7 +85,7 @@ describe('Container Sagas', () => {
 
   describe('fetchContainer Sequence', () => {
     describe('when there are NO env variables to merge', () => {
-      const action = { fqon: 'iamfqon', environmentId: 2 };
+      const action = { fqon: 'iamfqon', containerId: '1' };
       const saga = fetchContainer(action);
       let result;
 
@@ -97,7 +97,7 @@ describe('Container Sagas', () => {
       });
 
       it('should dispatch an action to set the selectedProvider', () => {
-        const promiseArray = [{ data: containerModel.schema.cast({ id: 1, properties: { env: {}, provider: { id: '321' }, } }) }, { data: { test: 'testvar' } }];
+        const promiseArray = [{ data: { id: 1, properties: { provider: { id: '321' }, } } }, { data: { test: 'testvar' } }];
         result = saga.next(promiseArray);
 
         expect(result.value).toEqual(
@@ -107,15 +107,19 @@ describe('Container Sagas', () => {
 
       it('should return a payload and dispatch a success status', () => {
         result = saga.next();
+        const payload = {
+          container: { id: 1, properties: { provider: { id: '321' } } },
+          inheritedEnv: { test: 'testvar' },
+        };
 
         expect(result.value).toEqual(
-          put({ type: types.FETCH_CONTAINER_FULFILLED, payload: containerModel.get({ id: 1, properties: { env: [{ name: 'test', value: 'testvar', inherited: true }], provider: { id: '321' } } }), action })
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload, action })
         );
       });
     });
 
     describe('when there ARE env variables to merge from the parent', () => {
-      const action = { fqon: 'iamfqon', environmentId: 2 };
+      const action = { fqon: 'iamfqon', containerId: '1' };
       const saga = fetchContainer(action);
       let result;
 
@@ -128,7 +132,7 @@ describe('Container Sagas', () => {
 
       it('should dispatch an action to set the selectedProvider', () => {
         const promiseArray = [
-          { data: containerModel.schema.cast({ id: 1, properties: { env: { test: 'morty' }, provider: { id: '321' } } }) },
+          { data: { id: 1, properties: { provider: { id: '321' } } } },
           { data: { test: 'rick' } },
         ];
 
@@ -139,11 +143,47 @@ describe('Container Sagas', () => {
         );
       });
 
-      it('should return a payload and dispatch a success status and override the parents env vars', () => {
+      it('should return a payload and dispatch a success status', () => {
         result = saga.next();
-        const payload = containerModel.get({
-          id: 1, properties: { env: [{ name: 'test', value: 'morty', inherited: false }], provider: { id: '321' } }
-        });
+        const payload = {
+          container: { id: 1, properties: { provider: { id: '321' } } },
+          inheritedEnv: { test: 'rick' },
+        };
+
+        expect(result.value).toEqual(
+          put({ type: types.FETCH_CONTAINER_FULFILLED, payload, action })
+        );
+      });
+    });
+
+    describe('when the container is a job', () => {
+      const action = { fqon: 'iamfqon', containerId: '1', isJob: true };
+      const saga = fetchContainer(action);
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          call(axios.all, [axios.get('iamfqon/jobs/1')]) // axios.get('iamfqon/environments/2/env')
+        );
+      });
+
+      it('should dispatch an action to set the selectedProvider', () => {
+        const promiseArray = [{ data: { id: 1, properties: { provider: { id: '321' }, } } }];
+        result = saga.next(promiseArray);
+
+        expect(result.value).toEqual(
+          put(setSelectedProvider({ id: '321' })),
+        );
+      });
+
+      it('should return a payload and dispatch a success status', () => {
+        result = saga.next();
+        const payload = {
+          container: { id: 1, properties: { provider: { id: '321' } } },
+          inheritedEnv: {} // { test: 'testvar' },
+        };
+
         expect(result.value).toEqual(
           put({ type: types.FETCH_CONTAINER_FULFILLED, payload, action })
         );
@@ -152,7 +192,7 @@ describe('Container Sagas', () => {
   });
 
   describe('createContainer Sequence', () => {
-    const resource = { data: containerModel.get({ id: 1, name: 'test' }) };
+    const resource = { data: { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } } };
     const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewContainer' } };
     const saga = createContainer(action);
     let result;
@@ -167,7 +207,7 @@ describe('Container Sagas', () => {
     it('should return a payload and dispatch a success status', () => {
       result = saga.next(resource);
       expect(result.value).toEqual(
-        put({ type: types.CREATE_CONTAINER_FULFILLED, payload: containerModel.get(resource.data) })
+        put({ type: types.CREATE_CONTAINER_FULFILLED, payload: resource.data })
       );
     });
 
@@ -191,11 +231,11 @@ describe('Container Sagas', () => {
       const onSuccessAction = { ...action, onSuccess: jest.fn() };
       const sagaSuccess = createContainer(onSuccessAction);
       sagaSuccess.next();
-      sagaSuccess.next({ data: containerModel.get({ id: 1 }) });
+      sagaSuccess.next({ data: { id: 1 } });
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).toBeCalledWith(containerModel.get({ id: 1}));
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -209,8 +249,58 @@ describe('Container Sagas', () => {
     });
   });
 
+  describe('createContainerFromListing Sequence', () => {
+    const resource = { data: { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } } };
+    const action = { fqon: 'iamfqon', environmentId: '1', payload: { name: 'iamnewContainer' } };
+    const saga = createContainerFromListing(action);
+    let result;
+
+    it('should make an api call', () => {
+      result = saga.next();
+      expect(result.value).toEqual(
+        call(axios.post, 'iamfqon/environments/1/containers?embed=provider&embed=volumes', action.payload)
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next(resource);
+      expect(result.value).toEqual(
+        put({ type: types.CREATE_CONTAINERS_FULFILLED, payload: resource.data })
+      );
+    });
+
+    it('should dispatch a notification', () => {
+      result = saga.next();
+
+      expect(result.value).toEqual(
+        put(notificationActions.addNotification({ message: 'test Container created' }))
+      );
+    });
+
+    it('should return a response when onSuccess callback is passed', () => {
+      const onSuccessAction = { ...action, onSuccess: jest.fn() };
+      const sagaSuccess = createContainerFromListing(onSuccessAction);
+      sagaSuccess.next();
+      sagaSuccess.next({ data: { id: 1 } });
+      sagaSuccess.next();
+      sagaSuccess.next();
+      expect(onSuccessAction.onSuccess).toBeCalledWith({ id: 1 });
+    });
+
+    it('should return a payload and dispatch a reject status when there is an error', () => {
+      const sagaError = createContainerFromListing(action);
+      let resultError = sagaError.next();
+      resultError = sagaError.throw({ message: error });
+
+      expect(resultError.value).toEqual(
+        put({ type: types.CREATE_CONTAINERS_REJECTED, payload: error })
+      );
+    });
+  });
+
   describe('updateContainer Sequence', () => {
-    const resource = { data: containerModel.get({ id: 1, name: 'test' }) };
+    const resourcePayload = { id: 1, name: 'test', properties: { parent: { href: 'iamfqon/environments/2' } } };
+    const envVar = { test: 'testvar' };
     const action = { fqon: 'iamfqon', containerId: '1', payload: [] };
     const saga = updateContainer(action);
     let result;
@@ -222,10 +312,22 @@ describe('Container Sagas', () => {
       );
     });
 
-    it('should return a payload and dispatch a success status', () => {
-      result = saga.next(resource);
+    it('should make an api call for the environment envs', () => {
+      result = saga.next({ data: resourcePayload });
       expect(result.value).toEqual(
-        put({ type: types.UPDATE_CONTAINER_FULFILLED, payload: containerModel.get(resource.data) })
+        call(axios.get, 'iamfqon/environments/2/env')
+      );
+    });
+
+    it('should return a payload and dispatch a success status', () => {
+      result = saga.next({ data: envVar });
+      const payload = {
+        container: resourcePayload,
+        inheritedEnv: envVar,
+      };
+
+      expect(result.value).toEqual(
+        put({ type: types.UPDATE_CONTAINER_FULFILLED, payload })
       );
     });
 
@@ -249,11 +351,12 @@ describe('Container Sagas', () => {
       const onSuccessAction = { fqon: 'iamfqon', environmentId: '1', payload: [], onSuccess: jest.fn() };
       const sagaSuccess = updateContainer(onSuccessAction);
       sagaSuccess.next();
-      sagaSuccess.next({ data: { id: 1, properties: { volumes: [] } } });
+      sagaSuccess.next({ data: resourcePayload });
+      sagaSuccess.next({ data: envVar });
       sagaSuccess.next();
       sagaSuccess.next();
       sagaSuccess.next();
-      expect(onSuccessAction.onSuccess).toBeCalledWith(containerModel.get({ id: 1, properties: { volumes: [] } }));
+      expect(onSuccessAction.onSuccess).toBeCalledWith(resourcePayload);
     });
 
     it('should return a payload and dispatch a reject status when there is an error', () => {
@@ -268,52 +371,92 @@ describe('Container Sagas', () => {
   });
 
   describe('deleteContainer Sequence', () => {
-    const resource = { id: '1', name: 'test' };
-    const action = { fqon: 'iamfqon', resource };
-    const saga = deleteContainer(action);
-    let result;
+    describe('deleteContainer Sequence when not a job', () => {
+      const resource = { id: '1', name: 'test' };
+      const action = { fqon: 'iamfqon', resource };
+      const saga = deleteContainer(action);
+      let result;
 
-    it('should make an api call', () => {
-      result = saga.next();
-      expect(result.value).toEqual(
-        call(axios.delete, 'iamfqon/containers/1?force=false')
-      );
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          call(axios.delete, 'iamfqon/containers/1?force=false')
+        );
+      });
+
+      it('should return dispatch a success status', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          put({ type: types.DELETE_CONTAINER_FULFILLED, payload: resource })
+        );
+      });
+
+      it('should dispatch a notification', () => {
+        result = saga.next();
+
+        expect(result.value).toEqual(
+          put(notificationActions.addNotification({ message: 'test Container destroyed' }))
+        );
+      });
     });
 
-    it('should return dispatch a success status', () => {
-      result = saga.next();
-      expect(result.value).toEqual(
-        put({ type: types.DELETE_CONTAINER_FULFILLED, payload: resource })
-      );
+    describe('deleteContainer Sequence when is a job', () => {
+      const resource = { id: '1', name: 'test', resource_type: 'Gestalt::Resource::Job' };
+      const action = { fqon: 'iamfqon', resource };
+      const saga = deleteContainer(action);
+      let result;
+
+      it('should make an api call', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          call(axios.delete, 'iamfqon/jobs/1?force=false')
+        );
+      });
+
+      it('should return dispatch a success status', () => {
+        result = saga.next();
+        expect(result.value).toEqual(
+          put({ type: types.DELETE_CONTAINER_FULFILLED, payload: resource })
+        );
+      });
+
+      it('should dispatch a notification', () => {
+        result = saga.next();
+
+        expect(result.value).toEqual(
+          put(notificationActions.addNotification({ message: 'test Job destroyed' }))
+        );
+      });
     });
 
-    it('should dispatch a notification', () => {
-      result = saga.next();
+    describe('when there is an error', () => {
+      const resource = { id: '1', name: 'test' };
+      const action = { fqon: 'iamfqon', resource };
 
-      expect(result.value).toEqual(
-        put(notificationActions.addNotification({ message: 'test Container destroyed' }))
-      );
+      it('should return a response when onSuccess callback is passed', () => {
+        const onSuccessAction = { ...action, onSuccess: jest.fn() };
+        const sagaSuccess = deleteContainer(onSuccessAction);
+        sagaSuccess.next();
+        sagaSuccess.next();
+        sagaSuccess.next();
+        sagaSuccess.next();
+        // eslint-disable-next-line no-unused-expressions
+        expect(onSuccessAction.onSuccess).toBeCalled();
+      });
     });
+    describe('when there is an error', () => {
+      const resource = { id: '1', name: 'test' };
+      const action = { fqon: 'iamfqon', resource };
 
-    it('should return a response when onSuccess callback is passed', () => {
-      const onSuccessAction = { ...action, onSuccess: jest.fn() };
-      const sagaSuccess = deleteContainer(onSuccessAction);
-      sagaSuccess.next();
-      sagaSuccess.next();
-      sagaSuccess.next();
-      sagaSuccess.next();
-      // eslint-disable-next-line no-unused-expressions
-      expect(onSuccessAction.onSuccess).toBeCalled();
-    });
+      it('should dispatch a reject status when there is an error', () => {
+        const sagaError = deleteContainer(action);
+        let resultError = sagaError.next();
+        resultError = sagaError.throw({ message: error });
 
-    it('should dispatch a reject status when there is an error', () => {
-      const sagaError = deleteContainer(action);
-      let resultError = sagaError.next();
-      resultError = sagaError.throw({ message: error });
-
-      expect(resultError.value).toEqual(
-        put({ type: types.DELETE_CONTAINER_REJECTED, payload: error })
-      );
+        expect(resultError.value).toEqual(
+          put({ type: types.DELETE_CONTAINER_REJECTED, payload: error })
+        );
+      });
     });
   });
 
@@ -373,9 +516,9 @@ describe('Container Sagas', () => {
     });
 
     it('should return dispatch a success status', () => {
-      result = saga.next({ data: containerModel.get({ id: 1 }) });
+      result = saga.next({ data: { id: 1 } });
       expect(result.value).toEqual(
-        put({ type: types.MIGRATE_CONTAINER_FULFILLED, payload: containerModel.get({ id: 1 }) })
+        put({ type: types.MIGRATE_CONTAINER_FULFILLED, payload: { id: 1 } })
       );
 
       // Finish the iteration
@@ -468,6 +611,13 @@ describe('Container Sagas', () => {
       result = rootSaga.next();
       expect(result.value).toEqual(
         takeLatest(types.CREATE_CONTAINER_REQUEST, createContainer)
+      );
+    });
+
+    it('should fork a watcher for createContainerFromListing', () => {
+      result = rootSaga.next();
+      expect(result.value).toEqual(
+        takeLatest(types.CREATE_CONTAINERS_REQUEST, createContainerFromListing)
       );
     });
 

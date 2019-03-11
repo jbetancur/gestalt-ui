@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form } from 'react-final-form';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import FormTag from '../Form';
 
 const StepperContainer = styled.div`
@@ -38,14 +38,14 @@ const IndicatorNumber = styled.div`
   position: relative;
   text-align: center;
   z-index: 1;
-  border: 2px solid ${props => props.theme.colors['$md-grey-500']};
-  color: ${props => props.theme.colors['$md-grey-500']};
-  background-color: ${props => props.theme.colors['$md-white']};
+  border: 2px solid ${props => props.theme.colors.grey[500]};
+  color: ${props => props.theme.colors.grey[500]};
+  background-color: ${props => props.theme.colors.common.white};
 
   &.active {
-    border: 2px solid ${props => props.theme.colors['$md-blue-500']};
-    color: ${props => props.theme.colors['$md-white']};
-    background-color: ${props => props.theme.colors['$md-blue-500']};
+    border: 2px solid ${props => props.theme.colors.secondary[500]};
+    color: ${props => props.theme.colors.common.white};
+    background-color: ${props => props.theme.colors.secondary[500]};
   }
 `;
 
@@ -95,7 +95,7 @@ export default class Stepper extends Component {
     onCancel: PropTypes.func.isRequired,
     className: PropTypes.string,
     page: PropTypes.number,
-    formProps: PropTypes.object.isRequired,
+    formProps: PropTypes.object,
     initialValues: PropTypes.object,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -108,6 +108,7 @@ export default class Stepper extends Component {
   static defaultProps = {
     className: '',
     page: 0,
+    formProps: {},
     initialValues: {},
     debug: false,
     pending: false,
@@ -184,19 +185,33 @@ export default class Stepper extends Component {
               <FormTag onSubmit={handleSubmit} disabled={pending} disableFooter>
                 {activePage}
                 <StepActions>
-                  <Button flat onClick={onCancel}>Cancel</Button>
+                  <FlatButton
+                    label="Cancel"
+                    onClick={onCancel}
+                  />
                   {this.state.page > 0 && (
-                    <Button flat onClick={this.previous}>
-                      Previous
-                    </Button>
+                    <FlatButton
+                      label="Previous"
+                      onClick={this.previous}
+                    />
                   )}
                   {!isLastPage && (
-                    <Button raised primary type="submit" disabled={invalid}>Next</Button>
+                    <FlatButton
+                      label="Next"
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={invalid}
+                    />
                   )}
                   {isLastPage && (
-                    <Button raised primary type="submit" disabled={submitting || invalid}>
-                      Finish
-                    </Button>
+                    <FlatButton
+                      label="Finish"
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={submitting || invalid}
+                    />
                   )}
                 </StepActions>
 

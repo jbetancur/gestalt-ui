@@ -2,7 +2,6 @@
 
 exports[`NaviationDrawers::PersistentDrawer renders correctly with basic props and closed 1`] = `
 .c0 {
-  background-color: #394F7F;
   position: relative;
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
@@ -39,7 +38,6 @@ exports[`NaviationDrawers::PersistentDrawer renders correctly with basic props a
 
 exports[`NaviationDrawers::PersistentDrawer renders correctly with basic props and open 1`] = `
 .c0 {
-  background-color: #394F7F;
   position: relative;
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
@@ -77,7 +75,6 @@ exports[`NaviationDrawers::PersistentDrawer renders correctly with basic props a
 
 exports[`NaviationDrawers::PersistentDrawer renders correctly with miniWidth 1`] = `
 .c0 {
-  background-color: #394F7F;
   position: relative;
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;
@@ -115,7 +112,6 @@ exports[`NaviationDrawers::PersistentDrawer renders correctly with miniWidth 1`]
 
 exports[`NaviationDrawers::PersistentDrawer renders correctly with width 1`] = `
 .c0 {
-  background-color: #394F7F;
   position: relative;
   -webkit-flex: 1 0 auto;
   -ms-flex: 1 0 auto;

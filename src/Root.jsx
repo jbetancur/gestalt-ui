@@ -6,6 +6,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import JssProvider from 'react-jss/lib/JssProvider';
+import { create } from 'jss';
+import { MuiThemeProvider, createMuiTheme, createGenerateClassName, jssPreset } from '@material-ui/core/styles';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import blue from '@material-ui/core/colors/blue';
 import { ThemeProvider } from 'styled-components';
 import { createBrowserHistory } from 'history';
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -22,6 +27,35 @@ import { LoggingNewPage } from './Modules/Logging';
 import NotFound from './App/components/NotFound';
 import lightTheme from './themes/light';
 import './scss/style.scss';
+
+const generateClassName = createGenerateClassName();
+const jss = create({
+  ...jssPreset(),
+  // We define a custom insertion point that JSS will look for injecting the styles in the DOM.
+  insertionPoint: document.getElementById('jss-insertion-point'),
+});
+
+const theme = createMuiTheme({
+  palette: {
+    primary: lightBlue,
+    secondary: blue,
+  },
+  typography: {
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createBrowserHistory();
@@ -51,26 +85,30 @@ document.addEventListener('mousewheel', () => {
 });
 
 const Root = () => (
-  <ThemeProvider theme={lightTheme}>
-    <Provider store={store}>
-      <IntlProvider locale={language}>
-        <I18nextProvider i18n={i18n}>
-          <ConnectedRouter history={history}>
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/logs" component={withRestricted(LoggingNewPage)} />
-              <Route exact path="/upgrade" component={withRestricted(UpgradeRouter)} />
-              <Route exact path="/" component={App} />
-              <Route exact path="/404" component={NotFound} />
-              <Route path="/:fqon" component={App} />
-              <Route exact path="/:fqon/404" component={NotFound} />
-              <Route path="/notfound" component={App} />
-            </Switch>
-          </ConnectedRouter>
-        </I18nextProvider>
-      </IntlProvider>
-    </Provider>
-  </ThemeProvider>
+  <JssProvider jss={jss} generateClassName={generateClassName}>
+    <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={lightTheme}>
+        <Provider store={store}>
+          <IntlProvider locale={language}>
+            <I18nextProvider i18n={i18n}>
+              <ConnectedRouter history={history}>
+                <Switch>
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/logs" component={withRestricted(LoggingNewPage)} />
+                  <Route exact path="/upgrade" component={withRestricted(UpgradeRouter)} />
+                  <Route exact path="/" component={App} />
+                  <Route exact path="/404" component={NotFound} />
+                  <Route path="/:fqon" component={App} />
+                  <Route exact path="/:fqon/404" component={NotFound} />
+                  <Route path="/notfound" component={App} />
+                </Switch>
+              </ConnectedRouter>
+            </I18nextProvider>
+          </IntlProvider>
+        </Provider>
+      </ThemeProvider>
+    </MuiThemeProvider>
+  </JssProvider>
 );
 
 ReactDOM.render(

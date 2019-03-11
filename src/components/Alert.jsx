@@ -1,21 +1,25 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-import { FontIcon } from 'react-md';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import ErrorIcon from '@material-ui/icons/Error';
+import WarningIcon from '@material-ui/icons/Warning';
+import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const icons = {
   error: {
-    icon: 'error',
+    icon: <ErrorIcon fontSize="small" color="inherit" />,
   },
   warning: {
-    icon: 'warning',
+    icon: <WarningIcon fontSize="small" color="inherit" />,
   },
   info: {
-    icon: 'info',
+    icon: <InfoIcon fontSize="small" color="inherit" />,
   },
   success: {
-    icon: 'check_circle',
+    icon: <CheckCircleIcon fontSize="small" color="inherit" />,
   },
 };
 
@@ -39,7 +43,7 @@ const AlertBody = styled.div`
   ${props => props.raised && raisedEffect};
 `;
 
-const Icon = styled(FontIcon)`
+const IconWrapper = styled.div`
   padding-right: 8px;
 
   svg,
@@ -106,13 +110,21 @@ class NotificationContent extends PureComponent {
     return (
       <AlertBody status={message.status} raised={raised} width={width}>
         <Text>
-          {message.icon && message.status && <Icon>{icons[message.status].icon}</Icon>}
+          {message.icon && message.status && (
+            <IconWrapper>
+              {icons[message.status].icon}
+            </IconWrapper>
+          )}
           {message.message}
         </Text>
 
         {onRemove &&
           <Action>
-            <Button id={`close-${message.id}`} icon onClick={this.onRemove}>close</Button>
+            <IconButton
+              id={`close-${message.id}`}
+              icon={<CloseIcon fontSize="small" />}
+              onClick={this.onRemove}
+            />
           </Action>}
       </AlertBody>
     );

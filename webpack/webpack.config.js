@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Clean = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
@@ -83,9 +83,7 @@ module.exports = (env) => {
           hints: 'warning',
         },
         plugins: [
-          new Clean(['build'], {
-            root: PATHS.rootPath,
-          }),
+          new CleanWebpackPlugin(),
           new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false,

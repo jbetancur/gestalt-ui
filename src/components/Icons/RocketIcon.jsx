@@ -1,8 +1,9 @@
 import React from 'react';
-import { SVGIcon } from 'react-md';
+import PropTypes from 'prop-types';
+import SVGIcon from '@material-ui/core/SvgIcon';
 
-const RocketIcon = props => (
-  <SVGIcon viewBox="-183 114.3 126 208" enableBackground="new -183 114.3 126 208" size={126} {...props}>
+const RocketIcon = ({ size, ...rest }) => (
+  <SVGIcon viewBox="-183 114.3 126 208" enableBackground="new -183 114.3 126 208" style={{ fontSize: `${size}px` }} {...rest}>
     <path
       fill="#F9AE35"
       d="M-153.2,160c1.5,0.2,2.5,1.6,2.4,3.1c-0.1,1.5-1.5,4.4-3,4.1c-1.5-0.2-2.4-3.5-2.3-5C-156,160.8-154.7,159.8-153.2,160z"
@@ -96,5 +97,13 @@ const RocketIcon = props => (
     <ellipse fill="#647678" cx="-153.4" cy="155" rx="0.6" ry="8.7" />
   </SVGIcon>
 );
+
+RocketIcon.propTypes = {
+  size: PropTypes.number
+};
+
+RocketIcon.defaultProps = {
+  size: 126,
+};
 
 export default RocketIcon;

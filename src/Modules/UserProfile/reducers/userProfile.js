@@ -3,9 +3,9 @@ import {
   FETCH_USERPROFILE_REQUEST,
   FETCH_USERPROFILE_FULFILLED,
   FETCH_USERPROFILE_REJECTED,
-  // UPDATE_FAVORITE_REQUEST,
-  // UPDATE_FAVORITE_FULFILLED,
-  // UPDATE_FAVORITE_REJECTED,
+  UPDATE_USERPROFILE_REQUEST,
+  UPDATE_USERPROFILE_FULFILLED,
+  UPDATE_USERPROFILE_REJECTED,
   CREATE_FAVORITE_REQUEST,
   CREATE_FAVORITE_FULFILLED,
   CREATE_FAVORITE_REJECTED,
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
     case FETCH_USERPROFILE_FULFILLED:
       return {
         ...state,
-        userProfile: action.payload,
+        userProfile: userProfile.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
     case CREATE_FAVORITE_FULFILLED:
       return {
         ...state,
-        userProfile: action.payload,
+        userProfile: userProfile.get(action.payload),
         pending: false,
         completed: true,
       };
@@ -62,26 +62,26 @@ export default (state = initialState, action) => {
         error: action.payload,
       };
 
-      // case UPDATE_FAVORITE_REQUEST:
-      //   return {
-      //     ...state,
-      //     pending: false,
-      //     error: action.payload,
-      //   };
+    case UPDATE_USERPROFILE_REQUEST:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
 
-      // case UPDATE_FAVORITE_FULFILLED:
-      //   return {
-      //     ...state,
-      //     userProfile: action.payload,
-      //     pending: false,
-      //     completed: true,
-      //   };
-      // case UPDATE_FAVORITE_REJECTED:
-      //   return {
-      //     ...state,
-      //     pending: false,
-      //     error: action.payload,
-      //   };
+    case UPDATE_USERPROFILE_FULFILLED:
+      return {
+        ...state,
+        userProfile: userProfile.get(action.payload),
+        pending: false,
+        completed: true,
+      };
+    case UPDATE_USERPROFILE_REJECTED:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload,
+      };
 
     case DELETE_FAVORITE_REQUEST:
       return {

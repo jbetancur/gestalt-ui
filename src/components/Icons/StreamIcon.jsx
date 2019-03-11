@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Icon from '@material-ui/icons/LineStyle';
 
-const StreamIconStyle = styled(FontIcon)`
-  font-size: ${props => `${props.size}px !important`};
+const StreamIconStyle = styled(Icon)`
+  font-size: ${props => `${props.size}px`};
+  color: ${props => `${props.color}`};
 `;
 
-const StreamIcon = ({ size }) => <StreamIconStyle size={size}>line_style</StreamIconStyle>;
+const StreamIcon = ({ size, color, ...rest }) => <StreamIconStyle size={size} color={color} {...rest} />;
 
 StreamIcon.propTypes = {
-  size: PropTypes.number
+  size: PropTypes.number,
+  color: PropTypes.string,
 };
 
 StreamIcon.defaultProps = {
-  size: 24,
+  size: 22,
+  color: 'action',
 };
 
 export default StreamIcon;

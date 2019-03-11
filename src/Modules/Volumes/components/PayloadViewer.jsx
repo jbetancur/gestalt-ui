@@ -4,7 +4,7 @@ import CodeBlock from 'components/CodeBlock';
 import volumeModel from '../models/volume';
 
 const PayloadViewer = memo(({ value, name }) => {
-  const [raw, toggleRaw] = useState(0);
+  const [raw, toggleRaw] = useState(false);
 
   const data = raw
     ? volumeModel.get(value)

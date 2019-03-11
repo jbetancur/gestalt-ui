@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon } from 'components/Icons';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import ArrowUp from '@material-ui/icons/ArrowUpward';
 import { DotActivity } from 'components/ProgressIndicators';
 import { media } from 'util/helpers/media';
 import BreadCrumbDropdown from './BreadCrumbDropdown';
@@ -42,17 +43,10 @@ const EnhancedLink = styled(({ isActive, ...rest }) => <Link {...rest} />)`
   `};
 `;
 
-const NavArrow = styled(Button)`
-  height: 32px;
-  width: 32px;
-  padding: 7px;
-
-  i {
-    font-size: 18px !important;
-  }
-
+const NavArrow = styled(IconButton)`
+  padding: 8px !important;
   ${() => media.xs`
-    display: none;
+    display: none !important;
   `};
 `;
 
@@ -177,25 +171,24 @@ class Breadcrumbs extends PureComponent {
 
     return (
       <Wrapper isActive={isActive}>
-        {organization.properties.fqon &&
+        {organization.properties.fqon && (
           <NavArrow
-            icon
             disabled={contextPending || orgNavDisabled}
             component={Link}
             to={parentOrgRoute}
-            tooltipLabel="Up one org level"
+            tooltipLabel="To Parent Org"
             tooltipPosition="right"
-            inkDisabled
           >
-            arrow_upward
-          </NavArrow>}
+            <ArrowUp fontSize="small" />
+          </NavArrow>
+        )}
 
         {!organization.id && <DotActivity id="breadcrumbs-loading" size={1} />}
         {organization.id &&
         <BreadCrumbDropdown
           id="organizations-dropdown"
           menuItems={this.generateOrgItems()}
-          icon={<OrganizationIcon size={18} primary={!!isOrgContext} />}
+          icon={<OrganizationIcon size={18} color={isOrgContext ? 'primary' : 'disabled'} />}
           // createLabel="Create Organization"
           // createRoute={{ pathname: `/${organization.properties.fqon}/createOrganization`, state: { modal: true } }}
           title="Organizations"
@@ -217,7 +210,7 @@ class Breadcrumbs extends PureComponent {
         <BreadCrumbDropdown
           id="workspaces-dropdown"
           menuItems={this.generateWorkspaceItems()}
-          icon={<WorkspaceIcon size={18} primary={!!(isWorkspaceCtx && !isEnvironmentCtx)} />}
+          icon={<WorkspaceIcon size={18} color={(isWorkspaceCtx && !isEnvironmentCtx) ? 'primary' : 'disabled'} />}
           createLabel="Create Workspace"
           createRoute={{ pathname: `/${organization.properties.fqon}/createWorkspace`, state: { modal: true } }}
           title={`Workspaces in ${orgName}`}
@@ -237,7 +230,7 @@ class Breadcrumbs extends PureComponent {
         <BreadCrumbDropdown
           id="environments-dropdown"
           menuItems={this.generateEnvironmentItems()}
-          icon={<EnvironmentIcon size={18} primary={!!isEnvironmentCtx} />}
+          icon={<EnvironmentIcon size={18} color={isEnvironmentCtx ? 'primary' : 'disabled'} />}
           createLabel="Create Environment"
           createRoute={{ pathname: `/${environment.org.properties.fqon}/hierarchy/${environment.properties.workspace.id}/createEnvironment`, state: { modal: true } }}
           title={`Environments in ${workspaceName}`}

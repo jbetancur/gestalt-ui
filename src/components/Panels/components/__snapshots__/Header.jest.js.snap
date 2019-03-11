@@ -54,9 +54,9 @@ exports[`(Panels) Header renders with a title 1`] = `
   -webkit-transition: -webkit-transform 100ms ease;
   -webkit-transition: transform 100ms ease;
   transition: transform 100ms ease;
-  -webkit-transform: rotate(0);
-  -ms-transform: rotate(0);
-  transform: rotate(0);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .c2 {
@@ -103,11 +103,21 @@ exports[`(Panels) Header renders with a title 1`] = `
     <div
       class="c2 c3"
     >
-      <i
-        class="md-icon material-icons c4"
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 c4"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
       >
-        expand_more
-      </i>
+        <path
+          d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </svg>
       <div
         class="c5"
       >
@@ -172,9 +182,9 @@ exports[`(Panels) Header renders without exploding 1`] = `
   -webkit-transition: -webkit-transform 100ms ease;
   -webkit-transition: transform 100ms ease;
   transition: transform 100ms ease;
-  -webkit-transform: rotate(0);
-  -ms-transform: rotate(0);
-  transform: rotate(0);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .c2 {
@@ -221,11 +231,21 @@ exports[`(Panels) Header renders without exploding 1`] = `
     <div
       class="c2 c3"
     >
-      <i
-        class="md-icon material-icons c4"
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root-1 MuiSvgIcon-colorAction-4 c4"
+        focusable="false"
+        role="presentation"
+        viewBox="0 0 24 24"
       >
-        expand_more
-      </i>
+        <path
+          d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+        />
+        <path
+          d="M0 0h24v24H0z"
+          fill="none"
+        />
+      </svg>
       <div
         class="c5"
       >

@@ -123,7 +123,7 @@ describe('Saga Factory', () => {
       result = saga.next(resource);
 
       expect(result.value).toEqual(
-        put({ type: `${PREFIX}CREATE_TEST_FULFILLED`, payload: resource.data })
+        put({ type: `${PREFIX}CREATE_TEST_FULFILLED`, payload: resource.data, updateState: false })
       );
     });
 
@@ -178,7 +178,7 @@ describe('Saga Factory', () => {
       result = saga.next(resource);
 
       expect(result.value).toEqual(
-        put({ type: `${PREFIX}UPDATE_TEST_FULFILLED`, payload: resource.data })
+        put({ type: `${PREFIX}UPDATE_TEST_FULFILLED`, payload: resource.data, updateState: false })
       );
     });
 

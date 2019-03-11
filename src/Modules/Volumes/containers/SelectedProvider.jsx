@@ -20,6 +20,6 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
+  withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS', expand: true } }),
   connect(mapStateToProps, actions),
 )(SelectedProvider);

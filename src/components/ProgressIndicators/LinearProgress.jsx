@@ -1,11 +1,25 @@
+import React from 'react';
 import styled from 'styled-components';
-import { LinearProgress } from 'react-md';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-const LinearProgressStyled = styled(LinearProgress)`
-  padding: 0;
-  margin: 0;
+export default styled(props => (
+  <LinearProgress
+    {...props}
+    classes={{
+      bar1Indeterminate: 'bar1Indeterminate',
+      bar2Indeterminate: 'bar2Indeterminate',
+    }}
+  />
+))`
   position: absolute;
-  top: -3px;
-`;
+  top: -4px;
+  width: 100%;
+  flex-grow: 1;
+  height: 4px;
 
-export default LinearProgressStyled;
+  & .bar1Indeterminate {
+  }
+
+  & .bar2Indeterminate {
+  }
+`;

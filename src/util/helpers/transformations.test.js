@@ -9,10 +9,20 @@ import {
 
 describe('Util Transformations', () => {
   describe('arrayToMap function', () => {
+    it('should handle the base case if the first param is not an array', () => {
+      expect(arrayToMap({})).toEqual({ });
+    });
+
     it('should map an array to a key value pair', () => {
       const array = [{ name: 'luke skywalker', value: 'awesome' }];
 
       expect(arrayToMap(array)).toEqual({ 'luke skywalker': 'awesome' });
+    });
+
+    it('should map an array to a key value pair when the value is blank', () => {
+      const array = [{ name: 'luke skywalker' }];
+
+      expect(arrayToMap(array)).toEqual({ 'luke skywalker': '' });
     });
 
     it('should map an array to a key value with custom key value names', () => {
@@ -23,10 +33,20 @@ describe('Util Transformations', () => {
   });
 
   describe('mapTo2DArray function', () => {
+    it('should handle the base case if the first param is not an object', () => {
+      expect(mapTo2DArray([])).toEqual([]);
+    });
+
     it('should create an array from a map', () => {
       const obj = { 'luke skywalker': 'awesome' };
 
       expect(mapTo2DArray(obj)).toEqual([{ name: 'luke skywalker', value: 'awesome' }]);
+    });
+
+    it('should create an array from a map', () => {
+      const obj = { 'luke skywalker': null };
+
+      expect(mapTo2DArray(obj)).toEqual([{ name: 'luke skywalker', value: '' }]);
     });
 
     it('should create an array from a map with custom key value names', () => {
@@ -37,34 +57,36 @@ describe('Util Transformations', () => {
   });
 
   describe('convertFromMaps function', () => {
-    it('should return the correct values', () => {
-      const own = { luke_skywalker: 'jedi' };
-      const inherited = { darth_vadar: 'sith' };
-
-      expect(convertFromMaps(own, inherited)).toEqual([
-        { name: 'darth_vadar', value: 'sith', inherited: true },
-        { name: 'luke_skywalker', value: 'jedi', inherited: false }
-      ]);
-    });
-
-    it('should return the correct values with multiple inherits', () => {
-      const own = { luke_skywalker: 'jedi' };
-      const inherited = { darth_vadar: 'sith', anakin_skywalker: 'jedi' };
-
-      expect(convertFromMaps(own, inherited)).toEqual([
-        { name: 'anakin_skywalker', value: 'jedi', inherited: true },
-        { name: 'darth_vadar', value: 'sith', inherited: true },
-        { name: 'luke_skywalker', value: 'jedi', inherited: false }
-      ]);
-    });
-
-    it('should return the correct values when own and inherited have the same values', () => {
+    it('should return the correct values when no variables are inherited', () => {
       const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
-      const inherited = { darth_vadar: 'sith' };
+
+      expect(convertFromMaps(own)).toEqual([
+        { name: 'luke_skywalker', value: 'jedi', inherited: false },
+        { name: 'darth_vadar', value: 'sith lord', inherited: false },
+      ]);
+    });
+
+    it('should return the correct values when variables are inherited', () => {
+      const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
+      const inherited = { leia: 'princess', han_solo: 'nerf herder' };
 
       expect(convertFromMaps(own, inherited)).toEqual([
+        { name: 'leia', value: 'princess', inherited: true, overridden: false },
+        { name: 'han_solo', value: 'nerf herder', inherited: true, overridden: false },
+        { name: 'luke_skywalker', value: 'jedi', inherited: false },
         { name: 'darth_vadar', value: 'sith lord', inherited: false },
-        { name: 'luke_skywalker', value: 'jedi', inherited: false }
+      ]);
+    });
+
+    it('should return the correct values when variables are inherited and overriden', () => {
+      const own = { luke_skywalker: 'jedi', darth_vadar: 'sith lord' };
+      const inherited = { leia: 'princess', han_solo: 'smuggler', darth_vadar: 'sith master' };
+
+      expect(convertFromMaps(own, inherited)).toEqual([
+        { name: 'leia', value: 'princess', inherited: true, overridden: false },
+        { name: 'han_solo', value: 'smuggler', inherited: true, overridden: false },
+        { name: 'darth_vadar', value: 'sith lord', inherited: true, overridden: true },
+        { name: 'luke_skywalker', value: 'jedi', inherited: false },
       ]);
     });
   });

@@ -8,9 +8,9 @@ import {
   FETCH_USERPROFILE_REQUEST,
   FETCH_USERPROFILE_FULFILLED,
   FETCH_USERPROFILE_REJECTED,
-  // UPDATE_FAVORITE_REQUEST,
-  // UPDATE_FAVORITE_FULFILLED,
-  // UPDATE_FAVORITE_REJECTED,
+  UPDATE_USERPROFILE_REQUEST,
+  UPDATE_USERPROFILE_FULFILLED,
+  UPDATE_USERPROFILE_REJECTED,
   CREATE_FAVORITE_REQUEST,
   CREATE_FAVORITE_FULFILLED,
   CREATE_FAVORITE_REJECTED,
@@ -43,12 +43,28 @@ export function* fetchDefaultProfile() {
 
     if (!data) {
       const profileResponse = yield call(createProfile, { name: 'default-self-profile' });
-      yield put({ type: FETCH_USERPROFILE_FULFILLED, payload: profileModel.get(profileResponse.data) });
+      yield put({ type: FETCH_USERPROFILE_FULFILLED, payload: profileResponse.data });
     } else {
-      yield put({ type: FETCH_USERPROFILE_FULFILLED, payload: profileModel.get(data) });
+      yield put({ type: FETCH_USERPROFILE_FULFILLED, payload: data });
     }
   } catch (e) {
     yield put({ type: FETCH_USERPROFILE_REJECTED, payload: e.message });
+  }
+}
+
+/**
+ * fetchProfile
+ */
+export function* updateUserProfile(action) {
+  try {
+    const { data } = yield call(axios.patch, `${action.fqon}/userprofiles/${action.id}`, action.payload);
+
+    yield put({ type: UPDATE_USERPROFILE_FULFILLED, payload: data });
+    if (typeof action.onSuccess === 'function') {
+      action.onSuccess();
+    }
+  } catch (e) {
+    yield put({ type: UPDATE_USERPROFILE_REJECTED, payload: e.message });
   }
 }
 
@@ -84,7 +100,7 @@ export function* deleteFavorite(action) {
 export default function* () {
   yield takeLatest(CREATE_USERPROFILE_REQUEST, createProfile);
   yield takeLatest(FETCH_USERPROFILE_REQUEST, fetchDefaultProfile);
-  // yield takeLatest(UPDATE_FAVORITE_REQUEST, fetchProfile);
+  yield takeLatest(UPDATE_USERPROFILE_REQUEST, updateUserProfile);
   yield takeLatest(CREATE_FAVORITE_REQUEST, createFavorite);
   yield takeLatest(DELETE_FAVORITE_REQUEST, deleteFavorite);
 }

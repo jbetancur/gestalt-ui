@@ -4,11 +4,11 @@ import CodeBlock from 'components/CodeBlock';
 import streamModel from '../models/streamSpec';
 
 const PayloadViewer = memo(({ value, name }) => {
-  const [raw, toggleRaw] = useState(0);
+  const [raw, toggleRaw] = useState(false);
 
   const data = raw
-    ? streamModel.get(value)
-    : streamModel.initForm(value);
+    ? streamModel.rawGet(value)
+    : streamModel.create(value);
 
   return (
     <CodeBlock

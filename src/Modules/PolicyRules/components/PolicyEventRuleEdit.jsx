@@ -7,17 +7,18 @@ import arrayMutators from 'final-form-arrays';
 import Form from 'components/Form';
 import { withPickerData } from 'Modules/MetaResource';
 import { Col, Row } from 'react-flexybox';
-import { withEntitlements } from 'Modules/Entitlements';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { Panel } from 'components/Panels';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import PolicyEventRuleForm from './PolicyEventRuleForm';
-import actions from '../actions';
 import eventRuleModel from '../models/eventRule';
 import { getEditEventRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
@@ -29,16 +30,29 @@ class PolicyEventRuleEdit extends Component {
     policyRule: PropTypes.object.isRequired,
     policyRuleActions: PropTypes.object.isRequired,
     policyRulePending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     fetchlambdasData: PropTypes.func.isRequired,
     lambdasData: PropTypes.array.isRequired,
     lambdasLoading: PropTypes.bool.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   componentDidMount() {
     const { match, policyRuleActions } = this.props;
 
     policyRuleActions.fetchPolicyRule({ fqon: match.params.fqon, id: match.params.ruleId });
+  }
+
+  showEntitlements = () => {
+    const { policyRule } = this.props;
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${policyRule.name}" Event Rule`,
+      fqon: policyRule.org.properties.fqon,
+      entityId: policyRule.id,
+      entityKey: 'rules',
+    });
   }
 
   update = (values) => {
@@ -54,7 +68,6 @@ class PolicyEventRuleEdit extends Component {
       initialValues,
       policyRule,
       policyRulePending,
-      entitlementActions,
       fetchlambdasData,
       lambdasData,
     } = this.props;
@@ -72,14 +85,12 @@ class PolicyEventRuleEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/policies/${match.params.policyId}`}
             actions={[
-              <Button
-                key="eventRule--entitlements"
-                flat
-                iconChildren="security"
-                onClick={() => entitlementActions.showEntitlementsModal(policyRule.name, match.params.fqon, policyRule.id, 'rules', 'Event Rule')}
-              >
-                Entitlements
-              </Button>
+              <FlatButton
+                key="eventrule--entitlements"
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
+                onClick={this.showEntitlements}
+              />
             ]}
           />
 
@@ -140,7 +151,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withPolicyRule,
-  withEntitlements,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
   withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
 )(PolicyEventRuleEdit);

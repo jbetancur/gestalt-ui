@@ -1,12 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'components/Buttons';
+import styled from 'styled-components';
+import { IconButton } from 'components/Buttons';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Avatar from '@material-ui/core/Avatar';
 import { OrganizationIcon, WorkspaceIcon, EnvironmentIcon, DeleteIcon } from 'components/Icons';
 import { ORGANIZATION, WORKSPACE, ENVIRONMENT } from '../../../constants';
+
+const CustomListItemText = styled(ListItemText)`
+  white-space: normal;
+`;
 
 const iconMap = {
   [ORGANIZATION]: <OrganizationIcon />,
@@ -43,9 +48,9 @@ class FavoriteItem extends PureComponent {
         <Avatar>
           {iconMap[favorite.resource_type_id]}
         </Avatar>
-        <ListItemText primary={favorite.nickname || favorite.resource_name} secondary={favorite.resource_description} />
+        <CustomListItemText primary={favorite.nickname || favorite.resource_name} secondary={favorite.resource_description} />
         <ListItemSecondaryAction>
-          <Button icon onClick={this.handleDelete}><DeleteIcon /></Button>
+          <IconButton icon={<DeleteIcon />} onClick={this.handleDelete} />
         </ListItemSecondaryAction>
       </ListItem>
     );

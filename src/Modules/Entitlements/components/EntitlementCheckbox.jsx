@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { memo } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Checkbox } from 'react-md';
+import Checkbox from 'components/Fields/Checkbox';
 
-const EntitlementCheckBox = (props) => {
-  const handleCheck = () => props.onChange(props.model);
+const CheckBoxStyle = styled(Checkbox)`
+  height: 24px;
+  width: 24px;
+`;
 
-  return (
-    <Checkbox
-      {...props}
-      onChange={handleCheck}
-    />
-  );
-};
+const EntitlementCheckBox = memo(({ onChange, model, ...rest }) => (
+  <CheckBoxStyle
+    {...rest}
+    disableRipple
+    onChange={() => onChange(model)}
+  />
+));
 
 EntitlementCheckBox.propTypes = {
   model: PropTypes.object.isRequired,

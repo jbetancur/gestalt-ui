@@ -8,8 +8,11 @@ import { Name, Timestamp, GenericMenuActions, NoData } from 'components/TableCel
 import { LinearProgress } from 'components/ProgressIndicators';
 import { MetamodelIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { Checkbox, FontIcon } from 'react-md';
+import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
+import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import actions from '../actions';
 import withResourceTypes from '../hocs/withResourceTypes';
 
@@ -20,8 +23,9 @@ class ResourceTypeListing extends PureComponent {
     resourceTypes: PropTypes.array.isRequired,
     resourceTypesActions: PropTypes.object.isRequired,
     resourceTypesPending: PropTypes.bool.isRequired,
-    confirmDelete: PropTypes.func.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   state = { selectedRows: [], clearSelected: false };
 
@@ -33,14 +37,16 @@ class ResourceTypeListing extends PureComponent {
 
   deleteOne = (row) => {
     const { match, resourceTypesActions } = this.props;
+    const { showModal } = this.context;
 
     const onSuccess = () => {
       resourceTypesActions.fetchResourceTypes({ fqon: match.params.fqon });
     };
 
-    this.props.confirmDelete(({ force }) => {
-      resourceTypesActions.deleteResourceType({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } });
-    }, `Are you sure you want to delete ${row.name}?`);
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete ${row.name}?`,
+      onProceed: ({ force }) => resourceTypesActions.deleteResourceType({ fqon: match.params.fqon, resource: row, onSuccess, params: { force } }),
+    });
   }
 
   handleTableChange = ({ selectedRows }) => {
@@ -84,7 +90,7 @@ class ResourceTypeListing extends PureComponent {
         selector: 'properties.abstract',
         sortable: true,
         center: true,
-        cell: row => <Checkbox inkDisabled defaultChecked={row.properties.abstract} disabled />
+        cell: row => <Checkbox disableRipple checked={row.properties.abstract} disabled />
       },
       {
         name: 'Created',
@@ -112,7 +118,7 @@ class ResourceTypeListing extends PureComponent {
             data={this.props.resourceTypes}
             highlightOnHover
             pointerOnHover
-            sortIcon={<FontIcon>arrow_downward</FontIcon>}
+            sortIcon={<ArrowDownIcon />}
             defaultSortField="name"
             progressPending={this.props.resourceTypesPending}
             progressComponent={<LinearProgress id="resourcetype-listing" />}

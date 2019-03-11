@@ -3,30 +3,6 @@ import { generatePayload, generatePatches } from './payloadTransformer';
 
 describe('APIEndpoint Payload Transformer', () => {
   describe('generatePayload', () => {
-    describe('properties.methods', () => {
-      it('should convert properties.methods to an Array if there are methods defined', () => {
-        const sourcePayload = apiEndpointModel.get({
-          properties: {
-            methods: 'GET,POST'
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.methods).toEqual(['GET', 'POST']);
-      });
-
-      it('should convert properties.methods to [] if there no methods defined', () => {
-        const sourcePayload = apiEndpointModel.get({
-          properties: {
-            methods: ''
-          }
-        });
-        const payload = generatePayload(sourcePayload);
-
-        expect(payload.properties.methods).toEqual([]);
-      });
-    });
-
     describe('updateMode', () => {
       it('should remove container related properties if the implementation_type = lambda', () => {
         const sourcePayload = apiEndpointModel.get({

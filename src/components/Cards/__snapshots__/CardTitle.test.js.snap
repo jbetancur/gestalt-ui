@@ -1,77 +1,137 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`(Cards) CardTitle mounts with basic props 1`] = `
-.c2 {
+.c3 {
   font-size: 13px;
   color: #757575;
 }
 
-.c1 {
+.c2 {
   font-size: 20px;
   color: #424242;
-  font-size: 22px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .c0 {
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  padding-right: 8px;
 }
 
 <div
   class="c0"
 >
-  <div>
-    <div
-      class="c1"
-    />
-    <div
-      class="c2"
-    />
-  </div>
+  <div
+    class="c1"
+  />
+  <div
+    class="c2"
+  />
+  <div
+    class="c3"
+  />
 </div>
 `;
 
 exports[`(Cards) CardTitle mounts with children 1`] = `
-.c0 {
-  padding: 16px;
-}
-
-<div
-  class="c0"
->
-  Hellow!
-</div>
-`;
-
-exports[`(Cards) CardTitle mounts with title and subTitle 1`] = `
-.c2 {
+.c3 {
   font-size: 13px;
   color: #757575;
 }
 
-.c1 {
+.c2 {
   font-size: 20px;
   color: #424242;
-  font-size: 22px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .c0 {
-  padding: 16px;
+  padding: 16px 16px 8px 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  padding-right: 8px;
 }
 
 <div
   class="c0"
 >
-  <div>
-    <div
-      class="c1"
-    >
-      woop
-    </div>
-    <div
-      class="c2"
-    >
-      woop!
-    </div>
+  <div
+    class="c1"
+  />
+  <div
+    class="c2"
+  />
+  <div
+    class="c3"
+  />
+</div>
+`;
+
+exports[`(Cards) CardTitle mounts with title and subTitle 1`] = `
+.c3 {
+  font-size: 13px;
+  color: #757575;
+}
+
+.c2 {
+  font-size: 20px;
+  color: #424242;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.c0 {
+  padding: 16px 16px 8px 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  padding-right: 8px;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  />
+  <div
+    class="c2"
+  >
+    woop
+  </div>
+  <div
+    class="c3"
+  >
+    woop!
   </div>
 </div>
 `;

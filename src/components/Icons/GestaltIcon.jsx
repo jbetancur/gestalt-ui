@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import SVGIcon from 'react-md/lib/SVGIcons';
+import SVGIcon from '@material-ui/core/SvgIcon';
 
 const SVGLogoStyled = styled(SVGIcon)`
   .__logo-trans-1{fill:#77e0f2;}.__logo-trans-2{fill:#4dd7ee;}.__logo-trans-3{fill:#5edbf0;}.__logo-trans-4{fill:#75e0f2;}.__logo-trans-5{fill:#5cdaf0;}.__logo-trans-6{fill:#9ae8f5;}.__logo-trans-7{fill:#67ddf1;}.__logo-trans-8{fill:#92e6f5;}.__logo-trans-9{fill:#b7eff8;}.__logo-trans-10{fill:#adedf7;}.__logo-trans-11{fill:#56d9ef;}.__logo-trans-12{fill:#8be5f4;}.__logo-trans-13{fill:#d2f5fb;}.__logo-trans-14{fill:#9de9f6;}.__logo-trans-15{fill:#c5f2fa;}.__logo-trans-16{fill:#b8eff8;}.__logo-trans-17{fill:#61dbf0;}.__logo-trans-18{fill:#4fd7ef;}.__logo-trans-19{fill:#5adaf0;}.__logo-trans-20{fill:#6cdef1;}.__logo-trans-21{fill:#4ad6ee;}.__logo-trans-22{fill:#69ddf1;}.__logo-trans-23{fill:#86e4f4;}.__logo-trans-24{fill:#58d9ef;}.__logo-trans-25{fill:#6edef1;}.__logo-trans-26{fill:#d5f6fb;}.__logo-trans-27{fill:#c3f1f9;}.__logo-trans-28{fill:#a1eaf6;}.__logo-trans-29{fill:#90e6f5;}.__logo-trans-30{fill: none;}.__logo-trans-31{fill:#72dff2;}
 `;
 
 /* eslint react/jsx-indent: 0 */
-const HierarchyIcon = props => (
-  <SVGLogoStyled viewBox="0 0 100.39 115.92" {...props} size={props.size}>
+const HierarchyIcon = ({ size, ...rest }) => (
+  <SVGLogoStyled viewBox="0 0 100.39 115.92" style={{ fontSize: `${size}px` }} {...rest}>
     <g id="Layer_2" data-name="Layer 2">
       <g id="Layer_1-2" data-name="Layer 1">
         <polygon className="__logo-trans-1" points="50.19 19.32 50.19 0 66.92 9.66 50.19 19.32" />
@@ -62,7 +62,7 @@ HierarchyIcon.propTypes = {
 };
 
 HierarchyIcon.defaultProps = {
-  size: 12,
+  size: 22,
 };
 
 export default HierarchyIcon;

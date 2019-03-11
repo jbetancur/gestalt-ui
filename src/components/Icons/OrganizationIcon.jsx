@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Icon from '@material-ui/icons/Domain';
 
-const OrganizationIconStyle = styled(FontIcon)`
-  font-size: ${props => `${props.size}px !important`};
+const OrganizationIconStyle = styled(Icon)`
+  font-size: ${props => `${props.size}px`};
+  color: ${props => `${props.color}`};
 `;
 
-const OrganizationIcon = ({ size, ...rest }) => <OrganizationIconStyle size={size} {...rest}>business</OrganizationIconStyle>;
+const OrganizationIcon = ({ size, color, ...rest }) => <OrganizationIconStyle size={size} color={color} {...rest} />;
 
 OrganizationIcon.propTypes = {
-  size: PropTypes.number
+  size: PropTypes.number,
+  color: PropTypes.string,
 };
 
 OrganizationIcon.defaultProps = {
-  size: 24,
+  size: 22,
+  color: 'action',
 };
 
 export default OrganizationIcon;

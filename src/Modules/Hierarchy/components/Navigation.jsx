@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import base64 from 'base-64';
 import styled from 'styled-components';
-import { FontIcon, Divider } from 'react-md';
+import BlurIcon from '@material-ui/icons/BlurOn';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Divider from 'components/Divider';
 import { PersistentDrawer } from 'components/NavigationDrawers';
 import { GalacticFogIcon } from 'components/Icons';
 import NavItem from './NavItem';
@@ -13,8 +15,8 @@ import iconMap from '../config/iconMap';
 import generateSVG from '../util/generateSVG';
 
 const Logo = styled.div`
-  background-color: ${props => props.theme.colors.primary};
-  border-bottom: 1px solid ${props => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.leftNavBackground};
+  border-bottom: 1px solid ${props => props.theme.colors.background.default};
   display: flex;
   flex: 0 0 56px;
   align-items: center;
@@ -23,6 +25,7 @@ const Logo = styled.div`
 
 const NavItems = styled.ul`
   position: relative;
+  background-color: ${({ theme }) => theme.colors.leftNavBackground};
   margin: 0;
   padding: 3px 0 0 0;
   width: 100%;
@@ -35,7 +38,7 @@ const NavFooter = styled.footer`
   bottom: 0;
   left: 0;
   width: 100%;
-  border-top: 1px solid ${props => props.theme.colors.background};
+  border-top: 1px solid ${props => props.theme.colors.background.default};
 `;
 
 const ExpanderButton = styled.button`
@@ -48,14 +51,14 @@ const ExpanderButton = styled.button`
   text-align: right;
   padding-right: 22px;
   transition: background-color 195ms ease-in-out;
-  background-color: ${props => props.theme.colors.primary};
+  background-color: ${props => props.theme.colors.leftNavBackground};
+  color: white;
 
   &:hover {
-    background-color: ${props => props.theme.colors.primaryVariant};
+    background-color: ${props => props.theme.colors.leftNavBackgroundVariant};
   }
 
-  i {
-    color: white;
+  svg {
     transform: rotate(${props => (props.open ? '-180deg' : '0deg')});
     transition-property: transform;
     transition-duration: ${props => (props.open ? '225ms' : '195ms')};
@@ -64,7 +67,7 @@ const ExpanderButton = styled.button`
 `;
 
 const ActionDivider = styled(Divider)`
-  background: ${props => props.theme.colors.primaryVariant};
+  background: ${props => props.theme.colors.leftNavBackgroundVariant};
 `;
 
 class Navigation extends PureComponent {
@@ -170,14 +173,14 @@ class Navigation extends PureComponent {
 
                 {actions.length > 0 && <ActionDivider />}
 
-                {actions.map(item => (
+                {actions.map((item, index) => (
                   <NavItem
                     open={open}
                     expandedWidth={width}
                     miniWidth={miniWidth}
                     title={item.display_name || item.action}
-                    key={item.action}
-                    icon={item.icon ? generateSVG(item.icon) : <FontIcon>blur_on</FontIcon>}
+                    key={`${item.action}-${index}`}
+                    icon={item.icon ? generateSVG(item.icon) : <BlurIcon color="inherit" />}
                     to={this.generateLink(item)}
                     target={this.generateTarget(item)}
                   />
@@ -191,9 +194,7 @@ class Navigation extends PureComponent {
             onClick={this.handleOpen}
             open={open}
           >
-            <FontIcon>
-              chevron_right
-            </FontIcon>
+            <ChevronRightIcon />
           </ExpanderButton>
         </NavFooter>
       </PersistentDrawer>

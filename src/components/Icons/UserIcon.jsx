@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FontIcon } from 'react-md';
+import Icon from '@material-ui/icons/Person';
 
-const UserIconStyle = styled(FontIcon)`
-  font-size: ${props => `${props.size}px !important`};
+const UserIconStyle = styled(Icon)`
+  font-size: ${props => `${props.size}px`};
+  color: ${props => `${props.color}`};
 `;
 
-const UserIcon = ({ size, ...rest }) => <UserIconStyle size={size} {...rest}>person</UserIconStyle>;
+const UserIcon = ({ size, color, ...rest }) => <UserIconStyle size={size} color={color} {...rest} />;
 
 UserIcon.propTypes = {
-  size: PropTypes.number
+  size: PropTypes.number,
+  color: PropTypes.string,
 };
 
 UserIcon.defaultProps = {
-  size: 24,
+  size: 22,
+  color: 'action',
 };
 
 export default UserIcon;

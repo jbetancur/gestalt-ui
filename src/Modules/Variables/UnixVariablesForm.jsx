@@ -1,15 +1,14 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { FieldContainer, FieldItem, RemoveButton, AddButton } from 'components/FieldArrays';
-import withKeyBindings from 'components/Hocs/withKeyBindings';
 import { checkIfPassword } from 'util/helpers/strings';
 import { composeValidators, required, unixPattern } from 'util/forms';
 
-const UnixVariablesForm = memo(({ disabled, fieldName }) => (
+const UnixVariablesForm = memo(({ fieldName }) => (
   <FieldArray name={fieldName}>
     {({ fields }) => {
       const addNew = () => {
@@ -21,9 +20,8 @@ const UnixVariablesForm = memo(({ disabled, fieldName }) => (
           {fields.map((member, index) => {
             const field = fields.value[index] || {};
             const isInherited = field.inherited;
-            const fieldNameStr = isInherited ? 'name (inherit)' : 'name';
-            const fieldValueStr = isInherited ? 'value (overridable)' : 'value';
-            const isDisabled = isInherited || disabled;
+            const overridden = isInherited && field.overridden ? 'value (overridden)' : 'value (inherited)';
+            const isDisabled = isInherited || field.required;
             const isPasswordField = checkIfPassword(field.name);
 
             return (
@@ -33,35 +31,32 @@ const UnixVariablesForm = memo(({ disabled, fieldName }) => (
                     <Field
                       id={`${member}.name`}
                       name={`${member}.name`}
-                      placeholder={fieldNameStr}
-                      rows={isPasswordField ? undefined : 1}
-                      maxRows={isPasswordField ? undefined : 4}
+                      label={isInherited ? 'name (inherited)' : 'name'}
                       component={TextField}
                       disabled={isDisabled}
                       autoComplete="off"
                       required
-                      helpText={isInherited ? 'inherited' : null}
                       validate={composeValidators(unixPattern(), required())}
+                      variant="outlined"
                     />
                   </Col>
                   <Col flex={8} xs={12} sm={12}>
                     <Field
                       id={`${member}.value`}
                       name={`${member}.value`}
-                      placeholder={fieldValueStr}
+                      label={(isInherited && overridden && overridden) || 'value'}
                       type={isPasswordField ? 'password' : 'text'}
                       component={TextField}
-                      rows={isPasswordField ? undefined : 1}
-                      maxRows={isPasswordField ? undefined : 4}
+                      // multiline={!isPasswordField}
+                      // rowsMax={isPasswordField ? undefined : 4}
                       required={field.required}
-                      passwordIcon={null}
-                      helpText={isInherited ? 'overridable' : null}
                       validate={field.required ? composeValidators(required()) : null}
                       autoComplete={isPasswordField ? 'new-password' : null}
+                      variant="outlined"
                     />
                   </Col>
                 </Row>
-                {(!isDisabled && !member.required) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
+                {(!isDisabled && !field.required) && <RemoveButton onRemove={fields.remove} fieldIndex={index} tabIndex="-1" />}
               </FieldItem>
             );
           })}
@@ -77,12 +72,7 @@ const UnixVariablesForm = memo(({ disabled, fieldName }) => (
 ));
 
 UnixVariablesForm.propTypes = {
-  disabled: PropTypes.bool,
   fieldName: PropTypes.string.isRequired,
 };
 
-UnixVariablesForm.defaultProps = {
-  disabled: false,
-};
-
-export default withKeyBindings(UnixVariablesForm);
+export default UnixVariablesForm;

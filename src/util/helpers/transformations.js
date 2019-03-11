@@ -1,4 +1,4 @@
-import { map, sortBy, compact, unionBy, orderBy, get } from 'lodash';
+import { map, compact, get } from 'lodash';
 
 /**
  * arrayToMap
@@ -6,8 +6,12 @@ import { map, sortBy, compact, unionBy, orderBy, get } from 'lodash';
  * @param {*} keyName
  * @param {*} valueName
  */
-export function arrayToMap(array, keyName = 'name', valueName = 'value') {
-  return Object.assign({}, ...array.map(v => ({ [v[keyName]]: v[valueName] })));
+export function arrayToMap(array = [], keyName = 'name', valueName = 'value') {
+  if (!Array.isArray(array)) {
+    return array;
+  }
+
+  return Object.assign({}, ...array.map(v => ({ [v[keyName]]: v[valueName] || '' })));
 }
 
 /**
@@ -18,9 +22,11 @@ export function arrayToMap(array, keyName = 'name', valueName = 'value') {
  * @param {*} mergeSet
  */
 export function mapTo2DArray(object = {}, keyName = 'name', valueName = 'value', mergeSet = {}) {
-  const mappedItems = map(object, (value, key) => (Object.assign({ [keyName]: key, [valueName]: value }, mergeSet)));
+  if (typeof object !== 'object') {
+    return object;
+  }
 
-  return sortBy(mappedItems, [v => v[keyName].toLowerCase()]);
+  return map(object, (value, key) => (Object.assign({ [keyName]: key, [valueName]: value || '' }, mergeSet)));
 }
 
 /**
@@ -34,16 +40,45 @@ export function stringDemiltedToArray(string) {
 
 /**
  * convertFromMaps
- * used to convert env vars from a map to an array
+ * used to convert env vars from a map to an array and reconcile inherited vs own
  * @param {*} own
  * @param {*} inherited
  */
 export function convertFromMaps(own = {}, inherited = {}, keyName = 'name', valueName = 'value') {
-  // vars are a map but we need arrays to work with forms and for additional attributes for inheritance
-  const inheritedVars = mapTo2DArray(inherited, keyName, valueName, { inherited: true });
   const ownVars = mapTo2DArray(own, keyName, valueName, { inherited: false });
 
-  return orderBy(unionBy(ownVars, inheritedVars, keyName), ['inherited', keyName], 'desc');
+  // base case just return the mapped own vars
+  if (!Object.keys(inherited)) {
+    return ownVars;
+  }
+
+  const inheritedVars = mapTo2DArray(inherited, keyName, valueName, { inherited: true, overridden: false });
+
+  const reconcileInheritedVars = inheritedVars.map((i) => {
+    // find the dupe value in ownVars
+    const index = ownVars.findIndex(o => o[keyName] === i[keyName]);
+
+    // if the value is differnt mark the matching var as overriden
+    if (index > -1 && ownVars[index][valueName] !== i[valueName]) {
+      return { ...i, [valueName]: ownVars[index][valueName], inherited: true, overridden: true };
+    }
+
+    // default case the own env var
+    return i;
+  });
+
+  const results = [...reconcileInheritedVars];
+
+  // "merge" the ownVars back in
+  ownVars.forEach((v) => {
+    const index = inheritedVars.findIndex(o => o[keyName] === v[keyName]);
+
+    if (index === -1) {
+      results.push(v);
+    }
+  });
+
+  return results;
 }
 
 /**

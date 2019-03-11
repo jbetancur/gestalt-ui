@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { withRouter } from 'react-router-dom';
 import { orderBy } from 'lodash';
-import { generateContextEntityState } from 'util/helpers/context';
-import { buildAllURL } from 'config/lib/urlmapper';
+import { buildParams } from 'config/lib/urlmapper';
+import withContext from '../../Hierarchy/hocs/withContext';
 
-export default ({ entity, alias, label, context = true, params, sortKey = 'name', sortDirection = 'asc', fetchOnMount = true }) => (WrapperComponent) => {
+/**
+ * ignore Context lets  you pass in a url as an entity rather than relying on ui context
+ */
+export default ({ entity, alias, label, params, sortKey = 'name', sortDirection = 'asc', fetchOnMount = true, ignoreContext = false }) => (WrapperComponent) => {
   class DataPicker extends Component {
     static displayName = 'DataPicker(HOC)';
 
     static propTypes = {
-      match: PropTypes.object.isRequired,
+      hierarchyContext: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -25,14 +27,29 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
       };
 
       this.onFetch = { [`fetch${name}Data`]: this.manualFetch, [`${name}Data`]: [] };
+      this.cancelSource = axios.CancelToken.source();
     }
 
     componentDidMount() {
+      const { hierarchyContext: { contextFulfilled } } = this.props;
       // isMounted is Required wsince this is a dynamically named component
       this.$isMounted = true;
-      this.cancelSource = axios.CancelToken.source();
-      if (fetchOnMount) {
+
+      if ((contextFulfilled && fetchOnMount) || ignoreContext) {
         this.get();
+      }
+    }
+
+    componentDidUpdate(prevProps) {
+      if (!ignoreContext) {
+        const { hierarchyContext: { contextFulfilled } } = this.props;
+        if (
+          prevProps.hierarchyContext.contextFulfilled !== contextFulfilled
+          && contextFulfilled
+          && fetchOnMount
+        ) {
+          this.get();
+        }
       }
     }
 
@@ -54,10 +71,11 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
 
     async get() {
       const name = alias || entity;
-      const { match } = this.props;
-      const resolvedContext = generateContextEntityState(match.params);
-      const urlConfig = context ? { fqon: match.params.fqon, entityId: resolvedContext.id, entityKey: resolvedContext.key, params } : { fqon: match.params.fqon, params };
-      const url = buildAllURL(entity.toLowerCase(), urlConfig, true);
+      const { hierarchyContext: { context } } = this.props;
+
+      const url = ignoreContext
+        ? buildParams(entity, params)
+        : buildParams(`${context.contextMeta.baseHref}/${entity.toLowerCase()}`, params);
 
       this.safeSetState({ [`${name}Loading`]: true });
 
@@ -90,5 +108,5 @@ export default ({ entity, alias, label, context = true, params, sortKey = 'name'
     }
   }
 
-  return withRouter(DataPicker);
+  return withContext()(DataPicker);
 };

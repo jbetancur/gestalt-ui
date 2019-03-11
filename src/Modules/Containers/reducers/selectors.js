@@ -1,7 +1,10 @@
 import { createSelector } from 'reselect';
+import { listSelectors } from 'Modules/ListFilter';
+// import { get } from 'lodash';
 import containerModel from '../models/container';
 
 export const selectProvider = state => state.containers.container.selectedProvider;
+export const selectContainers = state => listSelectors.filterItems()(state, 'containers.containers.containers');
 export const selectContainer = state => state.containers.container.container;
 export const selectContainerSpec = (state, containerSpec) => containerModel.get(containerSpec);
 export const selectEnv = state => state.containers.container.inheritedEnv;
@@ -9,19 +12,10 @@ export const selectEnv = state => state.containers.container.inheritedEnv;
 // Volume Module States
 export const selectVolumeListing = state => state.volumes.volumeListing.volumes;
 
-const fixHealthChecks = (healthChecks = []) => healthChecks.map((check) => {
-  const newcheck = { ...check };
-
-  if (check.protocol !== 'COMMAND') {
-    if ('port_index' in newcheck) {
-      newcheck.port_type = 'index';
-    } else {
-      newcheck.port_type = 'number';
-    }
-  }
-
-  return newcheck;
-});
+export const getContainers = createSelector(
+  [selectContainers],
+  containers => containers,
+);
 
 export const getCreateContainerModel = createSelector(
   [selectContainer, selectProvider, selectEnv],
@@ -52,18 +46,7 @@ export const getCreateContainerModel = createSelector(
 
 export const getEditContainerModel = createSelector(
   [selectContainer],
-  (container) => {
-    const { properties } = container;
-    const model = {
-      ...container,
-      properties: {
-        ...container.properties,
-        health_checks: fixHealthChecks(properties.health_checks),
-      },
-    };
-
-    return containerModel.initForm(model);
-  }
+  container => containerModel.initForm(container)
 );
 
 export const getContainerStatus = createSelector(

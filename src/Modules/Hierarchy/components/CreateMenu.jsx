@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { ListItem, MenuButton } from 'react-md';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import CreateIcon from '@material-ui/icons/Add';
 import withContext from '../hocs/withContext';
 import createItems from '../config/createItems';
 import iconMap from '../config/iconMap';
-
-const listItemStyle = { textAlign: 'left' };
 
 class CreateMenu extends PureComponent {
   static propTypes = {
@@ -36,15 +37,10 @@ class CreateMenu extends PureComponent {
       : [];
 
     return items.map(item => (
-      <ListItem
-        id={item.key}
-        key={item.key}
-        primaryText={item.title}
-        component={Link}
-        leftIcon={iconMap(item.icon)}
-        to={item.to}
-        style={listItemStyle}
-      />
+      <ListItem key={item.key} dense button component={Link} to={item.to}>
+        {iconMap(item.icon)}
+        <ListItemText primary={item.title} />
+      </ListItem>
     ));
   }
 
@@ -55,19 +51,12 @@ class CreateMenu extends PureComponent {
     return (
       <MenuButton
         id="orgs-settings-menu"
-        anchor={{
-          x: MenuButton.HorizontalAnchors.CENTER,
-          y: MenuButton.VerticalAnchors.BOTTOM,
-        }}
-        simplifiedMenu={false}
-        iconChildren="add"
         flat
-        sameWidth={false}
-        menuItems={this.generateMenuItems()}
-        listHeightRestricted={false}
         disabled={contextPending}
+        label="Create New"
+        icon={<CreateIcon fontSize="small" />}
       >
-        Create New
+        {this.generateMenuItems()}
       </MenuButton>
     );
   }

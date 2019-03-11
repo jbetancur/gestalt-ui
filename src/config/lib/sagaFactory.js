@@ -63,7 +63,7 @@ export const create = ({ name, entity, verb = 'CREATE', prefix = PREFIX }) => fu
       response = yield call(axios.post, buildAllURL(entity, payload));
     }
 
-    yield put({ type: `${prefix}${verb}_${name}_FULFILLED`, payload: response.data });
+    yield put({ type: `${prefix}${verb}_${name}_FULFILLED`, payload: response.data, updateState: payload.updateState || false });
     yield put(notificationActions.addNotification({ message: `${response.data.name} ${getLastFromSplit(response.data.resource_type)} created` }));
 
     if (typeof payload.onSuccess === 'function') {
@@ -83,7 +83,7 @@ export const update = ({ name, entity, verb = 'UPDATE', prefix = PREFIX }) => fu
   try {
     const response = yield call(axios.patch, buildOneURL(entity, payload), payload.payload);
 
-    yield put({ type: `${prefix}${verb}_${name}_FULFILLED`, payload: response.data });
+    yield put({ type: `${prefix}${verb}_${name}_FULFILLED`, payload: response.data, updateState: payload.updateState || false });
     yield put(notificationActions.addNotification({ message: `${response.data.name} ${getLastFromSplit(response.data.resource_type)} updated` }));
 
     if (typeof payload.onSuccess === 'function') {

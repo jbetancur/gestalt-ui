@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row, Col } from 'react-flexybox';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
 import { RobotUprisingIcon } from 'components/Icons';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import { media } from 'util/helpers/media';
 import withSelf from '../hocs/withSelf';
 
@@ -54,7 +55,7 @@ const SVGWrapper = styled.div`
   }
 `;
 
-const ButtonStyle = styled(Button)`
+const ButtonStyle = styled(FlatButton)`
   margin-right: 1px;
   margin-left: 1px;
 `;
@@ -130,13 +131,11 @@ const NotFound = ({ match, history }) => (
           <Row center>
             {match.params.fqon &&
             <ButtonStyle
-              flat
-              primary
-              iconChildren="arrow_back"
+              color="primary"
+              label={`Back to ${match.params.fqon}`}
+              icon={<ArrowBack fontSize="small" />}
               onClick={() => history.replace(`/${match.params.fqon}/hierarchy`)}
-            >
-              {`Back to ${match.params.fqon}`}
-            </ButtonStyle>}
+            />}
           </Row>
         </Row>
         <Row center>

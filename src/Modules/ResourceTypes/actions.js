@@ -5,18 +5,6 @@ import {
   BATCH_UPDATE_TYPEPROPERTY_REQUEST,
 } from './actionTypes';
 
-export function confirmDelete(action, title, multipleItems) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'CONFIRM',
-    modalProps: {
-      title,
-      multipleItems,
-      onProceed: action,
-    }
-  };
-}
-
 /**
  * createTypeProperty
  * @param {string} fqon
@@ -63,7 +51,6 @@ export function batchUpdateTypeProperties(fqon, operations, onSuccess) {
 }
 
 export default {
-  confirmDelete,
   createTypeProperty,
   updateTypeProperty,
   deleteTypeProperty,

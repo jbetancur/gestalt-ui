@@ -8,14 +8,16 @@ import { Form as FinalForm } from 'react-final-form';
 import Form from 'components/Form';
 import createDecorator from 'final-form-focus';
 import { Card } from 'components/Cards';
-import { Button } from 'components/Buttons';
-import { withEntitlements } from 'Modules/Entitlements';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import { ActionsMenu } from 'Modules/Actions';
 import ActionsToolbar from 'components/ActionsToolbar';
 import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import StreamForm from './StreamForm';
 import StreamInstances from './StreamInstances';
@@ -32,7 +34,6 @@ class StreamSpecEdit extends Component {
     streamInstances: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     streamSpecPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
     providerActions: PropTypes.array.isRequired,
@@ -42,14 +43,22 @@ class StreamSpecEdit extends Component {
     providers: PropTypes.array.isRequired,
   };
 
+  static contextType = ModalConsumer;
+
   componentDidMount() {
     this.populateStreamSpecs();
   }
 
   onShowEntitlements = () => {
-    const { entitlementActions, streamSpec, match } = this.props;
+    const { streamSpec } = this.props;
+    const { showModal } = this.context;
 
-    entitlementActions.showEntitlementsModal(streamSpec.name, match.params.fqon, streamSpec.id, 'streamspecs', 'Stream');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${streamSpec.name}" Stream`,
+      fqon: streamSpec.org.properties.fqon,
+      entityId: streamSpec.id,
+      entityKey: 'streamspecs',
+    });
   }
 
   onSubmit = (values) => {
@@ -100,14 +109,12 @@ class StreamSpecEdit extends Component {
                 fqon={match.params.fqon}
                 resource={streamSpec}
               />,
-              <Button
+              <FlatButton
                 key="streamspec--entitlements"
-                flat
-                iconChildren="security"
-                onClick={this.onShowEntitlements}
-              >
-                Entitlements
-              </Button>,
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
+                onClick={this.showEntitlements}
+              />,
             ]}
           />
 
@@ -184,7 +191,6 @@ const mapStatetoProps = state => ({
 
 export default compose(
   withStreamSpec,
-  withEntitlements,
   withRouter,
   connect(mapStatetoProps)
 )(StreamSpecEdit);

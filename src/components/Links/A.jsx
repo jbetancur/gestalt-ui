@@ -1,17 +1,10 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const AStyle = styled.a`
   font-size: 13px;
   text-decoration: none;
-  ${props => props.bubble && css`
-    background-color: ${props.theme.colors['$md-grey-200']};
-    border-radius: 15px;
-    padding-left: 4px;
-    padding-right: 4px;
-    font-weight: 400;
-  `};
   ${props => props.block && 'display: block'};
-  ${props => props.primary && `color: ${props.theme.colors['$md-blue-600']}`};
+  ${props => props.primary && `color: ${props.theme.colors.primary.default}`};
 `;
 
 export default AStyle;

@@ -1,13 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { Link } from 'react-router-dom';
-import { MenuButton, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
+import { Link, withRouter } from 'react-router-dom';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import EditIcon from '@material-ui/icons/Edit';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import Divider from 'components/Divider';
 import { DeleteIcon, EntitlementIcon, WorkspaceIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
-import withHierarchy from '../hocs/withHierarchy';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 
 class WorkspaceDetails extends PureComponent {
   static propTypes = {
@@ -15,77 +20,68 @@ class WorkspaceDetails extends PureComponent {
     hierarchyContext: PropTypes.object.isRequired,
     hierarchyContextActions: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
-    hierarchyActions: PropTypes.object.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
   };
 
+  // TODO: will fix when react-router fixes hoisting error
+  // static contextType = ModalConsumer;
+
   showEntitlements = () => {
-    const { hierarchyContext, match, entitlementActions } = this.props;
+    const { hierarchyContext } = this.props;
+    const { showModal } = this.context;
     const { context: { workspace } } = hierarchyContext;
 
     const name = workspace.description || workspace.name;
-    entitlementActions.showEntitlementsModal(name, match.params.fqon, workspace.id, 'workspaces', 'Workspace');
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${name}" Workspace`,
+      fqon: workspace.org.properties.fqon,
+      entityId: workspace.id,
+      entityKey: 'workspaces',
+    });
   }
 
   delete = () => {
-    const { hierarchyContext, match, history, hierarchyContextActions, hierarchyActions } = this.props;
+    const { hierarchyContext, match, history, hierarchyContextActions } = this.props;
+    const { showModal } = this.context;
     const { context: { workspace } } = hierarchyContext;
     const name = workspace.description || workspace.name;
-    const onSuccess = () =>
-      history.replace(`/${match.params.fqon}/hierarchy`);
+    const onSuccess = () => history.replace(`/${match.params.fqon}/hierarchy`);
 
-    hierarchyActions.confirmDelete(({ force }) => {
-      hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: workspace, onSuccess, params: { force } });
-    }, name, 'Workspace');
-  }
-
-  renderMenuItems() {
-    const { hierarchyContext } = this.props;
-    const { context: { workspace } } = hierarchyContext;
-
-    return [
-      {
-        id: 'workspace-menu-entitlements',
-        key: 'workspace-menu-entitlements',
-        primaryText: 'Entitlements',
-        leftIcon: <EntitlementIcon size={20} />,
-        onClick: this.showEntitlements,
-      },
-      {
-        id: 'workspace-menu-edit',
-        key: 'workspace-menu-edit',
-        primaryText: 'Edit',
-        leftIcon: <FontIcon>edit</FontIcon>,
-        component: Link,
-        to: { pathname: `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/edit`, state: { modal: true } },
-      },
-      <Divider key="workspace-menu-divider-1" />,
-      {
-        id: 'workspace-menu-delete',
-        key: 'workspace-menu-delete',
-        primaryText: 'Delete',
-        leftIcon: <DeleteIcon />,
-        onClick: this.delete,
-      }
-    ];
+    showModal(ConfirmModal, {
+      title: `Are you sure you want to delete the "${name}" Workspace`,
+      values: { name, type: 'Workspace' },
+      requireConfirm: true,
+      important: true,
+      onProceed: ({ force }) => hierarchyContextActions.deleteWorkspace({ fqon: match.params.fqon, resource: workspace, onSuccess, params: { force } }),
+    });
   }
 
   renderActions() {
+    const { hierarchyContext } = this.props;
+    const { context: { workspace } } = hierarchyContext;
+
     return (
       <MenuButton
-        id="workspace--details--actions"
+        id="environment--details--actions"
         flat
-        primary
-        iconBefore={false}
-        iconChildren="arrow_drop_down"
-        anchor={{
-          x: MenuButton.HorizontalAnchors.INNER_RIGHT,
-          y: MenuButton.VerticalAnchors.BOTTOM,
-        }}
-        simplifiedMenu={false}
-        menuItems={this.renderMenuItems()}
+        flatColor="info"
+        label="Actions"
+        iconAfter
+        icon={<ArrowDropDownIcon fontSize="small" />}
       >
-        Actions
+        <ListItem dense button onClick={this.showEntitlements}>
+          <EntitlementIcon size={20} />
+          <ListItemText primary="Entitlements" />
+        </ListItem>
+        <ListItem dense button component={Link} to={{ pathname: `/${workspace.org.properties.fqon}/hierarchy/${workspace.id}/edit`, state: { modal: true } }}>
+          <EditIcon color="action" fontSize="small" />
+          <ListItemText primary="Edit" />
+        </ListItem>
+        <Divider />
+        <ListItem dense button onClick={this.delete}>
+          <DeleteIcon size={20} />
+          <ListItemText primary="Delete" />
+        </ListItem>
       </MenuButton>
     );
   }
@@ -107,7 +103,7 @@ class WorkspaceDetails extends PureComponent {
   }
 }
 
-export default compose(
-  withHierarchy,
-  withEntitlements,
-)(WorkspaceDetails);
+export default withRouter(WorkspaceDetails);
+
+// TODO: Place here to fix hoisting issue
+WorkspaceDetails.contextType = ModalConsumer;

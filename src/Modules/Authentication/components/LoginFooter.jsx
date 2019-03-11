@@ -1,20 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Row } from 'react-flexybox';
 import { COMPANY_URL, COMPANY_TITLE } from '../../../constants';
 
-const Wrapper = styled.div`
+const Footer = styled.footer`
   position: fixed;
   z-index: 0;
   left: 0;
   bottom: 0;
   width: 100%;
   text-align: center;
-  padding: 0.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
 `;
 
 const A = styled.a`
-  font-size: 16px;
+  font-size: 18px;
   text-decoration: none;
 
   &:hover {
@@ -24,24 +26,19 @@ const A = styled.a`
 
 const CompanyName = styled.span`
   font-family: lovelo, Ubuntu;
-  color: ${props => props.theme.colors['$russian-black-25']};
+  color: ${props => props.theme.colors.loginFont};
 `;
 
 const LoginFooter = () => (
-  <Wrapper>
-    <Row center>
-      <Col
-        component={A}
-        className="logo"
-        href={COMPANY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        flex={12}
-      >
-        <CompanyName>{COMPANY_TITLE}</CompanyName>
-      </Col>
-    </Row>
-  </Wrapper>
+  <Footer>
+    <A
+      href={COMPANY_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <CompanyName>{COMPANY_TITLE}</CompanyName>
+    </A>
+  </Footer>
 );
 
 export default LoginFooter;

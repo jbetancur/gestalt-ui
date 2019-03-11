@@ -2,14 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import { Link } from 'react-router-dom';
-import {
-  Button,
-  FontIcon,
-  AccessibleFakeButton,
-  AccessibleFakeInkedButton,
-  IconSeparator,
-  TextField,
-} from 'react-md';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import { FlatButton, IconButton } from 'components/Buttons';
+import TextField from 'components/Fields/TextField';
 import styled from 'styled-components';
 import Popper from '@material-ui/core/Popper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -17,25 +12,35 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
+import DropDownIcon from '@material-ui/icons/ArrowDropDown';
+import AddIcon from '@material-ui/icons/Add';
+import Divider from 'components/Divider';
 import { DotActivity } from 'components/ProgressIndicators';
 import { media } from 'util/helpers/media';
-
-const IconStyle = styled.div`
-  display: flex;
-  align-items: center;
-  ${() => media.xs`
-    display: none;
-  `};
-`;
 
 const ListContainer = styled.div`
   max-height: 400px;
   overflow: scroll;
 `;
 
-const SeperatorStyle = styled(IconSeparator)`
+const BreadcrumbIconStyle = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 3px;
+  ${() => media.xs`
+    display: none;
+  `};
+`;
+
+const BreadcrumbLink = styled.div`
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
   font-size: 14px;
+  margin: 0 3px 0 3px;
   color: ${props => props.theme.colors.font};
   ${() => media.xs`
     font-size: 12px;
@@ -52,37 +57,20 @@ const SeperatorStyle = styled(IconSeparator)`
     overflow: hidden;
     height: 20px;
   }
-
-  &:last-child {
-    padding-left: 3px;
-    padding-right: 8px;
-  }
-
-  a:first-child {
-    padding-right: 6px;
-  }
 `;
 
-const DropDownButton = styled(AccessibleFakeInkedButton)`
+const DropDownButton = styled(ButtonBase)`
+  margin-left: 3px;
   border-radius: 50%;
-
-  i {
-    font-size: 24px !important;
-  }
-
-  &:hover {
-    background: ${props => props.theme.colors.backgroundVariant};
-  }
+  color: ${props => props.theme.colors.defaultIcon};
 `;
 
 const SearchWrapper = styled.div`
   padding: 12px;
 `;
 
-const InlineButton = styled(Button)`
-  padding: 0;
-  height: 20px;
-  max-width: 20px;
+const InlineButton = styled(IconButton)`
+  padding: 8px !important;
 `;
 
 class BreadCrumbLayoverDropDown extends PureComponent {
@@ -148,8 +136,8 @@ class BreadCrumbLayoverDropDown extends PureComponent {
     }
   }
 
-  onFilterChange = (value) => {
-    const filterText = value || '';
+  onFilterChange = ({ target }) => {
+    const filterText = target.value || '';
 
     this.setState({
       filterText,
@@ -204,28 +192,21 @@ class BreadCrumbLayoverDropDown extends PureComponent {
       <ClickAwayListener onClickAway={this.handleClose}>
         {/* container must be a div vs a Fragment or clickaway will only attach to first node */}
         <div>
-          <AccessibleFakeButton
-            onClick={this.handleOpen}
-            component={IconSeparator}
-            iconBefore
-            label={
-              <SeperatorStyle label={label}>
-                <DropDownButton>
-                  <FontIcon>arrow_drop_down</FontIcon>
-                </DropDownButton>
-              </SeperatorStyle>
-            }
-          >
-            <IconStyle>{icon}</IconStyle>
-          </AccessibleFakeButton>
+          <BreadcrumbLink>
+            <BreadcrumbIconStyle>{icon}</BreadcrumbIconStyle>
+            {label}
+            <DropDownButton onClick={this.handleOpen}>
+              <DropDownIcon />
+            </DropDownButton>
+          </BreadcrumbLink>
 
           <Popper
             id="breadcrumbs-popper"
             open={open}
             anchorEl={anchorEl}
             style={{ zIndex: 100 }}
-            disablePortal
             placement="bottom-start"
+            disablePortal // important or will close when clicking
           >
             <Paper>
               <SearchWrapper key={`${title}--search`}>
@@ -233,24 +214,34 @@ class BreadCrumbLayoverDropDown extends PureComponent {
                 <TextField
                   id={`filter-${id}-dropdown`}
                   label="Filter"
-                  fullWidth={true}
+                  placeholder="Filter"
+                  fullWidth
                   onChange={this.onFilterChange}
                   value={filterText}
-                  inlineIndicator={<InlineButton onClick={this.clearSearch} icon>close</InlineButton>}
                   autoFocus
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon fontSize="small" color="primary" />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <InlineButton icon={<CloseIcon fontSize="small" />} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </SearchWrapper>
 
               {createLabel && createRoute &&
-              <Button
-                flat
-                iconChildren={<FontIcon>add</FontIcon>}
-                component={Link}
-                to={createRoute}
-                onClick={this.handleClose}
-              >
-                {createLabel}
-              </Button>}
+                <FlatButton
+                  label={createLabel}
+                  icon={<AddIcon />}
+                  component={Link}
+                  to={createRoute}
+                  onClick={this.handleClose}
+                />}
 
               <ListContainer>
                 <List>

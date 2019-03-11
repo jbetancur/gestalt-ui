@@ -1,13 +1,15 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
+import { required } from 'util/forms';
 
 const DCOSSection = () => (
   <FormSpy subscription={{ values: true }}>
     {({ values }) => {
-      const authScheme = (values.properties.config.auth && values.properties.config.auth.scheme) || 'Basic';
+      const authScheme = (get(values, 'properties.config.auth.scheme')) || 'Basic';
 
       return (
         <React.Fragment>
@@ -18,6 +20,7 @@ const DCOSSection = () => (
                 name="properties.config.url"
                 label="Provider URL/Host:Port"
                 type="text"
+                validate={required()}
                 required
               />
             </Col>
@@ -30,6 +33,7 @@ const DCOSSection = () => (
                 component={SelectField}
                 name="properties.config.auth.scheme"
                 menuItems={['Basic', 'acs']}
+                validate={required()}
                 required
                 label="Security Scheme"
               />
@@ -41,6 +45,7 @@ const DCOSSection = () => (
                     component={TextField}
                     name="properties.config.auth.dcos_base_url"
                     label="DCOS Base URL"
+                    validate={required()}
                     required
                   />
                 </Col>,
@@ -49,6 +54,7 @@ const DCOSSection = () => (
                     component={TextField}
                     name="properties.config.auth.service_account_id"
                     label="Service Account Id"
+                    validate={required()}
                     required
                   />
                 </Col>,
@@ -57,8 +63,9 @@ const DCOSSection = () => (
                     component={TextField}
                     name="properties.config.auth.private_key"
                     label="Private Key"
-                    rows={1}
-                    maxRows={4}
+                    multiline
+                    rowsMax={4}
+                    validate={required()}
                     required
                   />
                 </Col>
@@ -70,6 +77,7 @@ const DCOSSection = () => (
                     name="properties.config.auth.username"
                     label="Username"
                     type="text"
+                    validate={required()}
                     required
                   />
                 </Col>,
@@ -79,6 +87,7 @@ const DCOSSection = () => (
                     name="properties.config.auth.password"
                     label="Password"
                     type="password"
+                    validate={required()}
                     required
                     autoComplete="new-password"
                   />

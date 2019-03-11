@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { TextField, SelectField, AceEditor } from 'components/ReduxFormFields';
+import { TextField, SelectField, AceEditor } from 'components/Form';
 import { Panel } from 'components/Panels';
-// import { ChipsAuto } from 'components/Lists';
 import feedTypes from '../lists/feedTypes';
 
 const getFormats = (values) => {
@@ -114,7 +113,6 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
                 itemValue="id"
                 component={SelectField}
                 menuItems={['', ...secrets]}
-                simplifiedMenu={false}
                 async
                 helpText="select an optional secret for authentication"
               />
@@ -122,33 +120,12 @@ const DataFeedPropertiesSection = ({ formValues, secrets }) => (
           </Row>
         </Panel>
       </Col>}
-
-    {/* <Col flex={12}>
-      <Panel title="Data Classification" expandable={false} fill>
-        <Row gutter={5}>
-          <Field
-            id="datafeed--classification"
-            label="Classification"
-            component={ChipsAuto}
-            name="properties.data.classification"
-            data={tags}
-            helpText="type to search for a classification"
-            showUnfilteredData
-          />
-        </Row>
-      </Panel>
-    </Col> */}
   </Row>
 );
 
 DataFeedPropertiesSection.propTypes = {
   formValues: PropTypes.object.isRequired,
   secrets: PropTypes.array.isRequired,
-  // tags: PropTypes.array,
 };
-
-// DataFeedPropertiesSection.defaultProps = {
-//   tags: [],
-// };
 
 export default DataFeedPropertiesSection;

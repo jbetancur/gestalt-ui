@@ -16,6 +16,5 @@ export { default as CardTitle } from './components/GFCardTitle';
 export { default as CreateMenu } from './components/CreateMenu';
 export { default as Breadcrumbs } from './components/Breadcrumbs';
 
-export { default as hierarchyActions } from './actions';
 export { default as hierarchySagas } from './sagas';
 export { default as withContext } from './hocs/withContext';

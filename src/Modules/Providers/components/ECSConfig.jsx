@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
-import { TextField, SelectField } from 'components/ReduxFormFields';
+import { TextField, SelectField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { composeValidators, required } from 'util/forms';
 
@@ -60,7 +60,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
               name="properties.config.secret_key"
               label="Secret Key"
               type="password"
-              passwordIcon={null}
+              autoComplete="new-password"
               helpText={editMode ? 'Enter a new value to update the secret key' : 'The secret key will not be displayed after creation'}
             />
           </Col>
@@ -70,7 +70,7 @@ const ECSConfig = ({ editMode, subTypes }) => (
               name="properties.config.access_key"
               label="Access Key"
               type="password"
-              passwordIcon={null}
+              autoComplete="new-password"
               helpText={editMode ? 'Enter a new value to update the access key' : 'The access key will not be displayed after creation'}
             />
           </Col>

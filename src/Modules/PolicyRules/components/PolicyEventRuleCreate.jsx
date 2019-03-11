@@ -10,7 +10,6 @@ import { Col, Row } from 'react-flexybox';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import PolicyEventRuleForm from './PolicyEventRuleForm';
-import actions from '../actions';
 import eventRuleModel from '../models/eventRule';
 import { getCreateEventRuleModel } from '../reducers/selectors';
 import withPolicyRule from '../hocs/withPolicyRule';
@@ -76,6 +75,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withPolicyRule,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
   withPickerData({ entity: 'lambdas', label: 'Lambdas', fetchOnMount: false }),
 )(PolicyEventRuleCreate);

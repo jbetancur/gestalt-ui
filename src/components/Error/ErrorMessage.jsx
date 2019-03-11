@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Button } from 'components/Buttons';
+import { IconButton } from 'components/Buttons';
+import CloseIcon from '@material-ui/icons/Close';
 
 const ErrorWrapper = styled.div`
   position: absolute;
@@ -12,13 +13,13 @@ const ErrorWrapper = styled.div`
   justify-content: center;
   width: 100%;
   min-height: 48px;
-  background: ${props => props.theme.colors['$md-red-500']};
+  background: ${props => props.theme.colors.error};
   color: white;
   text-align: center;
   font-weight: 700;
 `;
 
-const Close = styled(Button)`
+const Close = styled(IconButton)`
   position: absolute;
   right: 0;
 `;
@@ -81,7 +82,10 @@ class ErrorMessage extends Component {
       this.state.visible ?
         <ErrorWrapper>
           {this.formatMessage()}
-          <Close icon onClick={this.handleClose}>close</Close>
+          <Close
+            icon={<CloseIcon fontSize="small" />}
+            onClick={this.handleClose}
+          />
         </ErrorWrapper>
         : null
     );

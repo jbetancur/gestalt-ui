@@ -7,11 +7,11 @@ Gestalt Ui written in React/Redux
 ### Install nvm
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-nvm install 8
+nvm install 10
 cd gestalt-ui-react
-nvm use 8
+nvm use 10
 ```
-*Ensure that you `nvm use 8` whenever you start a new terminal. You may optionally persist this setting by executing `nvm alias default 8*
+*Ensure that you `nvm use 10` whenever you start a new terminal. You may optionally persist this setting by executing `nvm alias default 10*
 
 ### Install Binaries
 ```
@@ -93,6 +93,13 @@ yarn test
 Runs the app in watch mode, which allows you to watch the code and tests for changes with you as you TDD.
 ```
 yarn test:tdd
+```
+
+If you encounter the error `Error: EMFILE: too many open files, watch...` you will need update update watchman. If you are in TDD mode it is probably a good idea (and faster) to use the jest options to filter the specific file(s) you want to test.
+
+```
+bew update
+brew install watchman
 ```
 
 ### Code Coverage

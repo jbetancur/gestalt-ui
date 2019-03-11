@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import yaml from 'js-yaml';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
-import { SelectField, TextField } from 'components/ReduxFormFields';
+import { SelectField, TextField } from 'components/Form';
 import Label from 'components/Label';
 import Log from 'components/Log';
 import { composeValidators, required } from 'util/forms';
@@ -61,7 +61,6 @@ class VolumePanelAttach extends Component {
                     id="volume_id"
                     name="volume_id"
                     component={SelectField}
-                    simplifiedMenu={false}
                     label="Volume"
                     itemLabel="name"
                     itemValue="id"

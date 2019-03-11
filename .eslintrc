@@ -3,7 +3,8 @@
   "extends": "airbnb",
   "plugins": [
       "import",
-      "react"
+      "react",
+      "react-hooks"
   ],
   "overrides": [
     {
@@ -49,7 +50,8 @@
                   "List"
               ]
           }
-      ]
+      ],
+      "react-hooks/rules-of-hooks": "error"
   },
   "env": {
       "browser": true,

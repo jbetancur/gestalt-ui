@@ -7,18 +7,19 @@ import Form from 'components/Form';
 import arrayMutators from 'final-form-arrays';
 import { Col, Row } from 'react-flexybox';
 import { withPickerData } from 'Modules/MetaResource';
-import { withEntitlements } from 'Modules/Entitlements';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { Panel } from 'components/Panels';
-import { Button } from 'components/Buttons';
+import { FlatButton } from 'components/Buttons';
+import { EntitlementIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from '../components/PayloadViewer';
 import SecretForm from './SecretForm';
 import validate from '../validations';
-import actions from '../actions';
 import { generatePatches } from '../payloadTransformer';
 import { getEditSecretModel } from '../selectors';
 import withSecret from '../hocs/withSecret';
@@ -29,15 +30,28 @@ class SecretEdit extends Component {
     secret: PropTypes.object.isRequired,
     secretActions: PropTypes.object.isRequired,
     secretPending: PropTypes.bool.isRequired,
-    entitlementActions: PropTypes.object.isRequired,
     providersData: PropTypes.array.isRequired,
     initialFormValues: PropTypes.object.isRequired,
   };
+
+  static contextType = ModalConsumer;
 
   componentDidMount() {
     const { match, secretActions } = this.props;
 
     secretActions.fetchSecret({ fqon: match.params.fqon, id: match.params.secretId });
+  }
+
+  showEntitlements = () => {
+    const { secret } = this.props;
+    const { showModal } = this.context;
+
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${secret.name}" Secret`,
+      fqon: secret.org.properties.fqon,
+      entityId: secret.id,
+      entityKey: 'secrets',
+    });
   }
 
   update = (values) => {
@@ -52,7 +66,6 @@ class SecretEdit extends Component {
       match,
       secret,
       secretPending,
-      entitlementActions,
       providersData,
       initialFormValues,
     } = this.props;
@@ -71,14 +84,12 @@ class SecretEdit extends Component {
             showBackNav
             navTo={`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/secrets`}
             actions={[
-              <Button
+              <FlatButton
                 key="secret--entitlements"
-                flat
-                iconChildren="security"
-                onClick={() => entitlementActions.showEntitlementsModal(secret.name, match.params.fqon, secret.id, 'secrets', 'Secret')}
-              >
-                Entitlements
-              </Button>]
+                icon={<EntitlementIcon size={20} />}
+                label="Entitlements"
+                onClick={this.showEntitlements}
+              />]
             }
           />
 
@@ -141,6 +152,5 @@ function mapStateToProps(state) {
 export default compose(
   withPickerData({ entity: 'providers', label: 'Providers', params: { type: 'CaaS' } }),
   withSecret,
-  withEntitlements,
-  connect(mapStateToProps, actions),
+  connect(mapStateToProps),
 )(SecretEdit);

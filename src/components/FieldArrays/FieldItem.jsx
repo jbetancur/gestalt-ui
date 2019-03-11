@@ -15,13 +15,18 @@ const FieldItem = styled.div`
     padding-top: 32px;
   `};
 
-  &:nth-child(even) {
-    background-color: ${props => props.theme.colors['$md-grey-100']};
+  /* &:not(:first-child) {
+    border-top: 1px solid ${props => props.theme.colors.divider};
+    padding-top: 3px;
+  } */
+
+  /* &:nth-child(even) {
+    background-color: ${props => props.theme.colors.grey[100]};
   }
 
   &:nth-child(odd) {
-    background-color: ${props => props.theme.colors['$md-white']};
-  }
+    background-color: ${props => props.theme.colors.common.white};
+  } */
 `;
 
 export default FieldItem;

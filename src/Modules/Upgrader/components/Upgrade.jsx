@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-flexybox';
 import { Card, CardContent } from 'components/Cards';
-import { Checkbox } from 'react-md';
-import { Button } from 'components/Buttons';
+import Checkbox from 'components/Fields/Checkbox';
+import { FlatButton } from 'components/Buttons';
 import { H1 } from 'components/Typography';
 import { FullPageFooter } from 'components/FullPage';
 import Label from 'components/Label';
@@ -53,13 +53,13 @@ class Upgrade extends Component {
   }
 
   handleDebugMode = (value) => {
-    this.setState({ debug: value });
+    this.setState(state => ({ debug: !state.debug }));
     this.props.clearPollLog();
     this.props.pollUpgraderLog({ debug: value });
   }
 
-  handleRollback = (value) => {
-    this.setState({ rollback: value });
+  handleRollback = () => {
+    this.setState(state => ({ rollback: !state.rollback }));
   }
 
   render() {
@@ -112,15 +112,8 @@ class Upgrade extends Component {
 
         <FullPageFooter
           fullWidth
-          leftActions={
-            <Button flat primary onClick={this.props.deleteUpgrade}>
-              Remove Upgrader
-            </Button>}
-          rightActions={
-            <Button raised primary onClick={this.handleStop}>
-              Abort Upgrade
-            </Button>
-          }
+          leftActions={<FlatButton label="Remove Upgrader" onClick={this.props.deleteUpgrade} />}
+          rightActions={<FlatButton label="Abort Upgrade" variant="contained" color="primary" onClick={this.handleStop} />}
         />
       </div>
     );

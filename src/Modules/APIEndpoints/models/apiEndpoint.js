@@ -22,7 +22,7 @@ const get = (model = {}) => {
       implementation_id: '',
       synchronous: true,
       is_http_aware: false,
-      methods: 'GET',
+      methods: ['GET'],
       plugins: {
         rateLimit: {
           enabled: false,

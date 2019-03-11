@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Field } from 'react-final-form';
-import { ChipsAuto } from 'components/Lists';
+import { MultiSelect } from 'components/Form';
 import { Caption } from 'components/Typography';
 import environmentTypes from '../lists/environmentTypes';
 
@@ -12,11 +12,10 @@ class EnvironmentTypes extends PureComponent {
         <Field
           id="restricted-environment-types"
           label="Allow Environments"
-          component={ChipsAuto}
+          component={MultiSelect}
           name="properties.environment_types"
           data={environmentTypes.map(e => e.value)}
           helpText="type to search for an environment type"
-          showUnfilteredData
         />
       </React.Fragment>
     );

@@ -1,5 +1,5 @@
 image:
-  name: galacticfog/node-ci:10.5.0
+  name: galacticfog/node-ci:10.5.1
 
 stages:
 - test
@@ -10,6 +10,7 @@ stages:
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 cache:
+  untracked: true
   key: "$CI_PIPELINE_ID"
   paths:
   - node_modules/
@@ -17,19 +18,77 @@ cache:
 
 variables:
   DOCKER_IMG: "galacticfog/gestalt-ui-react"
-  REVIEW_APP_URL: https://gtw1.demo.galacticfog.com/ci/ui-review-deploy
-  LEGACY_CI_URL: https://gtw1.demo.galacticfog.com/ci/legacy-ci
+  REVIEW_APP_URL: "${CI_BASE_URL}/ui-review-deploy"
+  CI_URL_PATH: "${CI_BASE_URL}/legacy-ci"
 
 test:
   stage: test
   script:
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn test:coverage
   artifacts:
     expire_in: 60 minutes
     paths:
     - test/coverage/
+
+.deploy_template: &build-and-publish
+  services:
+    - docker:dind
+  allow_failure: false
+  script:
+    - |
+      echo "Login Docker Registry:"
+      echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
+    - |
+      echo "Determine current branch:"
+      if  [ "`git rev-parse tags/$CI_COMMIT_REF_NAME 2>/dev/null`" = "tags/$CI_COMMIT_REF_NAME" ]; then
+        BRANCH_NAME=$CI_COMMIT_REF_NAME;
+      else
+        BRANCH_NAME=$(git branch -a --contains $(git rev-parse tags/$CI_COMMIT_REF_NAME)|grep origin|awk -F/ '{print $3}');
+      fi;
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
+    - yarn build
+    - yarn generate-disclaimer
+    - mv LICENSES.txt build
+    - |
+      echo "Modify dockerfile include copy in license:"
+      awk '/^LABEL MAINTAINER/{print "COPY ./license-definitions/licenses /usr/share/licenses"}1' ./Dockerfile > ./Dockerfile.tmp
+      mv ./Dockerfile.tmp ./Dockerfile
+      echo "Get license definitions:"
+      git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/galacticfog/license-definitions.git"
+    - |
+      echo "Building image: $DOCKER_IMG:$DOCKER_TAG"
+      docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
+      docker push $DOCKER_IMG:$DOCKER_TAG
+    - |
+      if [ ${BRANCH_NAME} == "master" ]; then
+        echo "Tag develop branch image as latest:"
+        docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
+        docker push $DOCKER_IMG:latest
+      fi
+    - docker rmi $DOCKER_IMG:$DOCKER_TAG
+
+.deploy_template: &mark_stable_image
+  script:
+    - |
+      echo "Lookup proper docker tag same way as docker image build does"
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - |
+      echo "Clone and configure release management repository:"
+      git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/galacticfog/release-management.git"
+      cd release-management
+      git remote set-url origin https://${CI_BOT_USER}:${CI_BOT_TOKEN}@gitlab.com/galacticfog/release-management.git
+      git config --global user.email "ci@galacticfog.com"
+      git config --global user.name "CI Job"
+    - |
+      echo "Update latest dev-stable version"
+      echo ${DOCKER_TAG} > ./versions/dev-stable/${DOCKER_IMG}
+      git add .
+      git commit -m "CI: Mark dev-stable: ${DOCKER_IMG}:${DOCKER_TAG}"
+      git push origin master
 
 .deploy_template: &deploy_to_test
   stage: deploy
@@ -40,25 +99,83 @@ test:
     url: https://test.galacticfog.com
   allow_failure: false
   script:
+    # Build Image
+    - |
+      echo "Login Docker Registry:"
+      echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
+    - |
+      echo "Determine current branch:"
+      if  [ "`git rev-parse tags/$CI_COMMIT_REF_NAME 2>/dev/null`" = "tags/$CI_COMMIT_REF_NAME" ]; then
+        BRANCH_NAME=$CI_COMMIT_REF_NAME;
+      else
+        BRANCH_NAME=$(git branch -a --contains $(git rev-parse tags/$CI_COMMIT_REF_NAME)|grep origin|awk -F/ '{print $3}');
+      fi;
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
-    - yarn build
-    - yarn generate-disclaimer
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
+    - yarn build --network-timeout 1000000
+    - yarn generate-disclaimer --network-timeout 1000000
     - mv LICENSES.txt build
-    - echo "Login Docker Registry:"
-    - echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
-    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
-    - docker push $DOCKER_IMG:$DOCKER_TAG
     - |
-      if [ ${CI_COMMIT_REF_NAME} == "develop" ]; then
-         docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
-         docker push $DOCKER_IMG:latest
+      echo "Modify dockerfile include copy in license:"
+      awk '/^LABEL MAINTAINER/{print "COPY ./license-definitions/licenses /usr/share/licenses"}1' ./Dockerfile > ./Dockerfile.tmp
+      mv ./Dockerfile.tmp ./Dockerfile
+      echo "Get license definitions:"
+      git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/galacticfog/license-definitions.git"
+    - |
+      echo "Building image: $DOCKER_IMG:$DOCKER_TAG"
+      docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
+      docker push $DOCKER_IMG:$DOCKER_TAG
+    - |
+      if [ ${BRANCH_NAME} == "master" ]; then
+        echo "Tag develop branch image as latest:"
+        docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
+        docker push $DOCKER_IMG:latest
       fi
     - docker rmi $DOCKER_IMG:$DOCKER_TAG
-    - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test.galacticfog.com"
-    - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $LEGACY_CI_URL project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
+    # Push to Test  (old)
+    # - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG to test.galacticfog.com"
+    # - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $CI_URL_PATH project=ui image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME"
+    - |
+      echo "Next: Login Test"
+      FOG_CONTEXT="ci-deploy"
+      fog use ${FOG_CONTEXT}
+      fog login --url ${GF_TEST_GESTALT_URI} --username ${GF_TEST_GESTALT_USER} --password ${GF_TEST_GESTALT_PWD}
+      # GESTALT_TOKEN=$(cat ~/.fog/${FOG_CONTEXT}/auth.json.cached | jq -r '.access_token') #only if we need use http directly and not via fog cli
+    - |
+      echo "Look-up container for update and set new values"
+      ITEM_LOCATION="/root/gestalt-system-workspace/gestalt-system-environment"
+      ITEM_NAME="gestalt-ui"
+      ITEM_CATEGORY="containers"
+      container_id=$(fog show ${ITEM_CATEGORY} ${ITEM_LOCATION} --name ${ITEM_NAME} --fields id --no-headers | tr -d '[:space:]')
+      NEW_IMAGE="$DOCKER_IMG:$DOCKER_TAG"
+      NEW_DESCRIPTION="Last updated in CI: \n Time: `date` \n Author: $GITLAB_USER_NAME \n Git ref: $CI_COMMIT_REF_NAME \n SHA: $CI_COMMIT_SHA \n"
+    - |
+      echo "Update Image and Description"
+      echo '[{"op": "replace", "path": "/properties/image", "value": "'${NEW_IMAGE}'"},{"op": "replace", "path": "/description", "value": "'${NEW_DESCRIPTION[@]}'"}]' > patch.json
+      fog meta PATCH -f patch.json /root/containers/${container_id}
+    - |
+      echo "Announce in slack:"
+      SLACK_MESSAGE="${NEW_IMAGE}_ deployed to test by *${GITLAB_USER_NAME}*"
+      echo "{\"text\":\"${SLACK_MESSAGE}\"}" | http POST "${SLACK_BASE_URL}${SLACK_CICD_PATH}"
+    # Mark Stable
+    - |
+      echo "Lookup proper docker tag same way as docker image build does"
+    - VERSION=$(<package.json jq -r '.version')
+    - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
+    - |
+      echo "Clone and configure release management repository:"
+      git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/galacticfog/release-management.git"
+      cd release-management
+      git remote set-url origin https://${CI_BOT_USER}:${CI_BOT_TOKEN}@gitlab.com/galacticfog/release-management.git
+      git config --global user.email "ci@galacticfog.com"
+      git config --global user.name "CI Job"
+    - |
+      echo "Update latest dev-stable version"
+      echo ${DOCKER_TAG} > ./versions/dev-stable/${DOCKER_IMG}
+      git add .
+      git commit -m "CI: Mark dev-stable: ${DOCKER_IMG}:${DOCKER_TAG}"
+      git push origin master
 
 auto-deploy-develop-to-test:
   <<: *deploy_to_test
@@ -73,17 +190,38 @@ publish-docker-image:
     - docker:dind
   allow_failure: false
   script:
+    - |
+      echo "Login Docker Registry:"
+      echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
+    - |
+      echo "Determine current branch:"
+      if  [ "`git rev-parse tags/$CI_COMMIT_REF_NAME 2>/dev/null`" = "tags/$CI_COMMIT_REF_NAME" ]; then
+        BRANCH_NAME=$CI_COMMIT_REF_NAME;
+      else
+        BRANCH_NAME=$(git branch -a --contains $(git rev-parse tags/$CI_COMMIT_REF_NAME)|grep origin|awk -F/ '{print $3}');
+      fi;
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
-    - echo "Login Docker Registry:"
-    - echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
-    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
-    - docker push $DOCKER_IMG:$DOCKER_TAG
+    - |
+      echo "Modify dockerfile include copy in license:"
+      awk '/^LABEL MAINTAINER/{print "COPY ./license-definitions/licenses /usr/share/licenses"}1' ./Dockerfile > ./Dockerfile.tmp
+      mv ./Dockerfile.tmp ./Dockerfile
+      echo "Get license definitions:"
+      git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/galacticfog/license-definitions.git"
+    - |
+      echo "Building image: $DOCKER_IMG:$DOCKER_TAG"
+      docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
+      docker push $DOCKER_IMG:$DOCKER_TAG
+    - |
+      if [ ${BRANCH_NAME} == "master" ]; then
+        echo "Tag develop branch image as latest:"
+        docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
+        docker push $DOCKER_IMG:latest
+      fi
     - docker rmi $DOCKER_IMG:$DOCKER_TAG
   only:
     - tags
@@ -113,18 +251,40 @@ review:
   services:
     - docker:dind
   script:
+    - |
+      echo "Login Docker Registry:"
+      echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
+    - |
+      echo "Determine current branch:"
+      if  [ "`git rev-parse tags/$CI_COMMIT_REF_NAME 2>/dev/null`" = "tags/$CI_COMMIT_REF_NAME" ]; then
+        BRANCH_NAME=$CI_COMMIT_REF_NAME;
+      else
+        BRANCH_NAME=$(git branch -a --contains $(git rev-parse tags/$CI_COMMIT_REF_NAME)|grep origin|awk -F/ '{print $3}');
+      fi;
     - VERSION=$(<package.json jq -r '.version')
     - DOCKER_TAG=${CI_BUILD_TAG-$VERSION-${CI_BUILD_REF:0:8}}
-    - yarn config set cache-folder .yarn
-    - yarn --frozen-lockfile --network-timeout 1000000 install
+    - yarn install --network-timeout 1000000 --cache-folder .yarn
     - yarn build
     - yarn generate-disclaimer
     - mv LICENSES.txt build
-    - echo "Login Docker Registry:"
-    - echo ${DOCKER_PWD} | docker login ${DOCKER_REGISTRY} --username ${DOCKER_USER} --password-stdin
-    - docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
-    - docker push $DOCKER_IMG:$DOCKER_TAG
+    - |
+      echo "Modify dockerfile include copy in license:"
+      awk '/^LABEL MAINTAINER/{print "COPY ./license-definitions/licenses /usr/share/licenses"}1' ./Dockerfile > ./Dockerfile.tmp
+      mv ./Dockerfile.tmp ./Dockerfile
+      echo "Get license definitions:"
+      git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/galacticfog/license-definitions.git"
+    - |
+      echo "Building image: $DOCKER_IMG:$DOCKER_TAG"
+      docker build --no-cache -t $DOCKER_IMG:$DOCKER_TAG .
+      docker push $DOCKER_IMG:$DOCKER_TAG
+    - |
+      if [ ${BRANCH_NAME} == "master" ]; then
+        echo "Tag develop branch image as latest:"
+        docker tag  $DOCKER_IMG:$DOCKER_TAG $DOCKER_IMG:latest
+        docker push $DOCKER_IMG:latest
+      fi
     - docker rmi $DOCKER_IMG:$DOCKER_TAG
+    #
     - echo "Will deploy docker tag $DOCKER_IMG:$DOCKER_TAG review app"
     - http --check-status -a "$API_KEY":"$API_SECRET" --ignore-stdin $REVIEW_APP_URL image=$DOCKER_IMG:$DOCKER_TAG git_ref=$CI_COMMIT_REF_NAME git_sha=$CI_COMMIT_SHA git_author="$GITLAB_USER_NAME" gitlab_env_slug=$CI_ENVIRONMENT_SLUG
   dependencies:

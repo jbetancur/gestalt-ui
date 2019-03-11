@@ -6,6 +6,7 @@ const TitleStyle = styled.div`
   color: ${props => (props.inheritColor && 'inherit')};
   ${props => props.small && 'font-size: 16px;'};
   ${props => props.large && 'font-size: 22px;'};
+  ${props => props.bold && 'font-weight: 500'};
 `;
 
 export default TitleStyle;

@@ -13,12 +13,15 @@ export default function withUserProfile(BaseComponent) {
   }
 
   const mapStateToProps = ({ userProfile }) => ({
+    userProfile: userProfile.userProfile.userProfile,
+    userProfilePending: userProfile.userProfile.pending,
     favorites: userProfile.userProfile.userProfile.properties.resource_favorites,
   });
 
   const mapDispatchToProps = dispatch => ({
     userProfileActions: bindActionCreators({
       ...createRequestAction(['fetch'], 'DefaultUserProfile'),
+      ...createRequestAction(['update'], 'UserProfile'),
       ...createRequestAction(['create', 'delete'], 'Favorite', {
         meta: {
           debounce: {

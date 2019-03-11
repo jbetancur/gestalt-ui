@@ -6,6 +6,8 @@ exports[`(Component) H4 renders with basic props 1`] = `
   font-weight: 400;
   line-height: 14px;
   color: #212121;
+  margin-block-start: 2px;
+  margin-block-end: 2px;
 }
 
 <h5

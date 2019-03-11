@@ -23,35 +23,6 @@ export function clearSelectedProvider() {
   };
 }
 
-export function confirmDelete(action, title, multipleItems) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'CONFIRM',
-    modalProps: {
-      title,
-      multipleItems,
-      forceOption: false,
-      onProceed: action,
-    }
-  };
-}
-
-/**
- * showVolumeCreateModal =- opens Volume Attach/Create Modal
- */
-export function showVolumeCreateModal(mode, selectedProvider, volumes = [], volumesDropdown = []) {
-  return {
-    type: 'SHOW_MODAL',
-    modalType: 'VolumeCreateModal',
-    modalProps: {
-      mode,
-      selectedProvider,
-      volumes,
-      volumesDropdown,
-    }
-  };
-}
-
 export function hideModal() {
   return { type: 'HIDE_MODAL' };
 }
@@ -102,8 +73,6 @@ export function unloadVolumes() {
 export default {
   setSelectedProvider,
   clearSelectedProvider,
-  confirmDelete,
-  showVolumeCreateModal,
   hideModal,
   setVolumes,
   addVolume,

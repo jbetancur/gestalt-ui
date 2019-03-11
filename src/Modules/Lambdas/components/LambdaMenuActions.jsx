@@ -1,67 +1,105 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { MenuButton, ListItem, FontIcon, Divider } from 'react-md';
-import { withEntitlements } from 'Modules/Entitlements';
+import MenuButton from 'components/Menus/MenuButton';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import EditIcon from '@material-ui/icons/Edit';
+import SubjectIcon from '@material-ui/icons/Subject';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import CloneIcon from '@material-ui/icons/FilterNone';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { EntitlementIcon } from 'components/Icons';
+import Divider from 'components/Divider';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { EntitlementModal } from 'Modules/Entitlements';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 
-const LambdaMenuActions = ({ row, fqon, onDelete, entitlementActions, editURL }) => {
+const LambdaMenuActions = ({ row, fqon, onDelete, onClone, editURL }) => {
+  const { showModal } = useContext(ModalContext);
+
   const handleDelete = () => {
     onDelete(row);
   };
 
+  const handleClone = () => {
+    onClone(row);
+  };
+
   const handleEntitlements = () => {
-    entitlementActions.showEntitlementsModal(row.name, fqon, row.id, 'lambdas', 'Lambda');
+    showModal(EntitlementModal, {
+      title: `Entitlements for "${row.name}" Lambda`,
+      fqon: row.org.properties.fqon,
+      entityId: row.id,
+      entityKey: 'lambdas',
+    });
   };
 
   return (
     <MenuButton
       id="lambda-menu-actions"
-      primary
-      icon
-      simplifiedMenu={false}
-      repositionOnScroll={false}
-      position={MenuButton.Positions.TOP_LEFT}
-      anchor={{
-        x: MenuButton.HorizontalAnchors.INNER_LEFT,
-        y: MenuButton.VerticalAnchors.OVERLAP,
-      }}
-      menuItems={
-        <React.Fragment>
-          <ListItem
-            primaryText="Edit"
-            leftIcon={<FontIcon>edit</FontIcon>}
-            to={editURL}
-            component={Link}
-          />
-          <ListItem
-            primaryText="View Log"
-            leftIcon={<FontIcon>subject</FontIcon>}
-            to={{
-              pathname: '/logs',
-              search: `?name=${row.name}&fqon=${fqon}&providerId=${row.properties.provider.id}&logType=lambda&logId=${row.id}`
-            }}
-            target="_blank"
-            component={Link}
-          />
-          <ListItem
-            primaryText="Entitlements"
-            leftIcon={<FontIcon>security</FontIcon>}
-            onClick={handleEntitlements}
-          />
-          <CopyToClipboard text={row.id}>
-            <ListItem
-              primaryText="Copy uuid"
-              leftIcon={<FontIcon>content_copy</FontIcon>}
-            />
-          </CopyToClipboard>
-          <Divider />
-          <ListItem primaryText="Delete" leftIcon={<FontIcon style={{ color: 'red' }}>delete</FontIcon>} onClick={handleDelete} />
-        </React.Fragment>
-      }
-      centered
+      icon={<MoreVertIcon fontSize="small" color="primary" />}
     >
-      more_vert
+      <ListItem
+        button
+        dense
+        to={editURL}
+        component={Link}
+      >
+        <EditIcon fontSize="small" color="action" />
+        <ListItemText primary="Edit" />
+      </ListItem>
+
+      <ListItem
+        button
+        dense
+        component={Link}
+        to={{
+          pathname: '/logs',
+          search: `?name=${row.name}&fqon=${fqon}&providerId=${row.properties.provider.id}&logType=lambda&logId=${row.id}`
+        }}
+        target="_blank"
+      >
+        <SubjectIcon fonstSize="small" color="action" />
+        <ListItemText primary="View Log" />
+      </ListItem>
+
+      <ListItem
+        button
+        dense
+        onClick={handleEntitlements}
+      >
+        <EntitlementIcon size={20} />
+        <ListItemText primary="Entitlements" />
+      </ListItem>
+
+      <CopyToClipboard text={row.id}>
+        <ListItem button dense>
+          <CopyIcon fontSize="small" color="action" />
+          <ListItemText primary="Copy UUID" />
+        </ListItem>
+      </CopyToClipboard>
+
+      <ListItem
+        button
+        dense
+        onClick={handleClone}
+      >
+        <CloneIcon fontSize="small" color="action" />
+        <ListItemText primary="Clone" />
+      </ListItem>
+
+      <Divider />
+
+      <ListItem
+        button
+        dense
+        onClick={handleDelete}
+      >
+        <DeleteIcon fontSize="small" color="error" />
+        <ListItemText primary="Delete" />
+      </ListItem>
     </MenuButton>
   );
 };
@@ -71,11 +109,11 @@ LambdaMenuActions.propTypes = {
   fqon: PropTypes.string.isRequired,
   editURL: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  entitlementActions: PropTypes.object.isRequired,
+  onClone: PropTypes.func.isRequired,
 };
 
 LambdaMenuActions.defaultProps = {
   row: {},
 };
 
-export default withEntitlements(LambdaMenuActions);
+export default LambdaMenuActions;

@@ -5,17 +5,17 @@ import limitRuleModel from '../models/limitRule';
 import eventRuleModel from '../models/eventRule';
 
 const PayloadViewer = memo(({ value, name }) => {
-  const [raw, toggleRaw] = useState(0);
+  const [raw, toggleRaw] = useState(false);
   const getValue = () => {
     if (value.resource_type === 'Gestalt::Resource::Rule::Limit') {
       return raw
-        ? limitRuleModel.get(value)
-        : limitRuleModel.initForm(value);
+        ? limitRuleModel.rawGet(value)
+        : limitRuleModel.create(value);
     }
 
     return raw
-      ? eventRuleModel.get(value)
-      : eventRuleModel.initForm(value);
+      ? eventRuleModel.rawGet(value)
+      : eventRuleModel.create(value);
   };
 
   return (

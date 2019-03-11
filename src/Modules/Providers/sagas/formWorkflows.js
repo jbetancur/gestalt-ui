@@ -22,7 +22,6 @@ import {
 } from '../actionTypes';
 import { FETCH_CONTEXT_FULFILLED } from '../../Hierarchy/actionTypes';
 import { generateResourceTypeSchema } from '../lists/providerTypes';
-import providerModel from '../models/provider';
 import { setSelectedProvider } from '../../Containers/actions';
 import containerModel from '../../Containers/models/container';
 
@@ -52,7 +51,7 @@ export function* fetchContainer(action) {
     } else {
       // Ugh fallback
       const selectedProvider = action.providers
-        .find(p => p.id === providerModel.get(action.provider).properties.services[0].container_spec.properties.provider.id);
+        .find(p => p.id === get(action.provider, 'properties.services[0].container_spec.properties.provider.id'));
       if (selectedProvider && selectedProvider.id) {
         yield put(setSelectedProvider(selectedProvider));
         yield put({ type: FETCH_PROVIDERCONTAINER_FULFILLED, payload: containerModel.get(), action });
@@ -116,7 +115,8 @@ export function* editViewWorkflow(action) {
     ]);
 
     const selectedResource = yield call(fetchAPI, `${context.organization.properties.fqon}/resourcetypes?expand=true&type=${provider.data.resource_type}`);
-    const hasContainer = !!get(provider.data, 'properties.services[0].container_spec');
+    const hasContainer = !!(get(provider.data, 'properties.services[0].container_spec.name')
+      && get(provider.data, 'properties.services[0].container_spec.properties.provider.id'));
     const selectedProviderType = generateResourceTypeSchema(selectedResource.data)[0];
 
     const payload = {

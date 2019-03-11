@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Field } from 'react-final-form';
 import { Row, Col } from 'react-flexybox';
 import { LambdaIcon } from 'components/Icons';
-import { Autocomplete, FontIcon } from 'react-md';
+import AutoComplete from 'components/Fields/AutoComplete';
+import InputIcon from '@material-ui/icons/Input';
 import { Panel } from 'components/Panels';
-import { TextField } from 'components/ReduxFormFields';
+import { TextField } from 'components/Form';
 import { composeValidators, validator, required } from 'util/forms';
 import { isUUID } from 'validator';
 import policyResourceTypes from '../lists/policyResourceTypes';
@@ -35,18 +36,19 @@ const PolicyEventRuleForm = ({
   form,
   onClickLambdasDropDown,
   lambdas,
+  lambdasLoading,
 }) => {
   const handleAutoComplete = (value) => {
-    form.change('properties.lambda.id', value);
+    form.change('properties.lambda.id', value.value);
   };
 
   return (
     <React.Fragment>
       <Row gutter={5}>
-        <Col flex={7} xs={12} sm={12}>
-          <Panel title="Name" expandable={false} fill>
+        <Col flex={12}>
+          <Panel expandable={false} fill>
             <Row gutter={5}>
-              <Col flex={12}>
+              <Col flex={6} xs={12}>
                 <Field
                   id="name"
                   component={TextField}
@@ -57,21 +59,14 @@ const PolicyEventRuleForm = ({
                   autoFocus
                 />
               </Col>
-            </Row>
-          </Panel>
-        </Col>
-
-        <Col flex={5} xs={12} sm={12}>
-          <Panel title="Description" expandable={false} fill>
-            <Row gutter={5}>
-              <Col flex={12}>
+              <Col flex={6} xs={12}>
                 <Field
                   id="description"
                   component={TextField}
                   name="description"
-                  placeholder="Description"
-                  rows={1}
-                  maxRows={6}
+                  label="Description"
+                  multiline
+                  rowsMax={6}
                 />
               </Col>
             </Row>
@@ -81,18 +76,19 @@ const PolicyEventRuleForm = ({
 
       <Row gutter={5}>
         <Col flex={4} xs={12} sm={12}>
-          <Panel title="Invoke Lambda" icon={<LambdaIcon size={20} />} expandable={false}>
+          <Panel title="Invoke Lambda" icon={<LambdaIcon size={20} color="action" />} expandable={false}>
             <Row gutter={5}>
               <Col flex={12}>
-                <Autocomplete
+                <AutoComplete
                   id="lambdas-dropdown"
                   data={lambdas}
+                  label="Search for a Lambda"
                   dataLabel="name"
                   dataValue="id"
-                  clearOnAutocomplete
-                  onClick={onClickLambdasDropDown}
-                  onAutocomplete={value => handleAutoComplete(value)}
-                  placeholder="Search"
+                  onMenuOpen={onClickLambdasDropDown}
+                  onSelected={handleAutoComplete}
+                  isLoading={lambdasLoading}
+                  noOptionsMessage={() => 'no lambdas found'}
                   helpText="search in the current org by lambda name/uuid, or paste a lambda uuid below"
                 />
 
@@ -113,7 +109,7 @@ const PolicyEventRuleForm = ({
         </Col>
 
         <Col flex={8} xs={12} sm={12}>
-          <Panel title="On Event(s)" icon={<FontIcon>input</FontIcon>} expandable={false} fill noPadding>
+          <Panel title="On Event(s)" icon={<InputIcon fontSize="small" color="action" />} expandable={false} fill noPadding>
             <MatchActions
               fieldName="properties.match_actions"
               actions={policyTriggers}
@@ -129,6 +125,7 @@ PolicyEventRuleForm.propTypes = {
   form: PropTypes.object.isRequired,
   onClickLambdasDropDown: PropTypes.func.isRequired,
   lambdas: PropTypes.array.isRequired,
+  lambdasLoading: PropTypes.bool.isRequired,
 };
 
 export default PolicyEventRuleForm;
