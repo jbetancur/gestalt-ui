@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { listSelectors } from 'Modules/ListFilter';
-// import { get } from 'lodash';
+// import get from 'lodash/get';
 import containerModel from '../models/container';
 
 export const selectProvider = state => state.containers.container.selectedProvider;

@@ -1,5 +1,6 @@
 import { object, array, string } from 'yup';
-import { pick, omit } from 'lodash';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 import jsonPatch from 'fast-json-patch';
 import { mapTo2DArray, arrayToMap } from 'util/helpers/transformations';
 

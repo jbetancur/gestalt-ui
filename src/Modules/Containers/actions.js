@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { getLastFromSplit } from 'util/helpers/strings';
 import {
   SELECTED_PROVIDER,

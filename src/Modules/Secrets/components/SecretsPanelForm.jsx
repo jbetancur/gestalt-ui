@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Row, Col } from 'react-flexybox';

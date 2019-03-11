@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import axios from 'axios';
 import MenuButton from 'components/Menus/MenuButton';
 import ListItem from '@material-ui/core/ListItem';

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import AutoComplete from 'components/Fields/AutoComplete';
 import withSearch from './hocs/withSearch';
 

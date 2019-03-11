@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { merge, flatten } from 'lodash';
+import merge from 'lodash/merge';
+import flatten from 'lodash/flatten';
 import { withRouter } from 'react-router-dom';
 import { generateContextEntityState } from 'util/helpers/context';
 import { buildAllURL } from 'config/lib/urlmapper';

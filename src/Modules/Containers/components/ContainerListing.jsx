@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import memoize from 'memoize-one';
 import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';

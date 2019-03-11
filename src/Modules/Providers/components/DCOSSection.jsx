@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Field, FormSpy } from 'react-final-form';
 import { Col, Row } from 'react-flexybox';
 import { SelectField, TextField } from 'components/Form';

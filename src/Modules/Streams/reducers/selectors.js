@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import streamSpecMode from '../models/streamSpec';
 
 export const selectStreamSpec = state => state.streamSpecs.streamSpec.streamSpec;

@@ -1,6 +1,7 @@
 import { takeLatest, put, call, fork, cancelled, select, take, race } from 'redux-saga/effects';
 import axios from 'axios';
-import { get, sortBy } from 'lodash';
+import get from 'lodash/get';
+import sortBy from 'lodash/sortBy';
 import { fetchAPI, poll } from 'config/lib/utility';
 import {
   INIT_PROVIDERCREATE_REQUEST,

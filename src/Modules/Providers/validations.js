@@ -1,5 +1,5 @@
 import { isContainerName, containerNamePattern } from 'util/validations';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import { nestedObjectFromString } from 'util/helpers/transformations';
 
 export const nameMaxLen = 45;

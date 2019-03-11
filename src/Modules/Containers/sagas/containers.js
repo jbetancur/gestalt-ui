@@ -1,6 +1,6 @@
 import { takeLatest, put, call, fork, race, take, cancelled } from 'redux-saga/effects';
 import axios from 'axios';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { LOCATION_CHANGE } from 'connected-react-router';
 import { notificationActions } from 'Modules/Notifications';
 import { volumeActions } from 'Modules/Volumes';

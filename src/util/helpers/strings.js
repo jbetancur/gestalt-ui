@@ -1,4 +1,5 @@
-import { startCase, toLower } from 'lodash';
+import startCase from 'lodash/startCase';
+import toLower from 'lodash/toLower';
 
 /**
  * getLastFromSplit
