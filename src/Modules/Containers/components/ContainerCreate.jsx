@@ -11,7 +11,6 @@ import { Col, Row } from 'react-flexybox';
 import { ActivityContainer } from 'components/ProgressIndicators';
 import ActionsToolbar from 'components/ActionsToolbar';
 import ContainerForm from './ContainerForm';
-import validate from '../validations';
 import actions from '../actions';
 import {
   getCreateContainerModel,
@@ -92,7 +91,6 @@ class ContainerCreate extends Component {
             decorators={[focusOnErrors]}
             mutators={{ ...arrayMutators }}
             initialValues={initialFormValues}
-            validate={validate}
             inlineMode={inlineMode}
             render={({ handleSubmit, submitting, ...rest }) => (
               <Form

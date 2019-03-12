@@ -217,7 +217,7 @@ class ProviderForm extends PureComponent {
         </Row>
 
         {hasContainer && (
-          <FormSpy subscription={{ values: true }}>
+          <FormSpy>
             {({ values }) => (
               <Row gutter={5}>
                 <Col flex={12}>
@@ -229,7 +229,7 @@ class ProviderForm extends PureComponent {
                       />
                     }
                     <ContainerForm
-                      values={values}
+                      values={values.properties.services[0].container_spec}
                       form={form}
                       inlineMode
                       editMode={editMode}

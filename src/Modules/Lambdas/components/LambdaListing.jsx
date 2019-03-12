@@ -175,6 +175,22 @@ class LambdaListing extends PureComponent {
         sortable: true,
       },
       {
+        name: 'CPU',
+        selector: 'properties.cpus',
+        sortable: true,
+        right: true,
+        grow: 0,
+        minWidth: '50px',
+      },
+      {
+        name: 'Mem',
+        selector: 'properties.memory',
+        sortable: true,
+        right: true,
+        grow: 0,
+        minWidth: '50px',
+      },
+      {
         name: 'Created',
         selector: 'created.timestamp',
         sortable: true,

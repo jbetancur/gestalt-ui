@@ -9,7 +9,8 @@ import { UnixVariablesForm, LabelsForm } from 'Modules/Variables';
 import { Panel } from 'components/Panels';
 import { Chips } from 'components/Lists';
 import { ProviderSelect, TextField, SelectField, Checkbox } from 'components/Form';
-import { fixInputNumber, fixInputDecimal, formatName } from 'util/forms';
+import { fixInputNumber, fixInputDecimal, formatName, composeValidators, required, validator } from 'util/forms';
+import { isContainerName } from 'util/validations';
 import { SecretsPanelForm } from 'Modules/Secrets';
 import { VolumePanel } from 'Modules/Volumes';
 import PortMappingsForm from './PortMappingsForm';
@@ -64,11 +65,6 @@ class ContainerForm extends PureComponent {
       isJob,
     } = this.props;
 
-    // Allow access to form values when a formName is applies
-    const formValues = formName
-      ? get(values, formName)
-      : values;
-
     const safeErrors = {
       ...errors,
       properties: { ...errors.properties },
@@ -76,7 +72,7 @@ class ContainerForm extends PureComponent {
 
     const otherExpanded = editMode
       && selectedProvider.supportsOther
-      && (get(formValues, 'properties.constraints.length') > 0 || formValues.properties.user || get(formValues, 'properties.accepted_resource_roles.length') > 0);
+      && (get(values, 'properties.constraints.length') > 0 || values.properties.user || get(values, 'properties.accepted_resource_roles.length') > 0);
 
     if (!selectedProvider.isSelected) {
       return (
@@ -118,6 +114,12 @@ class ContainerForm extends PureComponent {
                     parse={formatName}
                     disabled={editMode}
                     autoFocus={!editMode}
+                    validate={
+                      composeValidators(
+                        required(),
+                        validator(isContainerName, 'invalid container name')
+                      )
+                    }
                   />
                 </Col>
                 <Col flex={6} xs={12}>
@@ -144,6 +146,11 @@ class ContainerForm extends PureComponent {
                     type="number"
                     parse={fixInputNumber}
                     format={fixInputNumber}
+                    validate={
+                      composeValidators(
+                        required('instances ar required', true)
+                      )
+                    }
                   />
                 </Col>
                 <Col flex={2} xs={12}>
@@ -160,6 +167,11 @@ class ContainerForm extends PureComponent {
                     required
                     parse={fixInputDecimal}
                     format={fixInputDecimal}
+                    validate={
+                      composeValidators(
+                        required('cpus is required')
+                      )
+                    }
                   />
                 </Col>
                 <Col flex={2} xs={12}>
@@ -175,6 +187,11 @@ class ContainerForm extends PureComponent {
                     required
                     parse={fixInputNumber}
                     format={fixInputNumber}
+                    validate={
+                      composeValidators(
+                        required('memory is required')
+                      )
+                    }
                   />
                 </Col>
 
@@ -189,6 +206,11 @@ class ContainerForm extends PureComponent {
                     itemLabel="name"
                     itemValue="name"
                     required
+                    validate={
+                      composeValidators(
+                        required('a network required')
+                      )
+                    }
                   />
                 </Col>
 
@@ -200,6 +222,11 @@ class ContainerForm extends PureComponent {
                     type="text"
                     required
                     placeholder="[registry-url]/[namespace]/[image]:[tag]"
+                    validate={
+                      composeValidators(
+                        required('an image required')
+                      )
+                    }
                   />
                 </Col>
 
@@ -232,38 +259,19 @@ class ContainerForm extends PureComponent {
             </Panel>
           </Col>
 
-          {/* <Col flex={5} xs={12} sm={12} md={12}>
-            <Panel title="Description" expandable={false} fill>
-              <Row gutter={5}>
-                <Col flex={12}>
-                  <Field
-                    id="description"
-                    component={TextField}
-                    name={`${formName}.description`}
-                    label="Description"
-                    type="text"
-                    multiline
-                    rowsMax={12}
-                    variant="outlined"
-                  />
-                </Col>
-              </Row>
-            </Panel>
-          </Col> */}
-
           {!isJob && (
             <Col flex={12}>
               <Panel
                 title="Service Port Mappings"
-                defaultExpanded={editMode && formValues.properties.port_mappings.length > 0}
+                defaultExpanded={editMode && values.properties.port_mappings.length > 0}
                 noPadding
-                count={formValues.properties.port_mappings.length}
+                count={values.properties.port_mappings.length}
                 error={safeErrors.properties.port_mappings && errors.properties.port_mappings.length > 0}
               >
                 <PortMappingsForm
                   fieldName={`${formName}.properties.port_mappings`}
                   form={form}
-                  networkType={formValues.properties.network}
+                  networkType={values.properties.network}
                 />
               </Panel>
             </Col>
@@ -274,12 +282,12 @@ class ContainerForm extends PureComponent {
               <Panel
                 title="Volumes"
                 noPadding
-                defaultExpanded={editMode && formValues.properties.volumes.length > 0}
-                count={formValues.properties.volumes.length}
+                defaultExpanded={editMode && values.properties.volumes.length > 0}
+                count={values.properties.volumes.length}
               >
                 <VolumePanel
                   volumesDropdown={volumes}
-                  volumes={formValues.properties.volumes}
+                  volumes={values.properties.volumes}
                   selectedProvider={selectedProvider}
                   editMode={editMode}
                 />
@@ -290,9 +298,9 @@ class ContainerForm extends PureComponent {
           <Col flex={12}>
             <Panel
               title="Environment Variables"
-              defaultExpanded={editMode && formValues.properties.env.length > 0}
+              defaultExpanded={editMode && values.properties.env.length > 0}
               noPadding
-              count={formValues.properties.env.length}
+              count={values.properties.env.length}
               error={safeErrors.properties.env && errors.properties.env.length > 0}
             >
               <UnixVariablesForm fieldName={`${formName}.properties.env`} />
@@ -302,9 +310,9 @@ class ContainerForm extends PureComponent {
           <Col flex={12}>
             <Panel
               title="Labels"
-              defaultExpanded={editMode && formValues.properties.labels.length > 0}
+              defaultExpanded={editMode && values.properties.labels.length > 0}
               noPadding
-              count={formValues.properties.labels.length}
+              count={values.properties.labels.length}
               error={safeErrors.properties.labels && errors.properties.labels.length > 0}
             >
               <LabelsForm fieldName={`${formName}.properties.labels`} />
@@ -316,8 +324,8 @@ class ContainerForm extends PureComponent {
               <Panel
                 title="Secrets"
                 noPadding
-                defaultExpanded={editMode && formValues.properties.secrets.length > 0}
-                count={formValues.properties.secrets.length}
+                defaultExpanded={editMode && values.properties.secrets.length > 0}
+                count={values.properties.secrets.length}
                 error={safeErrors.properties.secrets && errors.properties.secrets.length > 0}
               >
                 <SecretsPanelForm
@@ -337,8 +345,8 @@ class ContainerForm extends PureComponent {
               <Panel
                 title="Health Checks"
                 noPadding
-                defaultExpanded={editMode && formValues.properties.health_checks.length > 0}
-                count={formValues.properties.health_checks.length}
+                defaultExpanded={editMode && values.properties.health_checks.length > 0}
+                count={values.properties.health_checks.length}
                 error={safeErrors.properties.health_checks && errors.properties.health_checks.length > 0}
               >
                 <HealthChecksForm

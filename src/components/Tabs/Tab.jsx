@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const TabStyle = styled.div`
   cursor: pointer;
-  border-bottom: 2px solid ${props => (props.active ? `${props.theme.colors.secondary[500]}` : 'transparent')};
+  border-bottom: 2px solid ${props => (props.active ? `${props.theme.colors.secondary.default}` : 'transparent')};
 `;
 
 const TabTitle = styled.div`

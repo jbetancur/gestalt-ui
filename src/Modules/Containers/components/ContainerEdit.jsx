@@ -31,7 +31,6 @@ import ContainerActions from './ContainerActions';
 import ContainerInstances from './ContainerInstances';
 import ContainerEvents from './ContainerEvents';
 import ContainerServiceAddresses from './ContainerServiceAddresses';
-import validate from '../validations';
 import actions from '../actions';
 import {
   getEditContainerModel,
@@ -257,7 +256,6 @@ class ContainerEdit extends Component {
                 loading={containerPending}
                 initialValues={initialFormValues}
                 initialValuesEqual={isEqual} // keeps array fields from re-rendering
-                validate={validate}
                 inlineMode={inlineMode}
                 keepDirtyOnReinitialize
                 render={({ handleSubmit, submitting, ...rest }) => (

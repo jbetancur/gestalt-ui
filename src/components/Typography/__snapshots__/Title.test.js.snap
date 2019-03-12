@@ -3,6 +3,7 @@
 exports[`(Component) Title it render with large prop 1`] = `
 .c0 {
   font-size: 20px;
+  height: 24px;
   color: #424242;
   font-size: 22px;
 }
@@ -17,6 +18,7 @@ exports[`(Component) Title it render with large prop 1`] = `
 exports[`(Component) Title it render with small prop 1`] = `
 .c0 {
   font-size: 20px;
+  height: 24px;
   color: #424242;
   font-size: 16px;
 }
@@ -31,6 +33,7 @@ exports[`(Component) Title it render with small prop 1`] = `
 exports[`(Component) Title renders with basic props 1`] = `
 .c0 {
   font-size: 20px;
+  height: 24px;
   color: #424242;
 }
 

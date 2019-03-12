@@ -220,7 +220,7 @@ exports[`Lambdas::Components::ComputeSection mounts with basic props 1`] = `
     <span
       class="c2"
     >
-      Memory
+      Memory (MB)
     </span>
     <div
       aria-labelledby="label"
