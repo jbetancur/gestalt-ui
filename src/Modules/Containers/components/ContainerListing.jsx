@@ -178,9 +178,7 @@ class ContainerListing extends PureComponent {
         selector: 'properties.num_instances',
         sortable: true,
         right: true,
-        compact: true,
         grow: 0,
-        minWidth: '80px',
         cell: row => <div>{row.properties.instances && `${row.properties.instances.length} / ${row.properties.num_instances}`}</div>
       },
       // {
@@ -196,7 +194,6 @@ class ContainerListing extends PureComponent {
         selector: 'properties.cpus',
         sortable: true,
         right: true,
-        compact: true,
         grow: 0,
         minWidth: '50px',
       },
@@ -205,17 +202,16 @@ class ContainerListing extends PureComponent {
         selector: 'properties.memory',
         sortable: true,
         right: true,
-        compact: true,
         grow: 0,
         minWidth: '50px',
       },
       {
-        name: 'Created',
-        selector: 'created.timestamp',
+        name: 'Modified',
+        selector: 'modified.timestamp',
         sortable: true,
         allowOverflow: true,
         wrap: true,
-        cell: row => <Timestamp timestamp={row.created.timestamp} />
+        cell: row => <Timestamp timestamp={row.modified.timestamp} />
       },
     ];
   }
