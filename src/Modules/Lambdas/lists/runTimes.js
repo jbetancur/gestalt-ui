@@ -110,6 +110,7 @@ export default [
     format: '',
     codeFormat: 'sh',
     options: {},
+    defaultHandler: 'LAMBDA_ARTIFACT',
     codeOptions: codeOptionsInline,
   },
   {

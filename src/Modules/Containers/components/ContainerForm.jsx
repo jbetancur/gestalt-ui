@@ -148,7 +148,7 @@ class ContainerForm extends PureComponent {
                     format={fixInputNumber}
                     validate={
                       composeValidators(
-                        required('Instances ar required', true)
+                        required('instances ar required', true)
                       )
                     }
                   />
