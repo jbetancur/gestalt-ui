@@ -113,7 +113,7 @@ class ComputeForm extends Component {
             </Col>
             <Col flex={10} xs={8}>
               <MemoryIcon fontSize="small" color="action" />
-              <Label>Memory</Label>
+              <Label>Memory (MB)</Label>
               <SliderStyled
                 value={values.properties.memory}
                 aria-labelledby="label"
