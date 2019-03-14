@@ -52,7 +52,11 @@ class ContainerCreate extends Component {
       const payload = containerModel.create(values, containerVolumes);
       // Since we hide the selected provider we need to get this from redux and patch it onto the payload
       const onSuccess = (response) => {
-        history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
+        if (response.properties && response.properties.message === 'This function has been suppressed.') {
+          history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers`);
+        } else {
+          history.replace(`/${match.params.fqon}/hierarchy/${match.params.workspaceId}/environment/${match.params.environmentId}/containers/${response.id}`);
+        }
       };
 
       containerActions.createContainer({ fqon: match.params.fqon, environmentId: match.params.environmentId, payload, onSuccess });
