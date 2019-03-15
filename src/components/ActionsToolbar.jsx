@@ -10,7 +10,7 @@ const stickyCss = css`
   position: sticky;
   background-color: ${props => props.theme.colors.background.default};
   top: 0;
-  z-index: 11;
+  z-index: 9;
   border-bottom: 1px solid  ${props => props.theme.colors.divider};
 `;
 
