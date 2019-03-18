@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import { Title } from 'components/Typography';
 import { FlatButton } from 'components/Buttons';
 
 const NoDataContainer = styled.div`
@@ -30,7 +29,9 @@ const NoDataWrapper = styled.div`
   }
 `;
 
-const Message = styled(Title)`
+const Message = styled.div`
+  font-size: 18px;
+  color: ${props => props.theme.colors.fontCaption};
   padding: 16px 8px 8px 8px;
 `;
 
