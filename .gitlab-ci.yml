@@ -181,6 +181,7 @@ auto-deploy-develop-to-test:
   <<: *deploy_to_test
   only:
     - develop
+    - razzy-test-runner 
   dependencies:
     - test
 
