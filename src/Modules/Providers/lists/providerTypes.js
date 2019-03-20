@@ -6,6 +6,7 @@ import ecsModel from '../models/ecs';
 import dockerModel from '../models/docker';
 import laserModel from '../models/laser';
 import executorModel from '../models/executor';
+import awsLambdaModel from '../models/awsLambda';
 
 export const uiProviderTypes = [
   // Caas
@@ -125,9 +126,9 @@ export const uiProviderTypes = [
   },
   {
     name: 'Gestalt::Configuration::Provider::Lambda::AWS',
-    model: providerModel,
+    model: awsLambdaModel,
     allowLinkedProviders: true,
-    showContainerOption: true,
+    showContainerOption: false,
   },
 
   {
