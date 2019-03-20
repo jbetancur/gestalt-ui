@@ -153,29 +153,31 @@ class DataFeedList extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Data Feed"
-            data={this.props.datafeeds}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
-            sortIcon={<ArrowDownIcon />}
-            defaultSortField="name"
-            progressPending={this.props.datafeedsPending}
-            progressComponent={<LinearProgress id="datafeed-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no data feeds to display" icon={<DataFeedIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.datafeedsPending} />}
-            pagination
-            paginationPerPage={15}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Data Feed"
+              data={this.props.datafeeds}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+              sortIcon={<ArrowDownIcon />}
+              defaultSortField="name"
+              progressPending={this.props.datafeedsPending}
+              progressComponent={<LinearProgress id="datafeed-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContextActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<NoData message="There are no data feeds to display" icon={<DataFeedIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.datafeedsPending} />}
+              pagination
+              paginationPerPage={15}
+            />
+          </Card>
         </Col>
       </Row>
     );

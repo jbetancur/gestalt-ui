@@ -57,8 +57,6 @@ const LoginForm = ({ submitting, handleSubmit, pending }) => (
     <Section>
       <LoginButton
         id="login--submit"
-        raised
-        primary
         type="submit"
         disabled={pending || submitting}
       >

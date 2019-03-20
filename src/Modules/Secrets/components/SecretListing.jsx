@@ -147,29 +147,31 @@ class SecretListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Secrets"
-            data={this.props.secrets}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
-            sortIcon={<ArrowDownIcon />}
-            defaultSortField="name"
-            progressPending={this.props.secretsPending}
-            progressComponent={<LinearProgress id="secret-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no secrets to display" icon={<SecretIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.secretsPending} />}
-            pagination
-            paginationPerPage={15}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Secrets"
+              data={this.props.secrets}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+              sortIcon={<ArrowDownIcon />}
+              defaultSortField="name"
+              progressPending={this.props.secretsPending}
+              progressComponent={<LinearProgress id="secret-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContextActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<NoData message="There are no secrets to display" icon={<SecretIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.secretsPending} />}
+              pagination
+              paginationPerPage={15}
+            />
+          </Card>
         </Col>
       </Row>
     );

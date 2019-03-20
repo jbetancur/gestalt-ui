@@ -6,8 +6,8 @@ import { Panel } from 'components/Panels';
 import { Checkbox, SelectField, TextField } from 'components/Form';
 import { Chips } from 'components/Lists';
 import Fieldset from 'components/Fieldset';
-import PropertyDefForm from '../components/PropertyDefForm';
-import LineageForm from '../components/LineageForm';
+import PropertyDefForm from './PropertyDefForm';
+import LineageForm from './LineageForm';
 
 const ResourceTypeForm = ({
   values,
