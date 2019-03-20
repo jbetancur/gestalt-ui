@@ -5,7 +5,7 @@ import { Field } from 'react-final-form';
 import { SelectField, TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { getLastFromSplit } from 'util/helpers/strings';
-import SecretItemsForm from '../components/SecretItemsForm';
+import SecretItemsForm from './SecretItemsForm';
 import providerModel from '../../Providers/models/provider';
 
 const SecretForm = ({ providers, values, form, editMode }) => {

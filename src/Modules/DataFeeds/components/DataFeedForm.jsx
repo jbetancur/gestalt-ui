@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import DataFeedSection from '../components/DataFeedSection';
-import DataFeedPropertiesSection from '../components/DataFeedPropertiesSection';
+import DataFeedSection from './DataFeedSection';
+import DataFeedPropertiesSection from './DataFeedPropertiesSection';
 
 const DataFeedForm = ({ values, secrets, tags }) => (
   <React.Fragment>

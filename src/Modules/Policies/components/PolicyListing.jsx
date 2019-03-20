@@ -143,29 +143,31 @@ class PolicyListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Policies"
-            data={this.props.policies}
-            highlightOnHover
-            pointerOnHover
-            selectableRows
-            selectableRowsComponent={Checkbox}
-            selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
-            sortIcon={<ArrowDownIcon />}
-            defaultSortField="name"
-            progressPending={this.props.policiesPending}
-            progressComponent={<LinearProgress id="policy-listing" />}
-            columns={this.defineColumns()}
-            contextActions={this.defineContextActions()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no policies to display" icon={<PolicyIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.policiesPending} />}
-            pagination
-            paginationPerPage={15}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Policies"
+              data={this.props.policies}
+              highlightOnHover
+              pointerOnHover
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowsComponentProps={{ indeterminate: handleIndeterminate }}
+              sortIcon={<ArrowDownIcon />}
+              defaultSortField="name"
+              progressPending={this.props.policiesPending}
+              progressComponent={<LinearProgress id="policy-listing" />}
+              columns={this.defineColumns()}
+              contextActions={this.defineContextActions()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<NoData message="There are no policies to display" icon={<PolicyIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.policiesPending} />}
+              pagination
+              paginationPerPage={15}
+            />
+          </Card>
         </Col>
       </Row>
     );

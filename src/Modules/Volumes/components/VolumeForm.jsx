@@ -6,7 +6,7 @@ import { TextField } from 'components/Form';
 import { Panel } from 'components/Panels';
 import { formatName, composeValidators, required } from 'util/forms';
 import SelectedProvider from './SelectedProvider';
-import VolumeConfigSection from '../components/VolumeConfigSection';
+import VolumeConfigSection from './VolumeConfigSection';
 
 const resetFields = [{ field: 'properties.type', value: '' }, { field: 'properties.config', value: {} }];
 

@@ -112,25 +112,27 @@ class ResourceTypeListing extends PureComponent {
   render() {
     return (
       <Row gutter={5}>
-        <Col component={Card} flex={12}>
-          <DataTable
-            title="Resource Types"
-            data={this.props.resourceTypes}
-            highlightOnHover
-            pointerOnHover
-            sortIcon={<ArrowDownIcon />}
-            defaultSortField="name"
-            progressPending={this.props.resourceTypesPending}
-            progressComponent={<LinearProgress id="resourcetype-listing" />}
-            columns={this.defineColumns()}
-            onTableUpdate={this.handleTableChange}
-            clearSelectedRows={this.state.clearSelected}
-            noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
-            onRowClicked={this.handleRowClicked}
-            actions={<SelectFilter disabled={this.props.resourceTypesPending} />}
-            pagination
-            paginationPerPage={25}
-          />
+        <Col flex={12}>
+          <Card>
+            <DataTable
+              title="Resource Types"
+              data={this.props.resourceTypes}
+              highlightOnHover
+              pointerOnHover
+              sortIcon={<ArrowDownIcon />}
+              defaultSortField="name"
+              progressPending={this.props.resourceTypesPending}
+              progressComponent={<LinearProgress id="resourcetype-listing" />}
+              columns={this.defineColumns()}
+              onTableUpdate={this.handleTableChange}
+              clearSelectedRows={this.state.clearSelected}
+              noDataComponent={<NoData message="There are no resource types to display" icon={<MetamodelIcon size={150} />} />}
+              onRowClicked={this.handleRowClicked}
+              actions={<SelectFilter disabled={this.props.resourceTypesPending} />}
+              pagination
+              paginationPerPage={25}
+            />
+          </Card>
         </Col>
       </Row>
     );

@@ -7,8 +7,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FlatButton } from 'components/Buttons';
-import VolumePanelAttach from '../components/VolumePanelAttach';
-import VolumePanelCreate from '../components/VolumePanelCreate';
+import VolumePanelAttach from './VolumePanelAttach';
+import VolumePanelCreate from './VolumePanelCreate';
 import actions from '../actions';
 
 class VolumeCreateModal extends PureComponent {

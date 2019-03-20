@@ -14,7 +14,7 @@ import { DeleteIcon } from 'components/Icons';
 import { ALink } from 'components/Links';
 import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
 import VolumeCreateModal from './VolumeCreateModal';
-import VolumeCreateMenu from '../components/VolumeCreateMenu';
+import VolumeCreateMenu from './VolumeCreateMenu';
 import actions from '../actions';
 import { selectVolumeListing } from '../reducers/selectors';
 
