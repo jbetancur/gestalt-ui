@@ -7,7 +7,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const RadioWrapper = styled.div`
-  ${props => (props.noPadding ? 'padding: 0' : 'padding: 8px 24px 8px 24px')};
+  ${props => (props.noPadding ? 'padding: 0' : 'padding: 8px 16px 0 16px')};
 `;
 
 const RadioGroupStyle = styled(RadioGroup)`

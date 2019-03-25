@@ -49,7 +49,7 @@ class StreamSpecEdit extends Component {
     this.populateStreamSpecs();
   }
 
-  onShowEntitlements = () => {
+  showEntitlements = () => {
     const { streamSpec } = this.props;
     const { showModal } = this.context;
 

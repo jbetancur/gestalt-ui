@@ -48,7 +48,7 @@ class DataFeedEdit extends Component {
     // resourceTypeActions.fetchResourceType({ fqon: 'root', id: DATA_CLASSIFICATION });
   }
 
-  onShowEntitlements = () => {
+  showEntitlements = () => {
     const { datafeed } = this.props;
     const { showModal } = this.context;
 
