@@ -18,7 +18,7 @@ import ActionsToolbar from 'components/ActionsToolbar';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card, CardTitle } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import PayloadViewer from './PayloadViewer';
 import ProviderForm from './ProviderForm';
@@ -43,7 +43,7 @@ class ProviderEdit extends PureComponent {
     hasContainer: PropTypes.bool.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   componentDidMount() {
     const { match, providerActions } = this.props;

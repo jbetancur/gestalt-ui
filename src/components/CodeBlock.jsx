@@ -16,7 +16,6 @@ import yaml from 'js-yaml';
 const menuItems = [{ name: 'JSON', value: 'json' }, { name: 'YAML', value: 'yaml' }];
 
 const SelectMode = styled(SelectField)`
-  height: 38px;
   margin-right: 8px;
   margin-left: 8px;
 `;
@@ -113,6 +112,7 @@ class CodeBlock extends PureComponent {
             itemValue="value"
             onChange={this.handleCodeChange}
             value={currentMode}
+            xsmall
           />
         </ControlItem>
         {enableRawOption &&

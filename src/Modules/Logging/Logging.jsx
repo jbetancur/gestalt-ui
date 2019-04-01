@@ -82,10 +82,6 @@ const OutputButtons = styled.div`
   }
 `;
 
-const TimeSpanSelect = styled(SelectField)`
-  height: 38px;
-`;
-
 class Logging extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
@@ -235,7 +231,7 @@ class Logging extends PureComponent {
                   label="STDERR"
                 />
               </OutputButtons>}
-            <TimeSpanSelect
+            <SelectField
               id="log--timespan"
               menuItems={timeSpans}
               itemLabel="name"
@@ -243,6 +239,7 @@ class Logging extends PureComponent {
               value={logTimespan}
               onChange={this.setLogTimespan}
               disabled={disableControls}
+              xsmall
             />
             <IconButton
               icon={<RefreshIcon fontSize="small" />}

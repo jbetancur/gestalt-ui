@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -27,6 +27,15 @@ const ActivityContainer = styled.div`
   }
 `;
 
+const OutlinedInputStyle = styled(({ xsmall, ...rest }) => <OutlinedInput {...rest} />)`
+  ${props => props.xsmall && css`
+    [role=button] {
+      padding-top: 9.5px;
+      padding-bottom: 9.5px;
+    }
+  `};
+`;
+
 const ActivityIndicator = () => (
   <ActivityContainer>
     <DotActivity size={1.2} primary centered />
@@ -48,6 +57,7 @@ const FormHelperTextWrapper = ({
   name,
   disabled,
   async,
+  xsmall,
   ...rest
 }) => {
   const [state, setState] = React.useState({
@@ -85,12 +95,13 @@ const FormHelperTextWrapper = ({
         disabled={disabled}
         autoWidth={autoWidth}
         input={
-          <OutlinedInput
+          <OutlinedInputStyle
             fullWidth={fullWidth}
             margin={margin}
             labelWidth={state.labelWidth}
             name={name}
             id={id}
+            xsmall={xsmall}
           />
         }
         SelectDisplayProps={{
@@ -139,6 +150,7 @@ FormHelperTextWrapper.propTypes = {
   margin: PropTypes.string,
   autoWidth: PropTypes.bool,
   fullWidth: PropTypes.bool,
+  xsmall: PropTypes.bool,
 };
 
 FormHelperTextWrapper.defaultProps = {
@@ -146,6 +158,7 @@ FormHelperTextWrapper.defaultProps = {
   margin: 'dense',
   autoWidth: false,
   fullWidth: false,
+  xsmall: false,
 };
 
 export default FormHelperTextWrapper;

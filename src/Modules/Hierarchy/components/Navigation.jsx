@@ -27,7 +27,7 @@ const NavItems = styled.ul`
   position: relative;
   background-color: ${({ theme }) => theme.colors.leftNavBackground};
   margin: 0;
-  padding: 3px 0 0 0;
+  padding: 3px 0 52px 0;
   width: 100%;
   height: 100%;
   overflow-y: auto;

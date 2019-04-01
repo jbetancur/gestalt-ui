@@ -24,7 +24,7 @@ import { Caption } from 'components/Typography';
 import Div from 'components/Div';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import ContainerForm from './ContainerForm';
 import ContainerActions from './ContainerActions';
@@ -76,7 +76,7 @@ class ContainerEdit extends Component {
     inlineMode: false,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   constructor(props) {
     super(props);

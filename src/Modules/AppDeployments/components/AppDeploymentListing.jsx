@@ -13,7 +13,7 @@ import { StatusBubble } from 'components/Status';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import ExpanderRow from './ExpanderRow';
 import withAppDeployments from '../hocs/withAppDeployments';
@@ -29,7 +29,7 @@ class AppDeploymenListing extends PureComponent {
     appDeploymentsPending: PropTypes.bool.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = { selectedRows: [], clearSelected: false };
 

@@ -13,7 +13,7 @@ import { VolumeIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { ALink } from 'components/Links';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { generateContextEntityState } from 'util/helpers/context';
 import actions from '../actions';
@@ -30,7 +30,7 @@ class VolumeListing extends PureComponent {
     volumesPending: PropTypes.bool.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = { selectedRows: [], clearSelected: false };
 

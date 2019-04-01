@@ -12,7 +12,7 @@ import { Card } from 'components/Cards';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import withGroups from '../hocs/withGroups';
 
@@ -27,7 +27,7 @@ class GroupListing extends PureComponent {
     groupsActions: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = { selectedRows: [], clearSelected: false };
 

@@ -11,7 +11,7 @@ import { DeleteIcon, EntitlementIcon, EnvironmentIcon } from 'components/Icons';
 import DetailsPane from 'components/DetailsPane';
 import ActionsToolbar from 'components/ActionsToolbar';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 
 class EnvironmentDetails extends PureComponent {
@@ -23,7 +23,7 @@ class EnvironmentDetails extends PureComponent {
   };
 
   // TODO: will fix when react-router fixes hoisting error
-  // static contextType = ModalConsumer;
+  // static contextType = ModalContext;
 
   showEntitlements = () => {
     const { hierarchyContext } = this.props;
@@ -106,4 +106,4 @@ class EnvironmentDetails extends PureComponent {
 
 export default withRouter(EnvironmentDetails);
 // TODO: Place here to fix hoisting issue
-EnvironmentDetails.contextType = ModalConsumer;
+EnvironmentDetails.contextType = ModalContext;

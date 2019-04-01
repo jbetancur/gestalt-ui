@@ -15,7 +15,7 @@ import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import PolicyTypesMenu from './PolicyTypesMenu';
 import PolicyForm from './PolicyForm';
@@ -32,7 +32,7 @@ class PolicyEdit extends Component {
     initialFormValues: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   componentDidMount() {
     const { match, policyActions } = this.props;

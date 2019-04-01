@@ -9,7 +9,7 @@ import { LinearProgress } from 'components/ProgressIndicators';
 import { DeleteIconButton } from 'components/Buttons';
 import { SecretIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import Checkbox from 'components/Fields/CheckboxMini';
@@ -28,7 +28,7 @@ class SecretListing extends PureComponent {
     secretsPending: PropTypes.bool.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = { selectedRows: [], clearSelected: false };
 

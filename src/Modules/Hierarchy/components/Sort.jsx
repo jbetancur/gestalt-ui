@@ -9,12 +9,15 @@ import { IconButton } from 'components/Buttons';
 const SortWrapper = styled(Div)`
   display: flex;
   align-items: center;
+
+  button {
+    margin-top: 3px;
+  }
 `;
 
 const Filter = styled(SelectField)`
   max-width: 150px;
   margin-right: 10px;
-  height: 38px;
 `;
 
 const SortOrderIcon = styled(ArrowUpIcon)`
@@ -56,6 +59,7 @@ const Sort = ({ isEnvironment, disabled, setKey, sortKey, order, setOrder }) => 
         value={sortKey}
         onChange={e => setKey(e.target.value)}
         margin="dense"
+        xsmall
       />
       <IconButton
         onClick={handleSort}

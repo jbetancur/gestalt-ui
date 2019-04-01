@@ -16,7 +16,7 @@ import Divider from 'components/Divider';
 import { StatusButton } from 'components/Status';
 import { Title, Subtitle } from 'components/Typography';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -93,7 +93,7 @@ class ContainerActions extends PureComponent {
     onPromote: () => {},
   }
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   handleClone = () => {
     const { match, containersActions, containerModel, hierarchyContext } = this.props;

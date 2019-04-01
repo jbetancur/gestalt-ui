@@ -9,7 +9,7 @@ import { generateContextEntityState } from 'util/helpers/context';
 import DataTable from 'react-data-table-component';
 import { Col, Row } from 'react-flexybox';
 import { SelectFilter } from 'Modules/ListFilter';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Name, Timestamp, Endpoints, NoData } from 'components/TableCells';
@@ -57,7 +57,7 @@ class ContainerListing extends PureComponent {
     providerContext: false,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = {
     showSystemContainers: false,
