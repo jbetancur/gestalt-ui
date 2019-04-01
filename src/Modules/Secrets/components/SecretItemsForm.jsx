@@ -75,7 +75,6 @@ const SecretItemsForm = ({ fieldName, multiPart, disabled, formValues, form }) =
                     label="Upload File"
                     onChange={file => onFile(file, index, form, formValues)}
                     accept={supportedFormats}
-                    primary
                   />
                 </Col>}
             </Row>

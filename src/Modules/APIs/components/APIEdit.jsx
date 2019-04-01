@@ -18,7 +18,7 @@ import DetailsPane from 'components/DetailsPane';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import APIForm from './APIForm';
 import validate from './validations';
@@ -36,7 +36,7 @@ class APIEdit extends Component {
     initialFormValues: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   componentDidMount() {
     const { match, apiActions } = this.props;

@@ -17,7 +17,7 @@ import DetailsPane from 'components/DetailsPane';
 import { Panel } from 'components/Panels';
 import { Tabs, Tab } from 'components/Tabs';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import StreamForm from './StreamForm';
 import StreamInstances from './StreamInstances';
@@ -43,7 +43,7 @@ class StreamSpecEdit extends Component {
     providers: PropTypes.array.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   componentDidMount() {
     this.populateStreamSpecs();

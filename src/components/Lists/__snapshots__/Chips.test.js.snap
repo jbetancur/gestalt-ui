@@ -2,7 +2,7 @@
 
 exports[`Chips mounts with basic props 1`] = `
 <div
-  class="MuiFormControl-root-1 MuiFormControl-marginDense-3 MuiFormControl-fullWidth-4"
+  class="MuiFormControl-root-1 MuiFormControl-marginDense-3 MuiFormControl-fullWidth-4 "
 >
   <div
     class="MuiInputBase-root-18 MuiOutlinedInput-root-5 MuiInputBase-disabled-21 MuiOutlinedInput-disabled-7 MuiInputBase-fullWidth-27 MuiInputBase-formControl-19 MuiInputBase-marginDense-25"

@@ -12,7 +12,7 @@ import { Title } from 'components/Typography';
 import { IconButton } from 'components/Buttons';
 import { DeleteIcon } from 'components/Icons';
 import { ALink } from 'components/Links';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import VolumeCreateModal from './VolumeCreateModal';
 import VolumeCreateMenu from './VolumeCreateMenu';
 import actions from '../actions';
@@ -37,7 +37,7 @@ class VolumePanel extends PureComponent {
   };
 
   // TODO: will fix when react-router fixes hoisting error
-  // static contextType = ModalConsumer;
+  // static contextType = ModalContext;
 
   componentDidMount() {
     const { setVolumes, volumes } = this.props;
@@ -189,4 +189,4 @@ export default compose(
   withRouter,
 )(VolumePanel);
 // TODO: Place here to fix hoisting issue
-VolumePanel.contextType = ModalConsumer;
+VolumePanel.contextType = ModalContext;

@@ -11,7 +11,7 @@ import { ProviderIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -33,7 +33,7 @@ class ProviderListing extends PureComponent {
     hierarchyContext: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   componentDidMount() {
     const { match, providersActions } = this.props;

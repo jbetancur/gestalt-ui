@@ -21,7 +21,7 @@ import { Tabs, Tab } from 'components/Tabs';
 import { Logging } from 'Modules/Logging';
 import { Card } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import LambdaForm from './LambdaForm';
 import LambdaStats from './LambdaStats';
@@ -53,7 +53,7 @@ class LambdaEdit extends PureComponent {
     selectedRuntime: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = { runtime: null };
 

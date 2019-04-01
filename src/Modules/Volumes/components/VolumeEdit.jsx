@@ -16,7 +16,7 @@ import { ALink } from 'components/Links';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import VolumeForm from './VolumeForm';
 import actions from '../actions';
@@ -35,7 +35,7 @@ class VolumeEdit extends Component {
     clearSelectedProvider: PropTypes.func.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   componentDidMount() {
     const { match, volumeActions } = this.props;

@@ -23,13 +23,11 @@ const Wrapper = styled.div`
 const Search = styled(TextField)`
   max-width: 300px;
   margin-left: 10px;
-  height: 38px;
 `;
 
 const Filter = styled(SelectField)`
   max-width: 150px;
   margin-left: 10px;
-  height: 38px;
 `;
 
 const InlineButton = styled(IconButton)`
@@ -126,6 +124,7 @@ class SelectFilter extends PureComponent {
             ),
           }}
           autoFocus
+          xsmall
         />
         <Filter
           id="listing-table-filter"
@@ -137,6 +136,7 @@ class SelectFilter extends PureComponent {
           onFocus={this.clearSearchText}
           disabled={disabled}
           autoWidth
+          xsmall
         />
       </Wrapper>
     );

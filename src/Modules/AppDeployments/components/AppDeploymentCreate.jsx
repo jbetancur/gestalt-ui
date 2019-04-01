@@ -131,7 +131,6 @@ class AppDeploymentCreate extends Component {
                           id="app-deployment-yaml-config"
                           label="Upload YAML"
                           onChange={onFile}
-                          primary
                         />
                       </Col>
                     </Row>

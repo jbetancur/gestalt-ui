@@ -28,7 +28,6 @@ const ListItem = styled.li`
 const NavLinkStyle = styled(NavLink)`
   position: relative;
   display: flex;
-  padding-right: 20px;
   text-decoration: none;
   color: inherit;
 `;

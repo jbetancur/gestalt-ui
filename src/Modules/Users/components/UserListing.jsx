@@ -12,7 +12,7 @@ import { Card } from 'components/Cards';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import Checkbox from 'components/Fields/CheckboxMini';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ReparentUserModal from './ReparentUserModal';
 import withUsers from '../hocs/withUsers';
 
@@ -27,7 +27,7 @@ class UserListing extends PureComponent {
     usersPending: PropTypes.bool.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = { selectedRows: [], clearSelected: false };
 

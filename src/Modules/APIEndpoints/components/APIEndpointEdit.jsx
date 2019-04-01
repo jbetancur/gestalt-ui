@@ -15,7 +15,7 @@ import { EntitlementIcon } from 'components/Icons';
 import { Tabs, Tab } from 'components/Tabs';
 import { Card } from 'components/Cards';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import PayloadViewer from './PayloadViewer';
 import APIEndpointForm from './APIEndpointForm';
 import validate from './validations';
@@ -35,7 +35,7 @@ class APIEndpointEdit extends PureComponent {
     initialFormValues: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   componentDidMount() {
     const { match, apiEndpointActions } = this.props;

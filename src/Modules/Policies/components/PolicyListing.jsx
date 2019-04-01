@@ -11,7 +11,7 @@ import { PolicyIcon } from 'components/Icons';
 import { Card } from 'components/Cards';
 import ArrowDownIcon from '@material-ui/icons/ArrowDownward';
 import Checkbox from 'components/Fields/CheckboxMini';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import { SelectFilter, listSelectors } from 'Modules/ListFilter';
 import { generateContextEntityState } from 'util/helpers/context';
@@ -28,7 +28,7 @@ class PolicyListing extends PureComponent {
     policiesActions: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   state = { selectedRows: [], clearSelected: false };
 

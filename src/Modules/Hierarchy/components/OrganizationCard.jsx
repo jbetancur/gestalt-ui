@@ -7,7 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { EntitlementIcon, OrganizationIcon, DeleteIcon } from 'components/Icons';
 import { withUserProfile } from 'Modules/UserProfile';
 import { EntitlementModal } from 'Modules/Entitlements';
-import { ModalConsumer } from 'Modules/ModalRoot/ModalContext';
+import { ModalContext } from 'Modules/ModalRoot/ModalContext';
 import ConfirmModal from 'Modules/ModalRoot/Modals/ConfirmModal';
 import NameModal from 'Modules/ModalRoot/Modals/NameModal';
 import Card from './GFCard';
@@ -23,7 +23,7 @@ class OrganizationCard extends Component {
     userProfileActions: PropTypes.object.isRequired,
   };
 
-  static contextType = ModalConsumer;
+  static contextType = ModalContext;
 
   navTo = () => {
     const { model, history } = this.props;
