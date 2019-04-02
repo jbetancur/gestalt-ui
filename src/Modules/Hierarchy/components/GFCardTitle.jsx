@@ -11,7 +11,7 @@ const Title = styled.div`
   padding-top: 8px;
   padding-left: 27px;
   padding-right: 8px;
-  word-break: break-word;
+  word-break: normal;
   font-size: 15px;
   color: ${props => props.theme.colors.font};
 `;
